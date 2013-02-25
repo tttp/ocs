@@ -24,13 +24,13 @@ class PbeCipher {
 
     private static final String ENCRYPT_ALGORITHM = "AES";
 
-    static byte[] encrypt(byte[] dataToEncrypt, String plainTextPass, byte[] salt, int iterations) throws CryptoException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
+    static byte[] encrypt(byte[] dataToEncrypt, char[] pass, byte[] salt, int iterations) throws CryptoException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
         if (salt == null || salt.length < 8) {
             throw new IllegalArgumentException("salt needs to be at least 8 bytes long");
         }
 
         //produces a 256 bit key, 32 byte long array
-        byte[] key = buildKey(plainTextPass, salt, iterations);
+        byte[] key = buildKey(pass, salt, iterations);
 
         key = Arrays.copyOf(key, 16); // use only first 128 bit
 
@@ -43,8 +43,8 @@ class PbeCipher {
         return cipher.doFinal(dataToEncrypt);
     }
 
-    static byte[] decrypt(byte[] dataToDecrypt, String plainTextPass, byte[] salt, int iterations) throws CryptoException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
-        byte[] key = buildKey(plainTextPass, salt, iterations);
+    static byte[] decrypt(byte[] dataToDecrypt, char[] pass, byte[] salt, int iterations) throws CryptoException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
+        byte[] key = buildKey(pass, salt, iterations);
 
         key = Arrays.copyOf(key, 16); // use only first 128 bit
 
@@ -57,8 +57,7 @@ class PbeCipher {
         return cipher.doFinal(dataToDecrypt);
     }
 
-    private static byte[] buildKey(String plainTextPass, byte[] salt, int iterations) throws CryptoException, UnsupportedEncodingException {
-        byte[] pass = plainTextPass.getBytes("UTF-8");
+    private static byte[] buildKey(char[] pass, byte[] salt, int iterations) throws CryptoException, UnsupportedEncodingException {
 
         byte[] hashedData = mixDataInDeterministicOrder(salt, pass);
         for (int i = 0; i < iterations; i++) {
@@ -67,12 +66,13 @@ class PbeCipher {
         return hashedData;
     }
 
-    private static byte[] mixDataInDeterministicOrder(byte[] salt, byte[] pass) {
+    private static byte[] mixDataInDeterministicOrder(byte[] salt, char[] passChars) throws UnsupportedEncodingException {
         List<Byte> dataContent = new ArrayList<Byte>();
         for (byte data : salt) {
             dataContent.add(data);
         }
         int arrayLength = dataContent.size();
+        byte[] pass = new String(passChars).getBytes("UTF-8");
         for (byte data : pass) {
             int position = data % arrayLength;
             dataContent.add(position, data);

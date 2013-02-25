@@ -1,32 +1,38 @@
 package eu.europa.ec.eci.oct.offline.business.writer.xml;
 
-import eu.europa.ec.eci.export.DataException;
 import eu.europa.ec.eci.export.JAXBHelper;
 import eu.europa.ec.eci.export.model.SupportForm;
 import eu.europa.ec.eci.oct.offline.business.DecryptConstants;
-import eu.europa.ec.eci.oct.offline.business.writer.FormattedFileWriter;
+import eu.europa.ec.eci.oct.offline.business.FileType;
+import eu.europa.ec.eci.oct.offline.business.writer.AbstractFileWriter;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * @author: micleva
  * @created: 12/2/11
  * @project OCT
  */
-public class XmlFormattedFileWriter implements FormattedFileWriter {
+public class XmlFormattedFileWriter extends AbstractFileWriter {
+
+    public XmlFormattedFileWriter() {
+        super(FileType.XML);
+    }
 
     @Override
-    public void writeToOutput(SupportForm supportForm, File outputFile) throws DataException {
-        try {
+    protected void fillUpContent(SupportForm supportForm, FileOutputStream out, Locale locale) throws Exception {
 
-            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(outputFile), DecryptConstants.CHARACTER_ENCODING);
+        OutputStreamWriter outputStream = new OutputStreamWriter(out, DecryptConstants.CHARACTER_ENCODING);
 
-            JAXBHelper jaxbHelper = JAXBHelper.getInstance();
-            jaxbHelper.marshall(supportForm, out);
-        } catch (Exception e) {
-            throw new DataException("Unable to write the output file: " + outputFile.getAbsolutePath(), e);
-        }
+        JAXBHelper jaxbHelper = JAXBHelper.getInstance();
+        jaxbHelper.marshall(supportForm, outputStream);
+    }
+
+    @Override
+    protected List<Locale> getLinguisticVersions(String countryCode) {
+        return null;
     }
 }

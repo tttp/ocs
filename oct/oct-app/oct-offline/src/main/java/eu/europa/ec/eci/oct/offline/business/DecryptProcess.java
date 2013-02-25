@@ -26,7 +26,7 @@ public class DecryptProcess {
 
     private List<DecryptProcessListener> listeners = new ArrayList<DecryptProcessListener>();
 
-    private Map<File, SummaryEntry> inputFiles;
+    private Map<File, SummaryEntry> inputFilesBySelection;
     private File outputFolder;
     private DecryptionState currentDecryptionState = DecryptionState.INITIAL;
     private long decryptionStartTime;
@@ -36,12 +36,12 @@ public class DecryptProcess {
     private int totalNumberOfFiles;
     private String totalNumberOfFilesStr;
 
-    public void initiate(Map<File, SummaryEntry> inputFiles, File outputFolder, FileType outputFileType, int totalNumberOfFiles) {
+    public void initiate(Map<File, SummaryEntry> inputFilesBySelection, File outputFolder, FileType outputFileType, int totalNumberOfFiles) {
 
         //allow initialization only if the decryption is in the prepared or cancelled state
         assertDecryptionState(DecryptionState.INITIAL);
 
-        this.inputFiles = inputFiles;
+        this.inputFilesBySelection = inputFilesBySelection;
         this.outputFolder = outputFolder;
         this.totalNumberOfFiles = totalNumberOfFiles;
         this.totalNumberOfFilesStr = String.valueOf(totalNumberOfFiles);
@@ -52,19 +52,18 @@ public class DecryptProcess {
         startDecryption(outputFileType);
     }
 
-    private void startDecryption(FileType outputFileType) {
+    private void startDecryption(final FileType outputFileType) {
         //allow starting the decryption only if the decryption is in the prepared
         assertDecryptionState(DecryptionState.PREPARED);
 
         try {
-            final DecryptionFileManager fileManagerHelper = new DecryptionFileManager(outputFolder, outputFileType);
 
             SwingWorker<Object, Object> taskCreatorWorker = new SwingWorker<Object, Object>() {
                 @Override
                 protected Object doInBackground() throws Exception {
 
                     //create new decryption tasks as long the process is not cancelled
-                    for (SummaryEntry summaryEntry : inputFiles.values()) {
+                    for (SummaryEntry summaryEntry : inputFilesBySelection.values()) {
                         if (!isSubmissionOfNewTaskAllowed()) {
                             break;
                         }
@@ -72,7 +71,8 @@ public class DecryptProcess {
                             if (!isSubmissionOfNewTaskAllowed()) {
                                 break;
                             }
-                            DecryptionTask decryptionTask = new DecryptionTask(file, summaryEntry.getRootFile(), fileManagerHelper);
+                            DecryptionTask decryptionTask = new DecryptionTask(file, summaryEntry.getRootFile(),
+                                    outputFolder, outputFileType);
                             completionService.submit(decryptionTask);
                         }
                     }

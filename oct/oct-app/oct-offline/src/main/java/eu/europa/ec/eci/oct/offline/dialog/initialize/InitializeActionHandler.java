@@ -44,7 +44,7 @@ class InitializeActionHandler implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (passwordDialog.validatePassword()) {
+                if (passwordDialog.validatePassLength(6) && passwordDialog.validateConfPass()) {
                     passwordDialog.dispose();
                     proceedWithGeneratingKeys(passwordDialog.getPassword());
                 }
@@ -54,7 +54,7 @@ class InitializeActionHandler implements ActionListener {
         passwordDialog.openDialog();
     }
 
-    private void proceedWithGeneratingKeys(final String passwordForKey) {
+    private void proceedWithGeneratingKeys(final char[] passwordForKey) {
         final Component glassPane = jDialog.getGlassPane();
 
         SwingWorker<String, Object> worker = new SwingWorker<String, Object>() {
@@ -77,7 +77,8 @@ class InitializeActionHandler implements ActionListener {
                     publicKeyTextArea.setText(publicKeyHexEncoded);
                     responseTextArea.setText("Successfully initialized. Please copy the Public Key in the " +
                             "Online Collection System.");
-                    hashedPasswordResult.setText(new String(Hex.encodeHex(Cryptography.fingerprint(passwordForKey.getBytes("UTF-8")))));
+                    byte[] passBytes = new String(passwordForKey).getBytes("UTF-8");
+                    hashedPasswordResult.setText(new String(Hex.encodeHex(Cryptography.fingerprint(passBytes))));
                 } catch (Exception ex) {
                     responseTextArea.setText("Unable to generate the key pairs: " + ex.getMessage());
                     log.debug("Unable to generate the key pairs", ex);

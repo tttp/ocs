@@ -1,5 +1,7 @@
 package eu.europa.ec.eci.oct.offline.dialog.export;
 
+import eu.europa.ec.eci.oct.offline.startup.CryptoOfflineConfig;
+import eu.europa.ec.eci.oct.offline.startup.UserConfigProperty;
 import eu.europa.ec.eci.oct.offline.support.Utils;
 import eu.europa.ec.eci.oct.offline.support.swing.localization.LocalizedJButton;
 import eu.europa.ec.eci.oct.offline.support.swing.localization.LocalizedJLabel;
@@ -19,10 +21,11 @@ import java.io.File;
  */
 public class LeftSidePanel extends JPanel {
 
-	private static final long serialVersionUID = 795320871795341960L;
-	
-	private JList fileList;
+    private static final long serialVersionUID = 795320871795341960L;
+
+    private JList fileList;
     private Container parent;
+    private File lastAccessedFolder;
 
     public LeftSidePanel(Container parent) {
         super();
@@ -118,6 +121,13 @@ public class LeftSidePanel extends JPanel {
         });
 
         this.add(removeFilesButtonPanel);
+
+        //initialize the lastAccessedFolder
+        String lastSelectedFolder = CryptoOfflineConfig.getInstance().getStringUserConfigValue(UserConfigProperty.LAST_SELECT_FOLDER);
+
+        if (lastSelectedFolder != null) {
+            lastAccessedFolder = new File(lastSelectedFolder);
+        }
     }
 
     public JList getFileList() {
@@ -125,7 +135,7 @@ public class LeftSidePanel extends JPanel {
     }
 
     private File[] selectFiles(boolean foldersOnly, FileFilter fileFilter) {
-        JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser = new JFileChooser(lastAccessedFolder);
         chooser.setMultiSelectionEnabled(true);
 
         if (foldersOnly) {
@@ -142,6 +152,12 @@ public class LeftSidePanel extends JPanel {
         } else {
             selectedFiles = new File[0];
         }
+        if (!lastAccessedFolder.equals(chooser.getCurrentDirectory())) {
+            lastAccessedFolder = chooser.getCurrentDirectory();
+            CryptoOfflineConfig.getInstance().writeUserConfigValue(
+                    UserConfigProperty.LAST_SELECT_FOLDER, lastAccessedFolder.getAbsolutePath());
+        }
+
         return selectedFiles;
     }
 }

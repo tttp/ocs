@@ -1,6 +1,8 @@
 package eu.europa.ec.eci.oct.offline.dialog.export;
 
 import eu.europa.ec.eci.oct.offline.business.FileType;
+import eu.europa.ec.eci.oct.offline.startup.CryptoOfflineConfig;
+import eu.europa.ec.eci.oct.offline.startup.UserConfigProperty;
 import eu.europa.ec.eci.oct.offline.support.Utils;
 import eu.europa.ec.eci.oct.offline.support.swing.localization.LocalizedJButton;
 import eu.europa.ec.eci.oct.offline.support.swing.localization.LocalizedJLabel;
@@ -18,9 +20,9 @@ import java.io.File;
  */
 public class RightSidePanel extends JPanel {
 
-	private static final long serialVersionUID = -1302465560571524404L;
+    private static final long serialVersionUID = -1302465560571524404L;
 
-	private Container parent;
+    private Container parent;
 
     // fields which will be needed outside
     private File outputFolder;
@@ -29,6 +31,7 @@ public class RightSidePanel extends JPanel {
     private JLabel selectedFilesSize;
 
     private JComboBox fileTypesSelection;
+    private File lastAccessedFolder;
 
     public RightSidePanel(Container parent) {
         super();
@@ -59,6 +62,13 @@ public class RightSidePanel extends JPanel {
         JPanel buttonsPanel = buildButtonsPanel();
         buttonsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         this.add(buttonsPanel);
+
+        //initialize the lastAccessedFolder
+        String lastOutputFolder = CryptoOfflineConfig.getInstance().getStringUserConfigValue(UserConfigProperty.LAST_OUTPUT_FOLDER);
+
+        if (lastOutputFolder != null) {
+            lastAccessedFolder = new File(lastOutputFolder);
+        }
     }
 
     private JPanel buildButtonsPanel() {
@@ -129,7 +139,7 @@ public class RightSidePanel extends JPanel {
         outputFolderText.setPreferredSize(new Dimension(150, 25));
         outputFolderPanel.add(Box.createHorizontalGlue());
         outputFolderPanel.add(outputFolderText);
-        
+
         outputFolderPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         outputFolderAndTypePanel.add(outputFolderPanel);
 
@@ -138,7 +148,7 @@ public class RightSidePanel extends JPanel {
         browseFolder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser = new JFileChooser();
+                JFileChooser chooser = new JFileChooser(lastAccessedFolder);
                 chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
                 int returnVal = chooser.showOpenDialog(parent);
@@ -147,6 +157,12 @@ public class RightSidePanel extends JPanel {
                     outputFolderText.setText(outputFolder.getAbsolutePath());
                     outputFolderText.setToolTipText(outputFolder.getAbsolutePath());
                     outputFolderText.setCaretPosition(0);
+                }
+                //if the folder has been changed, store it
+                if (!lastAccessedFolder.equals(chooser.getCurrentDirectory())) {
+                    lastAccessedFolder = chooser.getCurrentDirectory();
+                    CryptoOfflineConfig.getInstance().writeUserConfigValue(
+                            UserConfigProperty.LAST_OUTPUT_FOLDER, lastAccessedFolder.getAbsolutePath());
                 }
             }
         });

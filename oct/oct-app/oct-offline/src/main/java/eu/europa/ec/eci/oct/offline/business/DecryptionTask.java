@@ -4,6 +4,8 @@ import eu.europa.ec.eci.export.model.*;
 import eu.europa.ec.eci.oct.crypto.CipherOperation;
 import eu.europa.ec.eci.oct.crypto.CryptoException;
 import eu.europa.ec.eci.oct.crypto.Cryptography;
+import eu.europa.ec.eci.oct.offline.business.reader.FormattedFileReader;
+import eu.europa.ec.eci.oct.offline.business.writer.FormattedFileWriter;
 import eu.europa.ec.eci.oct.offline.support.crypto.CryptographyHelper;
 import eu.europa.ec.eci.oct.offline.support.log.OfflineCryptoToolLogger;
 import org.apache.commons.codec.DecoderException;
@@ -15,6 +17,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import static eu.europa.ec.eci.oct.offline.business.reader.FormattedFileReaderProvider.getFormattedFileReaderProvider;
+import static eu.europa.ec.eci.oct.offline.business.writer.FormattedFileWriterProvider.getFormattedFileWriter;
+
 /**
  * @author: micleva
  * @created: 11/18/11
@@ -23,9 +28,10 @@ import java.util.concurrent.Callable;
 class DecryptionTask implements Callable<DecryptTaskStatus> {
     private static OfflineCryptoToolLogger log = OfflineCryptoToolLogger.getLogger(DecryptionTask.class.getName());
 
-    private final File inputFile;
-    private final File inputRootFile;
-    private final DecryptionFileManager fileManagerHelper;
+    private final File fileInSelection;
+    private final File selectedInput;
+    private final File outputFolder;
+    private final FileType outputFileType;
 
     private boolean isInterrupted = false;
     private int decryptedData = 0;
@@ -36,10 +42,11 @@ class DecryptionTask implements Callable<DecryptTaskStatus> {
      */
     private Cryptography cryptography = null;
 
-    public DecryptionTask(File inputFile, File inputRootFile, DecryptionFileManager fileManagerHelper) {
-        this.inputFile = inputFile;
-        this.inputRootFile = inputRootFile;
-        this.fileManagerHelper = fileManagerHelper;
+    public DecryptionTask(File fileInSelection, File selectedInput, File outputFolder, FileType outputFileType) {
+        this.fileInSelection = fileInSelection;
+        this.selectedInput = selectedInput;
+        this.outputFolder = outputFolder;
+        this.outputFileType = outputFileType;
     }
 
     @Override
@@ -50,19 +57,21 @@ class DecryptionTask implements Callable<DecryptTaskStatus> {
         String additionalMessage = null;
         try {
 
-            SupportForm supportForm = fileManagerHelper.readFromFile(inputFile);
+            FormattedFileReader fileReader = getFormattedFileReaderProvider(FileType.XML);
+            SupportForm supportForm = fileReader.readFromFile(fileInSelection);
 
             decryptSupportForm(supportForm);
 
             if (!isInterrupted) {
-                fileManagerHelper.writeToOutputRelativeToInputPath(supportForm, inputFile, inputRootFile);
+                FormattedFileWriter fileWriter = getFormattedFileWriter(outputFileType);
+                fileWriter.writeToOutputRelativeToInputPath(supportForm, outputFolder, fileInSelection, selectedInput);
             } else {
                 additionalMessage = "Decryption interrupted!";
                 success = false;
             }
 
         } catch (Throwable e) {
-            log.debug("Unable to decrypt file: " + inputFile.getAbsolutePath(), e);
+            log.debug("Unable to decrypt file: " + fileInSelection.getAbsolutePath(), e);
             success = false;
             additionalMessage = e.getMessage();
         }
@@ -71,7 +80,7 @@ class DecryptionTask implements Callable<DecryptTaskStatus> {
             additionalMessage = "Decrypted data: " + decryptedData;
         }
 
-        return new DecryptTaskStatus(inputFile.getAbsolutePath(), execTime, success, additionalMessage);
+        return new DecryptTaskStatus(fileInSelection.getAbsolutePath(), execTime, success, additionalMessage);
     }
 
     private void initCryptography() throws CryptoException {

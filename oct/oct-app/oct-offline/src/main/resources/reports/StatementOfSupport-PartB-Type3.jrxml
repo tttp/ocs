@@ -18,7 +18,7 @@
 		<band height="45" splitType="Stretch">
 			<textField>
 				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="195" height="45" backcolor="#CCCCCC"/>
-				<box topPadding="2">
+				<box topPadding="2" leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5" lineStyle="Solid"/>
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>
 					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
@@ -31,7 +31,7 @@
 			</textField>
 			<textField>
 				<reportElement positionType="Float" mode="Opaque" x="702" y="0" width="130" height="45" backcolor="#CCCCCC"/>
-				<box topPadding="2">
+				<box topPadding="2" leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5" lineStyle="Solid"/>
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>
 					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
@@ -44,7 +44,7 @@
 			</textField>
 			<textField>
 				<reportElement positionType="Float" mode="Opaque" x="195" y="0" width="195" height="45" backcolor="#CCCCCC"/>
-				<box topPadding="2">
+				<box topPadding="2" leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5" lineStyle="Solid"/>
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>
 					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
@@ -56,8 +56,8 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{report.1.table.label.familyNames}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" mode="Opaque" x="549" y="0" width="153" height="45" backcolor="#CCCCCC"/>
-				<box topPadding="2">
+				<reportElement positionType="Float" mode="Opaque" x="545" y="0" width="157" height="45" backcolor="#CCCCCC"/>
+				<box topPadding="2" leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5" lineStyle="Solid"/>
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>
 					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
@@ -69,8 +69,8 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{report.1.table.label.identificationNumber}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" mode="Opaque" x="390" y="0" width="159" height="45" backcolor="#CCCCCC"/>
-				<box topPadding="2">
+				<reportElement positionType="Float" mode="Opaque" x="390" y="0" width="155" height="45" backcolor="#CCCCCC"/>
+				<box topPadding="2" leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5" lineStyle="Solid"/>
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>
 					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
@@ -115,7 +115,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{lastName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement stretchType="RelativeToTallestObject" x="549" y="0" width="153" height="14"/>
+				<reportElement stretchType="RelativeToTallestObject" x="545" y="0" width="157" height="14"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5" lineStyle="Solid"/>
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>
@@ -128,7 +128,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{identificationNumber}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement stretchType="RelativeToTallestObject" x="390" y="0" width="159" height="14"/>
+				<reportElement stretchType="RelativeToTallestObject" x="390" y="0" width="155" height="14"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5" lineStyle="Solid"/>
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>

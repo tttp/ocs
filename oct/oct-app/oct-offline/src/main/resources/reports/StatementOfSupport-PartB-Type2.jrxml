@@ -18,7 +18,7 @@
 		<band height="45" splitType="Stretch">
 			<textField>
 				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="195" height="45" backcolor="#CCCCCC"/>
-				<box topPadding="2">
+				<box topPadding="2" leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5" lineStyle="Solid"/>
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>
 					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
@@ -31,7 +31,7 @@
 			</textField>
 			<textField>
 				<reportElement positionType="Float" mode="Opaque" x="701" y="0" width="130" height="45" backcolor="#CCCCCC"/>
-				<box topPadding="2">
+				<box topPadding="2" leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5" lineStyle="Solid"/>
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>
 					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
@@ -44,7 +44,7 @@
 			</textField>
 			<textField>
 				<reportElement positionType="Float" mode="Opaque" x="195" y="0" width="203" height="45" backcolor="#CCCCCC"/>
-				<box topPadding="2">
+				<box topPadding="2" leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5" lineStyle="Solid"/>
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>
 					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
@@ -57,7 +57,7 @@
 			</textField>
 			<textField>
 				<reportElement positionType="Float" mode="Opaque" x="548" y="0" width="153" height="45" backcolor="#CCCCCC"/>
-				<box topPadding="2">
+				<box topPadding="2" leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5" lineStyle="Solid"/>
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>
 					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
@@ -70,7 +70,7 @@
 			</textField>
 			<textField>
 				<reportElement positionType="Float" mode="Opaque" x="398" y="0" width="150" height="45" backcolor="#CCCCCC"/>
-				<box topPadding="2">
+				<box topPadding="2" leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5" lineStyle="Solid"/>
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>
 					<bottomPen lineWidth="0.5" lineStyle="Solid"/>

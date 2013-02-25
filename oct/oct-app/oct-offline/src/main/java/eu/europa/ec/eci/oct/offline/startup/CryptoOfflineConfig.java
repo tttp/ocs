@@ -1,10 +1,12 @@
 package eu.europa.ec.eci.oct.offline.startup;
 
+import eu.europa.ec.eci.oct.offline.support.Utils;
+import eu.europa.ec.eci.oct.offline.support.config.ConfigFileAccessor;
+import eu.europa.ec.eci.oct.offline.support.crypto.CryptographyHelper;
 import eu.europa.ec.eci.oct.offline.support.log.OfflineCryptoToolLogger;
+import org.apache.commons.codec.binary.Hex;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.PropertyResourceBundle;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author: micleva
@@ -12,22 +14,14 @@ import java.util.PropertyResourceBundle;
  * @project OCT
  */
 public class CryptoOfflineConfig {
-    private final static String CONFIG_FILE_LOCATION = "cryptToolConfiguration.properties";
     private static OfflineCryptoToolLogger log = OfflineCryptoToolLogger.getLogger(CryptoOfflineConfig.class.getName());
-
-    private PropertyResourceBundle propertyResourceBundle;
+    private final static String SYSTEM_CONFIG_FILE_NAME = "cryptToolConfiguration.properties";
+    private final static String EXTERNAL_USER_CONFIG_FILE_NAME = "conf.ini";
 
     private static CryptoOfflineConfig instance;
 
-    private CryptoOfflineConfig() {
-        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(CONFIG_FILE_LOCATION);
-        try {
-            propertyResourceBundle = new PropertyResourceBundle(inputStream);
-        } catch (IOException e) {
-            //do nothing
-            log.debug("Unable to read the config file", e);
-        }
-    }
+    private ConfigFileAccessor systemConfigurations;
+    private ConfigFileAccessor userConfigurations;
 
     public static CryptoOfflineConfig getInstance() {
         if (instance == null) {
@@ -36,48 +30,66 @@ public class CryptoOfflineConfig {
         return instance;
     }
 
+    public CryptoOfflineConfig() {
+        //read the system config file. We know for sure that this file exist
+        systemConfigurations = ConfigFileAccessor.getInstance(SYSTEM_CONFIG_FILE_NAME);
+
+        //check the user file, which might not exist (the user controls it)
+        try {
+            userConfigurations = ConfigFileAccessor.getInstance(Utils.getDataFile(EXTERNAL_USER_CONFIG_FILE_NAME));
+        } catch (UnsupportedEncodingException e) {
+            //do nothing..
+        }
+    }
+
     public boolean getBooleanConfigValue(ConfigProperty configProperty, boolean defaultValue) {
-        return getBooleanValue(configProperty.getKey(), defaultValue);
+        return systemConfigurations.getBooleanValue(configProperty.getKey(), defaultValue);
     }
 
     public int getIntegerConfigValue(ConfigProperty configProperty, int defaultValue) {
-        return getIntegerValue(configProperty.getKey(), defaultValue);
+        return systemConfigurations.getIntegerValue(configProperty.getKey(), defaultValue);
     }
 
-    private int getIntegerValue(String propertyName, int defaultValue) {
-        String configValue = propertyResourceBundle != null ? propertyResourceBundle.getString(propertyName) : null;
-
-        int resultValue = defaultValue;
-        if (configValue != null) {
+    public String getStringUserConfigValue(UserConfigProperty configProperty) {
+        String result = userConfigurations.getStringValue(configProperty.getKey());
+        if(isSecuredProperty(configProperty)) {
+            //decrypt the value
             try {
-                resultValue = Integer.valueOf(configValue);
-            } catch (NumberFormatException e) {
-                //ignore as the default value will be used in this case
-                log.debug("Not a number value for propertyName:" + propertyName, e);
+                result = decryptPropertyValue(result);
+            } catch (Exception e) {
+                log.warning("Unable to read encrypted value for property: " + configProperty.getKey());
+                result = "";
             }
         }
 
-        return resultValue;
+        return result;
     }
 
-    private Boolean getBooleanValue(String propertyName, boolean defaultValue) {
-        String configValue = propertyResourceBundle != null ? propertyResourceBundle.getString(propertyName) : null;
-
-        boolean resultValue = defaultValue;
-        if (configValue != null) {
-            resultValue = Boolean.valueOf(configValue);
+    public void writeUserConfigValue(UserConfigProperty configProperty, String value) {
+        try {
+            if(isSecuredProperty(configProperty)) {
+                value = encryptPropertyValue(value);
+            }
+            //for user configurations, encrypt the config value in order to avoid direct config file modification
+            userConfigurations.writeProperty(configProperty.getKey(), value);
+        } catch (Exception e) {
+            log.warning("Unable to store encrypted value for property: " + configProperty.getKey());
         }
-
-        return resultValue;
     }
 
-    private String getStringValue(String propertyName, String defaultValue) {
-        String resultValue = propertyResourceBundle != null ? propertyResourceBundle.getString(propertyName) : null;
+    private boolean isSecuredProperty(UserConfigProperty configProperty) {
+        return configProperty.equals( UserConfigProperty.LAST_OUTPUT_FOLDER) ||
+                configProperty.equals( UserConfigProperty.LAST_SELECT_FOLDER);
+    }
 
-        if (resultValue == null) {
-            resultValue = defaultValue;
-        }
+    private String encryptPropertyValue(String value) throws Exception {
+        byte[] encBytes = CryptographyHelper.fastEncrypt(value.getBytes("UTF-8"));
+        return new String(Hex.encodeHex(encBytes));
+    }
 
-        return resultValue;
+    private String decryptPropertyValue(String value) throws Exception {
+        byte[] encBytes = Hex.decodeHex(value.toCharArray());
+        byte[] decodedBytes = CryptographyHelper.fastDecrypt(encBytes);
+        return new String(decodedBytes, "UTF-8");
     }
 }

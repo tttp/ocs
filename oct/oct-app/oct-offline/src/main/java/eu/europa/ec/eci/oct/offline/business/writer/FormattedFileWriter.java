@@ -12,5 +12,5 @@ import java.io.File;
  */
 public interface FormattedFileWriter {
 
-    public void writeToOutput(SupportForm supportForm, File outputFile) throws DataException;
+    void writeToOutputRelativeToInputPath(SupportForm supportForm, File outputFolder, File fileInSelection, File selectedInput) throws DataException;
 }

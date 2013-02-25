@@ -490,17 +490,17 @@ INSERT INTO `OCT_GLOBAL_RULE_PARAM` (`id`, `parameterType`, `value`, `rule_id`) 
 /*!40000 ALTER TABLE `OCT_GLOBAL_RULE_PARAM` ENABLE KEYS */;
 
 
-CREATE TABLE IF NOT EXISTS `oct_local_rule` (
+CREATE TABLE IF NOT EXISTS `OCT_LOCAL_RULE` (
 	`id` BIGINT(20) NOT NULL,
 	`ruleType` VARCHAR(255) NULL DEFAULT NULL,
 	`countryProperty_id` BIGINT(20) NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `FK7B7AA6DB8C2F898` (`countryProperty_id`),
-	CONSTRAINT `FK7B7AA6DB8C2F898` FOREIGN KEY (`countryProperty_id`) REFERENCES `oct_country_property` (`id`)
+	CONSTRAINT `FK7B7AA6DB8C2F898` FOREIGN KEY (`countryProperty_id`) REFERENCES `OCT_COUNTRY_PROPERTY` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*!40000 ALTER TABLE `oct_local_rule` DISABLE KEYS */;
-INSERT INTO `oct_local_rule` (`id`, `ruleType`, `countryProperty_id`) VALUES
+/*!40000 ALTER TABLE `OCT_LOCAL_RULE` DISABLE KEYS */;
+INSERT INTO `OCT_LOCAL_RULE` (`id`, `ruleType`, `countryProperty_id`) VALUES
 	(2, 'REGEXP', 26),
 	(3, 'REGEXP', 27),
 	(5, 'REGEXP', 83),
@@ -526,21 +526,21 @@ INSERT INTO `oct_local_rule` (`id`, `ruleType`, `countryProperty_id`) VALUES
 	(31, 'REGEXP', 161),
 	(32, 'REGEXP', 162),
 	(33, 'REGEXP', 164);
-/*!40000 ALTER TABLE `oct_local_rule` ENABLE KEYS */;
+/*!40000 ALTER TABLE `OCT_LOCAL_RULE` ENABLE KEYS */;
 
 
-CREATE TABLE IF NOT EXISTS `oct_local_rule_param` (
+CREATE TABLE IF NOT EXISTS `OCT_LOCAL_RULE_PARAM` (
 	`id` BIGINT(20) NOT NULL,
 	`parameterType` VARCHAR(255) NULL DEFAULT NULL,
 	`value` VARCHAR(255) NULL DEFAULT NULL,
 	`rule_id` BIGINT(20) NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `FK20ADDC09D5233828` (`rule_id`),
-	CONSTRAINT `FK20ADDC09D5233828` FOREIGN KEY (`rule_id`) REFERENCES `oct_local_rule` (`id`)
+	CONSTRAINT `FK20ADDC09D5233828` FOREIGN KEY (`rule_id`) REFERENCES `OCT_LOCAL_RULE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*!40000 ALTER TABLE `oct_local_rule_param` DISABLE KEYS */;
-INSERT INTO `oct_local_rule_param` (`id`, `parameterType`, `value`, `rule_id`) VALUES
+/*!40000 ALTER TABLE `OCT_LOCAL_RULE_PARAM` DISABLE KEYS */;
+INSERT INTO `OCT_LOCAL_RULE_PARAM` (`id`, `parameterType`, `value`, `rule_id`) VALUES
 	(2, 'REGEXP', '[a-z][0-9]{7}', 2),
 	(3, 'REGEXP', '[0-9]{7}|[0-9]{8}', 3),
 	(5, 'REGEXP', '([0-9]{6}[a-z]{2})|([a-z]{2}\-[a-z][0-9]{6})|([a-z]{2}\-[a-z]{2}[0-9]{6})|([a-z]{2}\-[a-z]{3}[0-9]{6})|([a-z]{2}[0-9]{6})', 5),
@@ -566,7 +566,7 @@ INSERT INTO `oct_local_rule_param` (`id`, `parameterType`, `value`, `rule_id`) V
 	(31, 'REGEXP', '([a-z]){2}([0-9]){4}[0-9]', 31),
 	(32, 'REGEXP', '[0-9]{6}', 32),
 	(33, 'REGEXP', '([a-z0-9]{10,17})|[0-9]{10}', 33);
-/*!40000 ALTER TABLE `oct_local_rule_param` ENABLE KEYS */;
+/*!40000 ALTER TABLE `OCT_LOCAL_RULE_PARAM` ENABLE KEYS */;
 
 
 CREATE TABLE IF NOT EXISTS `OCT_SIGNATURE` (

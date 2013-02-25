@@ -5,12 +5,16 @@ import eu.europa.ec.eci.oct.offline.support.crypto.CryptographyHelper;
 import eu.europa.ec.eci.oct.offline.support.crypto.KeyProvider;
 import eu.europa.ec.eci.oct.offline.support.localization.LocalizationMessageProvider;
 import eu.europa.ec.eci.oct.offline.support.localization.LocalizationProvider;
+import eu.europa.ec.eci.oct.offline.support.swing.localization.LocalizedJButton;
 import eu.europa.ec.eci.oct.offline.support.swing.localization.LocalizedJLabel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author: micleva
@@ -22,7 +26,7 @@ public class StartupPassword extends PasswordDialog {
 	private static final long serialVersionUID = -1808347305605480559L;
 
 	public StartupPassword(Container parent) {
-        super(parent, true);
+        super(parent, false);
     }
 
     @Override
@@ -43,8 +47,8 @@ public class StartupPassword extends PasswordDialog {
             setPasswordConfirmedAction(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String pwd = pwdDialog.getPassword();
-                    if (pwd.length() > 0) {
+                    char[] pwd = pwdDialog.getPassword();
+                    if (pwd.length > 0) {
                         if (CryptographyHelper.initiateCryptoModule(pwd)) {
                             pwdDialog.dispose();
                         } else {
@@ -63,5 +67,19 @@ public class StartupPassword extends PasswordDialog {
 
             super.openDialog();
         }
+    }
+
+    @Override
+    protected List<JButton> getAdditionalButtons() {
+        JButton closeButton = new LocalizedJButton("common.exit");
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame jFrame = CryptoOfflineTool.getInstance().getFrame();
+                jFrame.dispatchEvent(new WindowEvent(jFrame, WindowEvent.WINDOW_CLOSING));
+            }
+        });
+
+        return Collections.singletonList(closeButton);
     }
 }

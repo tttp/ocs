@@ -1,5 +1,8 @@
 package eu.europa.ec.eci.oct.offline.support.localization;
 
+import eu.europa.ec.eci.oct.offline.startup.CryptoOfflineConfig;
+import eu.europa.ec.eci.oct.offline.startup.UserConfigProperty;
+
 import java.util.*;
 
 /**
@@ -40,7 +43,7 @@ public class LocalizationProvider {
             try {
                 ResourceBundle resourceBundle = ResourceBundle.getBundle("messages/messages", locale, new UTF8Control());
                 if(resourceBundle.getLocale().equals(locale)) {
-                    supportedLocales.add(locale);
+                    supportedLocales.add(resourceBundle.getLocale());
                 }
             } catch (Exception e) {
                 //catch any exception at this stage as failing to load a resource bundle for a country like japan is not a reason for the application to fail
@@ -71,12 +74,26 @@ public class LocalizationProvider {
     }
 
     public Locale getDefaultLocale() {
-        //include logic for saving the locale on change and loading it at start-up
-        return Locale.ENGLISH;
+        String langCode = CryptoOfflineConfig.getInstance().getStringUserConfigValue(UserConfigProperty.LANGUAGE);
+
+        Locale defaultLocale = Locale.ENGLISH;
+        if(langCode != null) {
+            try {
+                defaultLocale = new Locale(langCode);
+
+                //this validates that the language code is a valid code
+                defaultLocale.getISO3Language();
+            } catch (Exception e) {
+                defaultLocale = Locale.ENGLISH;
+            }
+        }
+
+        return defaultLocale;
     }
 
     public synchronized void changeLocale(Locale locale) {
         messageProvider.updateMessagesForLocale(locale);
+        CryptoOfflineConfig.getInstance().writeUserConfigValue(UserConfigProperty.LANGUAGE, locale.getLanguage());
 
         for (LocalizedItem localizedItem : localizedItems) {
             localizedItem.updateMessages(messageProvider);

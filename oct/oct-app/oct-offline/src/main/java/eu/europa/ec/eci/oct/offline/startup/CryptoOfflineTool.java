@@ -55,7 +55,7 @@ public class CryptoOfflineTool implements LocalizationChangedListener {
 
     private void setUpFrame() {
         frame = new LocalizedJFrame("offlineTool.title");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

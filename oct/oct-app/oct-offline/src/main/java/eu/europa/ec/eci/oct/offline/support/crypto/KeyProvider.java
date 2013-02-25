@@ -1,12 +1,13 @@
 package eu.europa.ec.eci.oct.offline.support.crypto;
 
-import eu.europa.ec.eci.oct.offline.support.Utils;
 import org.apache.commons.codec.binary.Hex;
 
 import java.io.*;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+
+import static eu.europa.ec.eci.oct.offline.support.Utils.getDataFile;
 
 /**
  * @author: micleva
@@ -18,16 +19,15 @@ public class KeyProvider {
     private static final String OCT_KEY_FILE = "oct.key";
     private static final String CRYPTO_KEY_FILE = "crypto.key";
     private static final String CRYPTO_SALT_FILE = "crypto.salt";
-    private static final String CRYPTO_DATA_FOLDER_NAME = "data";
     private static final int DIGEST_ITERATIONS = 2500;
 
-    public static void saveCryptoKeyWithPassword(PrivateKey privateKey, String plainTextPass) throws Exception {
+    public static void saveCryptoKeyWithPassword(PrivateKey privateKey, char[] pass) throws Exception {
         byte[] priv = privateKey.getEncoded();
 
         SecureRandom saltGenerator = new SecureRandom();
         byte[] salt = saltGenerator.generateSeed(256);
 
-        byte[] encBytes = PbeCipher.encrypt(priv, plainTextPass, salt, DIGEST_ITERATIONS);
+        byte[] encBytes = PbeCipher.encrypt(priv, pass, salt, DIGEST_ITERATIONS);
 
         String hexEnc = new String(Hex.encodeHex(encBytes));
 
@@ -43,7 +43,7 @@ public class KeyProvider {
         writeBytesToFile(hexEncoded.getBytes("UTF-8"), OCT_KEY_FILE);
     }
 
-    public static byte[] loadKeyFromFile(String plainTextPass) throws Exception {
+    public static byte[] loadKeyFromFile(char[] pass) throws Exception {
 
         //read the encrypted private key bytes and the salt used for password encryption from files
         byte[] keyData = readBytesFromFile(CRYPTO_KEY_FILE);
@@ -51,7 +51,7 @@ public class KeyProvider {
 
         byte[] encryptedKey = Hex.decodeHex(new String(keyData, "UTF-8").toCharArray());
 
-        return PbeCipher.decrypt(encryptedKey, plainTextPass, saltData, DIGEST_ITERATIONS);
+        return PbeCipher.decrypt(encryptedKey, pass, saltData, DIGEST_ITERATIONS);
     }
 
     private static byte[] readBytesFromFile(String filePath) throws Exception {
@@ -70,29 +70,6 @@ public class KeyProvider {
         DataOutputStream dos = new DataOutputStream(fos);
         dos.write(bytes);
         dos.close();
-    }
-
-    private static File getDataFile(String filePath) throws Exception {
-
-        String dataFolderPath = Utils.getFolderPathInProject(CRYPTO_DATA_FOLDER_NAME);
-        StringBuilder dataFilePath = new StringBuilder();
-        dataFilePath.append(dataFolderPath);
-
-        File dataFolder = new File(dataFolderPath);
-        if (!dataFolder.exists() || !dataFolder.isDirectory()) {
-            //create the data folder if it doesnt exist
-            boolean wasCreated = dataFolder.mkdir();
-            if (!wasCreated) {
-                // if the new folder was not created (it already existed),
-                // then something is wrong with the logic
-                throw new IllegalStateException("Data folder \"" + dataFolder +
-                        "\" was not created, since it already existed. This should not happen.");
-            }
-        }
-
-        dataFilePath.append('/').append(filePath);
-
-        return new File(dataFilePath.toString());
     }
 
     public static boolean keyFileExists() {

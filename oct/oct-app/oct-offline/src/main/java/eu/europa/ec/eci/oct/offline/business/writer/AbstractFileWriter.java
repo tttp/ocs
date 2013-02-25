@@ -1,48 +1,33 @@
-package eu.europa.ec.eci.oct.offline.business;
+package eu.europa.ec.eci.oct.offline.business.writer;
 
 import eu.europa.ec.eci.export.DataException;
 import eu.europa.ec.eci.export.model.SupportForm;
-import eu.europa.ec.eci.oct.offline.business.reader.FormattedFileReader;
-import eu.europa.ec.eci.oct.offline.business.reader.FormattedFileReaderProvider;
-import eu.europa.ec.eci.oct.offline.business.writer.FormattedFileWriter;
-import eu.europa.ec.eci.oct.offline.business.writer.FormattedFileWriterProvider;
+import eu.europa.ec.eci.oct.offline.business.FileType;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
 /**
  * @author: micleva
- * @created: 11/24/11
- * @project OCT
+ * @created: 4/2/12
+ * @project ECI
  */
-class DecryptionFileManager {
+public abstract class AbstractFileWriter implements FormattedFileWriter {
 
     private static final String DECRYPT_FILE_SUFFIX = "_dec";
 
-    private final File outputFolder;
-    private final String fileOutputSuffix;
-    private final String outputFolderAbsolutePath;
+    private final FileType fileType;
     private Set<String> existingFolders = Collections.synchronizedSet(new HashSet<String>());
 
-    private FormattedFileWriter fileWriter;
-    private FormattedFileReader fileReader;
-
-    public DecryptionFileManager(File outputFolder, FileType outputFileType) throws DataException {
-        this.outputFolder = outputFolder;
-        fileOutputSuffix = DECRYPT_FILE_SUFFIX + "." + outputFileType.name().toLowerCase();
-
-        outputFolderAbsolutePath = outputFolder.getAbsolutePath();
-
-        //initiate the reader and the writer
-        fileWriter = FormattedFileWriterProvider.getFormattedFileWriter(outputFileType);
-        //we always read from XML files
-        fileReader = FormattedFileReaderProvider.getFormattedFileReaderProvider(FileType.XML);
+    protected AbstractFileWriter(FileType fileType) {
+        this.fileType = fileType;
     }
 
-    private File buildOutputFile(File inputFile, File inputRootFile) throws DataException {
+    protected File buildOutputFile(File outputFolder, File fileInSelection, File selectedInput, Locale locale) throws DataException {
 
-        String outputPath = buildOutputFilePath(inputFile, inputRootFile);
+        String outputPath = buildOutputFilePath(outputFolder.getAbsolutePath(), fileInSelection, selectedInput, locale);
         try {
 
             File outputFile = new File(outputPath);
@@ -145,32 +130,40 @@ class DecryptionFileManager {
         return fileName;
     }
 
-    private String buildOutputFilePath(File inputFile, File inputRootFile) {
+    private String buildOutputFilePath(String outputFileAbsolutePath, File fileInSelection,
+                                       File selectedInput, Locale locale) {
         StringBuilder outputFilePath = new StringBuilder();
-        outputFilePath.append(outputFolderAbsolutePath);
+        outputFilePath.append(outputFileAbsolutePath);
 
-        if (inputRootFile.isDirectory()) {
+        if (selectedInput.isDirectory()) {
             //build the path inside the output folder
 
             //get the input file path according to the input root file
-            String inputRootPath = inputRootFile.getAbsolutePath();
-            String inputFilePath = inputFile.getAbsolutePath();
+            String inputRootPath = selectedInput.getAbsolutePath();
+            String inputFilePath = fileInSelection.getAbsolutePath();
             //remove the root from the path
             String pathFromInputRootToFile = inputFilePath.substring(inputRootPath.length());
             //remove the inputFile simple name from the path as the file name will be modified
-            pathFromInputRootToFile = pathFromInputRootToFile.substring(0, (pathFromInputRootToFile.length() - inputFile.getName().length()));
+            pathFromInputRootToFile = pathFromInputRootToFile.substring(0, (pathFromInputRootToFile.length() - fileInSelection.getName().length()));
 
             //append the input root filename to the output folder path
             outputFilePath.append(File.separator);
-            outputFilePath.append(inputRootFile.getName());
+            outputFilePath.append(selectedInput.getName());
 
             //append the path from root to file
             outputFilePath.append(File.separator);
             outputFilePath.append(pathFromInputRootToFile);
         }
         outputFilePath.append(File.separator);
-        outputFilePath.append(getFileNameWithoutExtension(inputFile));
-        outputFilePath.append(fileOutputSuffix);
+        outputFilePath.append(getFileNameWithoutExtension(fileInSelection));
+
+        //add the suffix
+        outputFilePath.append(DECRYPT_FILE_SUFFIX);
+        if(locale != null && locale.getLanguage() != null) {
+            outputFilePath.append('_').append(locale.getLanguage().toLowerCase());
+        }
+        outputFilePath.append('.');
+        outputFilePath.append(fileType.name().toLowerCase());
 
         return outputFilePath.toString();
     }
@@ -187,12 +180,45 @@ class DecryptionFileManager {
         return pathToFile;
     }
 
-    public SupportForm readFromFile(File inputFile) throws DataException {
-        return fileReader.readFromFile(inputFile);
+    @Override
+    public void writeToOutputRelativeToInputPath(SupportForm supportForm, File outputFolder,
+                                                 File fileInSelection, File selectedInput) throws DataException {
+        List<Locale> linguisticVersions = getLinguisticVersions(supportForm.getForCountry());
+
+        if(linguisticVersions != null && !linguisticVersions.isEmpty()) {
+            for (Locale linguisticVersion : linguisticVersions) {
+                writeLinguisticVersion(supportForm, outputFolder, fileInSelection, selectedInput, linguisticVersion);
+            }
+        } else {
+            writeLinguisticVersion(supportForm, outputFolder, fileInSelection, selectedInput, null);
+        }
     }
 
-    public void writeToOutputRelativeToInputPath(SupportForm supportForm, File inputFile, File inputRootFile) throws DataException {
-        File outputFile = buildOutputFile(inputFile, inputRootFile);
-        fileWriter.writeToOutput(supportForm, outputFile);
+    private void writeLinguisticVersion(SupportForm supportForm, File outputFolder, File fileInSelection, File selectedInput, Locale linguisticVersion) throws DataException {
+        File outputFile = buildOutputFile(outputFolder, fileInSelection, selectedInput, linguisticVersion);
+
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(outputFile);
+
+            fillUpContent(supportForm, fileOutputStream, linguisticVersion);
+
+            fileOutputStream.flush();
+            fileOutputStream.close();
+
+        } catch (Exception e) {
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e1) {
+                    //ignore any exception here
+                }
+            }
+            throw new DataException("Unable to write the output file: " + outputFile.getAbsolutePath(), e);
+        }
     }
+
+    protected abstract void fillUpContent(SupportForm supportForm, FileOutputStream out, Locale locale) throws Exception;
+
+    protected abstract List<Locale> getLinguisticVersions(String countryCode);
 }

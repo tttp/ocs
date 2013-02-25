@@ -5,29 +5,30 @@ import eu.europa.ec.eci.oct.offline.support.localization.LocalizationProvider;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 /**
  * @author: micleva
- * @created: 11/22/11
- * @project OCT
+ * @created: 4/3/12
+ * @project ECI
  */
-public class SimplePasswordValidator {
-
+public class ConfirmationPasswordValidator {
     private Container parent;
 
-    public SimplePasswordValidator(Container parent) {
+    public ConfirmationPasswordValidator(Container parent) {
         this.parent = parent;
     }
 
-    public boolean validate(char[] pass, int minLength) {
-        String pwd = new String(pass).trim();
-        if (pwd.length() < minLength) {
+    public boolean validate(char[] pass, char[] confPass) {
+
+        boolean match = Arrays.equals(pass, confPass);
+        if (!match) {
 
             LocalizationProvider localizationProvider = LocalizationProvider.getInstance();
             LocalizationMessageProvider messageProvider = localizationProvider.getCurrentMessageProvider();
 
             JOptionPane.showMessageDialog(parent,
-                    messageProvider.getMessage("dialog.password.validate.minimum.length", String.valueOf(minLength)),
+                    messageProvider.getMessage("dialog.password.validate.confirm"),
                     messageProvider.getMessage("common.validation.dialog.title"),
                     JOptionPane.WARNING_MESSAGE);
 
