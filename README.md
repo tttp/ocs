@@ -1,0 +1,1 @@
+This is a copy of the source as published (after the binaries) by the European commission. Mostly as a way of keeping a sane history of changes (instead of one branch per 0.0.x sub version) and see what is really change) and see what is really changd.
