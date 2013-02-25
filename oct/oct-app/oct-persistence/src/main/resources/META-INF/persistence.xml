@@ -22,17 +22,15 @@
 		<class>eu.europa.ec.eci.oct.entities.PropertyGroup</class>
 		<class>eu.europa.ec.eci.oct.entities.rules.RuleParameter</class>
 		<class>eu.europa.ec.eci.oct.entities.rules.ValidationRule</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.GlobalRuleParameter</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.GlobalValidationRule</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.LocalRuleParameter</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.LocalValidationRule</class>
 
 		<shared-cache-mode>NONE</shared-cache-mode>
 		<validation-mode>NONE</validation-mode>
 		<properties>
 		
-			<!-- MySQL variant start -->
- 			<!-- property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /-->			
-			<!-- MySQL variant end -->
-			
-		
-			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.connection.release_mode" value="auto" />
 			<property name="hibernate.current_session_context_class"

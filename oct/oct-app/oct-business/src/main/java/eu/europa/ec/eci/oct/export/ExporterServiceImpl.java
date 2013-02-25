@@ -72,9 +72,10 @@ public class ExporterServiceImpl implements ExporterService {
 
 	@Override
 	public void export(List<ExportParametersBean> parametersList) {
+		Connection connection = null;
 		try {
 			// create necessary JEE resources
-			final Connection connection = connectionFactory.createConnection();
+			connection = connectionFactory.createConnection();
 			final Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 			final MessageProducer messageProducer = session.createProducer(queue);
 
@@ -144,6 +145,16 @@ public class ExporterServiceImpl implements ExporterService {
 			logger.error("Error while preparing export queue!", e);
 		} catch (OCTException e) {
 			logger.error("OCT Exception while preparing export queue!", e);
+		} finally {
+			try {
+				if (connection != null) {
+					if (logger.isEnabledFor(Level.DEBUG)) {
+						logger.debug("Closing JMS connection.");
+					}
+					connection.close();
+				}
+			} catch (Exception e) {
+			}
 		}
 	}
 

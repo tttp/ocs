@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import eu.europa.ec.eci.oct.entities.rules.ValidationRule;
+import eu.europa.ec.eci.oct.entities.rules.GlobalValidationRule;
 
 @Entity
 @Table(name = "OCT_PROPERTY")
@@ -36,7 +36,7 @@ public class Property {
 	private int priority;
 
 	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<ValidationRule> rules;
+	private Set<GlobalValidationRule> rules;
 
 	public String getName() {
 		return name;
@@ -54,11 +54,11 @@ public class Property {
 		this.type = type;
 	}
 
-	public Set<ValidationRule> getRules() {
+	public Set<GlobalValidationRule> getRules() {
 		return rules;
 	}
 
-	public void setRules(Set<ValidationRule> rules) {
+	public void setRules(Set<GlobalValidationRule> rules) {
 		this.rules = rules;
 	}
 

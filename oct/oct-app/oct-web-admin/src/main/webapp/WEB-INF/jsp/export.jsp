@@ -109,9 +109,17 @@
 								<spring:bind path="country">
 								<select id="country" name="country">
 									<option value="-1"><spring:message code="oct.export.allcountries"/></option>
-									<c:forEach items="${countries}" var="country">	
-										<option value="<c:out value="${country.code}" />"><spring:message code="${country.name}"/></option>
-									</c:forEach>
+									<oct:items>
+										<c:forEach items="${countries}" var="country">
+											<oct:item>
+												<c:set var="isSelected" value="" />
+												<c:if test="${form.country.code == country.code}">
+													<c:set var="isSelected" value="selected" />
+												</c:if>	
+												<option value="<c:out value="${country.code}" />" <c:out value="${isSelected}" />><oct:property><spring:message code="${country.name}"/></oct:property></option>
+											</oct:item>
+										</c:forEach>
+									</oct:items>
 								</select>
 								</spring:bind>
 							</td>

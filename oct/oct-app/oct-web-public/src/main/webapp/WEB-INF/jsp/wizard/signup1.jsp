@@ -37,7 +37,7 @@
 					<p>
 						<spring:message code="oct.s2.info.3" />
 						<br />
-						<a href="http://www.ec.europa.eu/citizens-initiative/public/how-to-signup" target="_blank">http://www.ec.europa.eu/citizens-initiative/public/how-to-signup</a>
+						<a href="http://ec.europa.eu/citizens-initiative/public/how-to-signup" target="_blank">http://ec.europa.eu/citizens-initiative/public/how-to-signup</a>
 					</p>
 				</fieldset>
 

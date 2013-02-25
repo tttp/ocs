@@ -193,7 +193,7 @@
 												disabled="${!editing}" size="50"/>
 										</c:when>
 										<c:otherwise>
-											<a href="mailto:<c:out value="${form.contactEmail}" />" target="_blank"><c:out value="${form.contactEmail}"/></a>
+											<c:out value="${form.contactEmail}"/>
 											<input type="hidden" value="<c:out value="${form.contactEmail}" />" name="contactEmail" />
 										</c:otherwise>
 									</c:choose></td>

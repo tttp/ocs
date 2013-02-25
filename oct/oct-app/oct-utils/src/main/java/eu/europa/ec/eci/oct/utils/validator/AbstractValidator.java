@@ -1,6 +1,7 @@
 package eu.europa.ec.eci.oct.utils.validator;
 
 
+
 public abstract class AbstractValidator {
 
 	public boolean validateNotEmpty(String value) {
@@ -17,7 +18,7 @@ public abstract class AbstractValidator {
 		if (value == null) {
 			return false;
 		}
-		return value.matches(regexp);
+		return value.replaceAll("\\s+", "").toLowerCase().matches(regexp);
 	}
 
 }

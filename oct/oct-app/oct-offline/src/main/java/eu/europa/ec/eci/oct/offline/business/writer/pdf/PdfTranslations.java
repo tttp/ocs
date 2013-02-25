@@ -3,9 +3,7 @@ package eu.europa.ec.eci.oct.offline.business.writer.pdf;
 import eu.europa.ec.eci.oct.offline.business.writer.pdf.converter.SignatureProperty;
 import eu.europa.ec.eci.oct.offline.support.localization.LocalizationMessageProvider;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author: micleva
@@ -16,28 +14,45 @@ public class PdfTranslations {
 
     private static Map<String, LocalizationMessageProvider> byCountryMessageProvider = new HashMap<String, LocalizationMessageProvider>();
     private static LocalizationMessageProvider documentNamesProvider = null;
-    private static Map<String, Locale> localeByCountryCode = new HashMap<String, Locale>();
+    private static LocalizationMessageProvider defaultMessagesProvider = new LocalizationMessageProvider(Locale.ENGLISH, "reports/signatureTranslations/messages");
 
-    static {
-        for (Locale locale : Locale.getAvailableLocales()) {
-            String countryCode = locale.getCountry().toUpperCase();
-            localeByCountryCode.put(countryCode, locale);
-            if (countryCode.equals("GR")) {
-                localeByCountryCode.put("EL", locale);
+    private static synchronized LocalizationMessageProvider getMessagesForLanguage(String countryCode) {
+        
+        if (!byCountryMessageProvider.containsKey(countryCode)) {
+            List<Locale> localesForCountry = getAvailableLocalesByCountryCode(countryCode);
+
+            for (Locale locale : localesForCountry) {
+                LocalizationMessageProvider messageProvider = new LocalizationMessageProvider(locale, "reports/signatureTranslations/messages");
+                if (messageProvider.getCurrentLocale().equals(locale) && !byCountryMessageProvider.containsKey(countryCode)) {
+                    byCountryMessageProvider.put(countryCode, messageProvider);
+                }
             }
-            if (countryCode.equals("GB")) {
-                localeByCountryCode.put("UK", locale);
+            if(!byCountryMessageProvider.containsKey(countryCode)) {
+                //we searched all available locales for this country but we couldn't load any LocalizationMessageProvider that matches that locase 
+                //put then the default LocalizationMessageProvider
+                byCountryMessageProvider.put(countryCode, defaultMessagesProvider);
             }
         }
+        return byCountryMessageProvider.get(countryCode);
     }
+    
+    static List<Locale> getAvailableLocalesByCountryCode(String countryCode) {
+        List<Locale> localesForCountry = new ArrayList<Locale>();
 
-    private static synchronized LocalizationMessageProvider getMessagesForLanguage(String countryCodeForLanguage) {
-        Locale locale = countryCodeForLanguage != null ? localeByCountryCode.get(countryCodeForLanguage.toUpperCase()) : Locale.ENGLISH;
-        if (!byCountryMessageProvider.containsKey(countryCodeForLanguage)) {
-            LocalizationMessageProvider messageProvider = new LocalizationMessageProvider(locale, "reports/signatureTranslations/messages");
-            byCountryMessageProvider.put(countryCodeForLanguage, messageProvider);
+        String searchedCountryCode = countryCode.toUpperCase();
+        for (Locale locale : Locale.getAvailableLocales()) {
+            String localeCountryCode = locale.getCountry().toUpperCase();
+            if(searchedCountryCode.equals("MT") && !locale.getLanguage().equalsIgnoreCase("mt")) {
+                continue;
+            }
+            if(localeCountryCode.equals(searchedCountryCode)||
+                    (localeCountryCode.equals("GR") && searchedCountryCode.equals("EL")) ||
+                    (localeCountryCode.equals("GB") && searchedCountryCode.equals("UK"))) {
+                localesForCountry.add(locale);
+            }
         }
-        return byCountryMessageProvider.get(countryCodeForLanguage);
+        
+        return localesForCountry;
     }
 
     private static synchronized LocalizationMessageProvider getDocumentNamesProvider() {

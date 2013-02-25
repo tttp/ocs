@@ -132,7 +132,7 @@ public class SignupController extends HttpGetController {
 			if (result.hasErrors()) {
 				// reload page
 				formBean.setCaptcha(null);
-				
+
 				setCurrentPage(request.getSession(), WIZARD_STEP_1);
 				return super.doGet(model, request, response);
 			} else {
@@ -211,6 +211,9 @@ public class SignupController extends HttpGetController {
 			int nextPage = WebUtils.getTargetPage(request, "_target", currentPage);
 			switch (nextPage) {
 			case WIZARD_STEP_0:
+				formBean.setCountryCode(null);
+				formBean.setCountryToSignFor(null);
+
 				break;
 			case WIZARD_STEP_1:
 				generateFormModel(formBean, result, resourceBundle);

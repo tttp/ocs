@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="StatementOfSupport-PartB" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="2" resourceBundle="reports/translations/report-translations">
-	<property name="ireport.zoom" value="2.59374246010003"/>
-	<property name="ireport.x" value="1313"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="StatementOfSupport-PartB" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="2">
+	<property name="ireport.zoom" value="1.6105100000000183"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<field name="backingBean" class="eu.europa.ec.eci.oct.offline.business.writer.pdf.model.PdfSupportForm"/>
 	<background>
@@ -123,7 +123,7 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{report.1.label.policy}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="74" width="832" height="15" isRemoveLineWhenBlank="true">
+				<reportElement x="0" y="77" width="832" height="15" isRemoveLineWhenBlank="true">
 					<printWhenExpression><![CDATA[$F{backingBean}.getDisplaySeePartC()]]></printWhenExpression>
 				</reportElement>
 				<box topPadding="3"/>
@@ -133,7 +133,7 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{report.1.label.seePartC}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="60" width="832" height="15"/>
+				<reportElement x="0" y="55" width="832" height="23"/>
 				<box topPadding="3"/>
 				<textElement markup="styled">
 					<font fontName="Arial" size="8"/>

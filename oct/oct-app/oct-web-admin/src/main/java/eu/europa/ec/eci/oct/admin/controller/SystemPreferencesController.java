@@ -68,7 +68,7 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 	@EJB
 	private InitiativeService initiativeService;
 
-	@Resource(name="eciExportExtensionWhitelist")
+	@Resource(name = "eciExportExtensionWhitelist")
 	private List<String> uploadExtensionWhitelist;
 
 	@Override
@@ -92,10 +92,10 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 			logger.info("language version preview request language id " + langId.longValue());
 
 			SystemPreferencesBean bean = (SystemPreferencesBean) model.asMap().get("form");
-			
+
 			@SuppressWarnings("unchecked")
-			List<InitiativeDescription> descriptions = (List<InitiativeDescription>)
-				request.getSession().getAttribute(LANGUAGE_VERSIONS); 
+			List<InitiativeDescription> descriptions = (List<InitiativeDescription>) request.getSession().getAttribute(
+					LANGUAGE_VERSIONS);
 			for (InitiativeDescription id : descriptions) {
 				if (id.getLanguage() != null && langId.equals(id.getLanguage().getId())) {
 
@@ -150,12 +150,12 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 		if (defDesc != null) {
 			committedDescs.remove(defDesc);
 		}
-		Collections.sort(committedDescs, new Comparator<InitiativeDescription>() {			
+		Collections.sort(committedDescs, new Comparator<InitiativeDescription>() {
 			@Override
-			public int compare(InitiativeDescription i1, InitiativeDescription i2) {						
-				return i1.getLanguage().getDisplayOrder().intValue() - i2.getLanguage().getDisplayOrder().intValue(); 
-			}			
-		});	
+			public int compare(InitiativeDescription i1, InitiativeDescription i2) {
+				return i1.getLanguage().getDisplayOrder().intValue() - i2.getLanguage().getDisplayOrder().intValue();
+			}
+		});
 
 		request.getSession().setAttribute(LANGUAGE_VERSIONS, committedDescs);
 	}
@@ -170,7 +170,7 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 		bean.setObjectives(desc.getObjectives());
 		bean.setLanguage(desc.getLanguage());
 		bean.setWebsite(desc.getUrl());
-		
+
 		if (!StringUtils.isEmpty(desc.getUrl())) {
 			try {
 				new URL(desc.getUrl());
@@ -185,7 +185,7 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 	private void populateRegistrationInfo(SystemPreferences prefs, SystemPreferencesBean bean) {
 		bean.setRegistrationDate(prefs.getRegistrationDate());
 		bean.setRegistrationNumber(prefs.getRegistrationNumber());
-		
+
 		if (!StringUtils.isEmpty(prefs.getCommissionRegisterUrl())) {
 			try {
 				new URL(prefs.getCommissionRegisterUrl());
@@ -195,7 +195,7 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 				bean.setRegisterUrl(null);
 			}
 		}
-		
+
 	}
 
 	private void populateContactInfo(SystemPreferencesBean bean, Contact c) {
@@ -305,8 +305,8 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 			Long langId = new Long(request.getParameter("langId"));
 
 			@SuppressWarnings("unchecked")
-			List<InitiativeDescription> descriptions = (List<InitiativeDescription>)
-				request.getSession().getAttribute(LANGUAGE_VERSIONS);
+			List<InitiativeDescription> descriptions = (List<InitiativeDescription>) request.getSession().getAttribute(
+					LANGUAGE_VERSIONS);
 			for (InitiativeDescription id : descriptions) {
 				if (id.getLanguage() != null && langId.equals(id.getLanguage().getId())) {
 					bean.setLvTitle(id.getTitle());
@@ -330,10 +330,9 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 			// validate the MultipartFile (= the file upload)
 			final Validator multipartFileValidator = new MultipartFileValidator(getCurrentMessageBundle(request),
 					"oct.s4.xml.upload.error.invalid.format",
-					Collections.<MultipartFileValidator.RejectReason, String>emptyMap(),
-					uploadExtensionWhitelist, 0);
+					Collections.<MultipartFileValidator.RejectReason, String> emptyMap(), uploadExtensionWhitelist, 0);
 			multipartFileValidator.validate(multipartFile, result);
-			
+
 			if (result.hasErrors()) {
 				return doGet(model, multipartRequest, response);
 			}
@@ -347,7 +346,7 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 					public Language getLanguageByCode(String code) throws ECIDataException {
 						try {
 							Language lang = sysManager.getLanguageByCode(code);
-							if(lang==null){
+							if (lang == null) {
 								throw new ECIDataException("Missing language entry for a code " + code);
 							}
 							return lang;
@@ -380,12 +379,13 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 					populateLanguageVersion(defaultDesc, bean);
 				}
 
-				Collections.sort(descs, new Comparator<InitiativeDescription>() {			
+				Collections.sort(descs, new Comparator<InitiativeDescription>() {
 					@Override
-					public int compare(InitiativeDescription i1, InitiativeDescription i2) {						
-						return i1.getLanguage().getDisplayOrder().intValue() - i2.getLanguage().getDisplayOrder().intValue(); 
-					}			
-				});	
+					public int compare(InitiativeDescription i1, InitiativeDescription i2) {
+						return i1.getLanguage().getDisplayOrder().intValue()
+								- i2.getLanguage().getDisplayOrder().intValue();
+					}
+				});
 				request.getSession().setAttribute(LANGUAGE_VERSIONS, descs);
 
 				model.addAttribute("draftUploaded", true);
@@ -393,8 +393,9 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 
 			} catch (ECIDataException e) {
 				logger.error("problem occured while loading xml file", e);
-				String errorMessage = getCurrentMessageBundle(request).getMessage("oct.s4.xml.upload.error.invalid.format");
-				errorMessage+=": "+e.getMessage();				
+				String errorMessage = getCurrentMessageBundle(request).getMessage(
+						"oct.s4.xml.upload.error.invalid.format");
+				errorMessage += ": " + e.getMessage();
 				result.reject("", errorMessage);
 				return doGet(model, multipartRequest, response);
 			} catch (IOException e) {
@@ -452,17 +453,17 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 
 		// MKE: the code below never gets executed, but I cannot
 		// fix it, since I don't know what it should do
-		
+
 		// find
-//		InitiativeDescription defDesc = null;
-//		for (InitiativeDescription desc : committedDescs) {
-//			if (defDesc != null && desc.getId().equals(defDesc.getId())) {
-//				defDesc = desc;
-//			}
-//		}
-//		if (defDesc != null) {
-//			committedDescs.remove(defDesc);
-//		}
+		// InitiativeDescription defDesc = null;
+		// for (InitiativeDescription desc : committedDescs) {
+		// if (defDesc != null && desc.getId().equals(defDesc.getId())) {
+		// defDesc = desc;
+		// }
+		// }
+		// if (defDesc != null) {
+		// committedDescs.remove(defDesc);
+		// }
 
 		request.getSession().setAttribute(LANGUAGE_VERSIONS, committedDescs);
 	}

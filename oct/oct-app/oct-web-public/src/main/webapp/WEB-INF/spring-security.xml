@@ -13,7 +13,7 @@
 		<security:intercept-url pattern="/error.do" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		
 		<security:intercept-url pattern="/*.do" access="ROLE_USER" />
-		<security:logout logout-success-url="/index.do"/>
+		<security:logout success-handler-ref="logoutSuccessHandler"/>
 	</security:http>
 	
 	<security:authentication-manager alias="authenticationManager">
@@ -39,4 +39,6 @@
 	</bean>
 
 	<bean id="octAuthentificationProvider" class="eu.europa.ec.eci.oct.web.security.WebAuthenticationProvider" />
+	
+	<bean id="logoutSuccessHandler" class="eu.europa.ec.eci.oct.webcommons.security.OctLogoutSuccessHandler" />
 </beans>

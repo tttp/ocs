@@ -11,8 +11,10 @@
   DROP TABLE "OCT_PROPERTY" cascade constraints;
   DROP TABLE "OCT_PROPERTY_GROUP" cascade constraints;
   DROP TABLE "OCT_PROPERTY_VALUE" cascade constraints;
-  DROP TABLE "OCT_RULE" cascade constraints;
-  DROP TABLE "OCT_RULE_PARAM" cascade constraints;
+  DROP TABLE "OCT_GLOBAL_RULE" cascade constraints;
+  DROP TABLE "OCT_GLOBAL_RULE_PARAM" cascade constraints;
+  DROP TABLE "OCT_LOCAL_RULE" cascade constraints;
+  DROP TABLE "OCT_LOCAL_RULE_PARAM" cascade constraints;
   DROP TABLE "OCT_SIGNATURE" cascade constraints;
   DROP TABLE "OCT_SYSTEM_PREFS" cascade constraints;
   DROP SEQUENCE "OCT_ACTSEQ";

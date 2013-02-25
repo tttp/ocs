@@ -75,7 +75,7 @@ public class RightSidePanel extends JPanel {
     private JPanel buildSelectionSummaryPanel() {
         JPanel selectionSummary = new JPanel();
         selectionSummary.setLayout(new BoxLayout(selectionSummary, BoxLayout.Y_AXIS));
-        selectionSummary.setMaximumSize(new Dimension(500, 150));
+//        selectionSummary.setMaximumSize(new Dimension(500, 150));
 
         JLabel label = new LocalizedJLabel("decrypt.export.dialog.files.summary.title");
         label.setFont(new Font("", Font.BOLD, 12));
@@ -116,26 +116,25 @@ public class RightSidePanel extends JPanel {
         JPanel outputFolderAndTypePanel = new JPanel();
         outputFolderAndTypePanel.setLayout(new BoxLayout(outputFolderAndTypePanel, BoxLayout.Y_AXIS));
 
+        //the first line, representing the
         JPanel outputFolderPanel = new JPanel();
         outputFolderPanel.setLayout(new BoxLayout(outputFolderPanel, BoxLayout.X_AXIS));
-        outputFolderPanel.setMaximumSize(new Dimension(500, 150));
 
         JLabel label = new LocalizedJLabel("decrypt.export.dialog.output.label");
-        label.setPreferredSize(new Dimension(85, 25));
         outputFolderPanel.add(label);
 
         //add the folder name
         final JTextField outputFolderText = new JTextField();
         outputFolderText.setEditable(false);
-        outputFolderText.setPreferredSize(new Dimension(180, 25));
-        outputFolderPanel.add(Utils.getXSeparator(5));
+        outputFolderText.setPreferredSize(new Dimension(150, 25));
+        outputFolderPanel.add(Box.createHorizontalGlue());
         outputFolderPanel.add(outputFolderText);
+        
+        outputFolderPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        outputFolderAndTypePanel.add(outputFolderPanel);
 
-        //add the browse button
+        //add the browse button, alone on one line, on the right
         JButton browseFolder = new LocalizedJButton("decrypt.export.dialog.output.browse");
-        outputFolderPanel.add(Utils.getXSeparator(5));
-        outputFolderPanel.add(browseFolder);
-
         browseFolder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -151,28 +150,38 @@ public class RightSidePanel extends JPanel {
                 }
             }
         });
+        JPanel browsePanel = new JPanel();
+        browsePanel.setLayout(new BoxLayout(browsePanel, BoxLayout.X_AXIS));
 
-        outputFolderPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        outputFolderAndTypePanel.add(outputFolderPanel);
+        browsePanel.add(Box.createHorizontalGlue());
+        browsePanel.add(browseFolder);
+        browsePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        outputFolderAndTypePanel.add(browsePanel);
 
         JPanel outputFileTypeSelectionPanel = new JPanel();
         outputFileTypeSelectionPanel.setLayout(new BoxLayout(outputFileTypeSelectionPanel, BoxLayout.X_AXIS));
-        outputFileTypeSelectionPanel.setMaximumSize(new Dimension(500, 150));
+//        outputFileTypeSelectionPanel.setMaximumSize(new Dimension(500, 150));
 
         label = new LocalizedJLabel("decrypt.export.dialog.output.file.type");
-        label.setPreferredSize(new Dimension(85, 25));
+//        label.setPreferredSize(new Dimension(85, 25));
         outputFileTypeSelectionPanel.add(label);
-        outputFileTypeSelectionPanel.add(Utils.getXSeparator(3));
         fileTypesSelection = new JComboBox(FileType.values());
-        fileTypesSelection.setPreferredSize(new Dimension(100, 25));
+        fileTypesSelection.setPreferredSize(new Dimension(150, 25));
         fileTypesSelection.setSelectedIndex(0);
+        outputFileTypeSelectionPanel.add(Box.createHorizontalGlue());
         outputFileTypeSelectionPanel.add(fileTypesSelection);
-        outputFileTypeSelectionPanel.add(Box.createGlue());
 
         outputFileTypeSelectionPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         outputFolderAndTypePanel.add(outputFileTypeSelectionPanel);
 
-        return outputFolderAndTypePanel;
+        JPanel outputPanel = new JPanel();
+        outputPanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.CENTER;
+        outputPanel.add(outputFolderAndTypePanel, constraints);
+
+        return outputPanel;
     }
 
     public File getOutputFolder() {

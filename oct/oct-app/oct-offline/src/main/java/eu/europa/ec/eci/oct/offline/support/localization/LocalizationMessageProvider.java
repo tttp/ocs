@@ -41,10 +41,15 @@ public class LocalizationMessageProvider {
 
     private void refreshLocalizedMessages() {
         localizedMessages.clear();
-        fillUpResourceMessages(currentLocale, localizedMessages);
+        Locale localeUsedForLoad = fillUpResourceMessages(currentLocale, localizedMessages);
+        if(!currentLocale.getLanguage().equals(localeUsedForLoad.getLanguage())) {
+            //if the resource bundle loaded is not for the requested language, then the default resource bundle was used, which is in english
+            currentLocale = Locale.ENGLISH;
+        }
     }
 
-    private void fillUpResourceMessages(Locale locale, Map<String, String> messageMap) {
+    private Locale fillUpResourceMessages(Locale locale, Map<String, String> messageMap) {
+        Locale actualLocale = Locale.ENGLISH;
         try {
             ResourceBundle resourceBundle = ResourceBundle.getBundle(resourceBundleName, locale, new UTF8Control());
 
@@ -53,9 +58,14 @@ public class LocalizationMessageProvider {
                 String key = keys.nextElement();
                 messageMap.put(key, resourceBundle.getString(key));
             }
+
+            actualLocale = resourceBundle.getLocale();
+        } catch (MissingResourceException e) {
+            log.warning("Unable to fill up the resource message for locale: " + locale, e);
         } catch (Exception e) {
             log.warning("Unable to fill up the resource message for locale: " + locale, e);
         }
+        return actualLocale;
     }
 
     synchronized void updateMessagesForLocale(Locale newLocale) {

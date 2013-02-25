@@ -20,6 +20,10 @@
 		<class>eu.europa.ec.eci.oct.entities.PropertyGroup</class>
 		<class>eu.europa.ec.eci.oct.entities.rules.RuleParameter</class>
 		<class>eu.europa.ec.eci.oct.entities.rules.ValidationRule</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.GlobalRuleParameter</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.GlobalValidationRule</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.LocalRuleParameter</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.LocalValidationRule</class>
 		
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
@@ -47,13 +51,17 @@
 		<class>eu.europa.ec.eci.oct.entities.PropertyGroup</class>
 		<class>eu.europa.ec.eci.oct.entities.rules.RuleParameter</class>
 		<class>eu.europa.ec.eci.oct.entities.rules.ValidationRule</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.GlobalRuleParameter</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.GlobalValidationRule</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.LocalRuleParameter</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.LocalValidationRule</class>
 		
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.connection.username" value="root"/>
-			<property name="hibernate.connection.password" value="admin"/>
+			<property name="hibernate.connection.password" value=""/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/oct" />
 			<property name="hibernate.connection.autocommit" value="false"/>
@@ -78,6 +86,10 @@
 		<class>eu.europa.ec.eci.oct.entities.PropertyGroup</class>
 		<class>eu.europa.ec.eci.oct.entities.rules.RuleParameter</class>
 		<class>eu.europa.ec.eci.oct.entities.rules.ValidationRule</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.GlobalRuleParameter</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.GlobalValidationRule</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.LocalRuleParameter</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.LocalValidationRule</class>
 		
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />

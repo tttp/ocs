@@ -35,18 +35,18 @@ public abstract class OctAuthenticationProvider implements AuthenticationProvide
 		String challengeResponse = (String) token.getChallengeResponse();
 
 		if (!preValidate(user, password, originalPhrase, challengeResponse)) {
-			logger.debug("Trying to authenticate with empty user, password or challenge. Stop here!");
+			logger.info("Trying to authenticate with empty user, password or challenge. Stop here!");
 			throw new BadCredentialsException("Username, password or result cannot be null.");
 		}
 
 		try {
 			if (!validateUser(user, password)) {
-				logger.debug("Failed to authenticate the user.");
+				logger.info("Failed to authenticate the user.");
 				throw new BadCredentialsException("Failed to authenticate the user.");
 			}
 
 			if (!validateChallenge(originalPhrase, challengeResponse)) {
-				logger.debug("Failed to verify the challenge.");
+				logger.info("Failed to verify the challenge.");
 				throw new BadCredentialsException("Failed to authenticate the user.");
 			}
 		} catch (OCTException e) {
@@ -54,8 +54,8 @@ public abstract class OctAuthenticationProvider implements AuthenticationProvide
 		}
 
 		Collection<GrantedAuthority> roles = getRolesToBeGranted();
-		
-		logger.debug("User succesfully authenticated.");
+
+		logger.info("User succesfully authenticated.");
 		return new UsernamePasswordAuthenticationToken(user, password, roles);
 	}
 

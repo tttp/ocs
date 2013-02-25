@@ -23,7 +23,7 @@ public class ECI2OCTConverter {
 		
 		SystemPreferences prefs = new SystemPreferences();
 		if(i.getRegistrationDate()==null) throw new ECIDataException("Registration date not provided");
-		prefs.setRegistrationDate(i.getRegistrationDate().toGregorianCalendar().getTime());
+		prefs.setRegistrationDate(i.getRegistrationDate().normalize().toGregorianCalendar().getTime());
 		prefs.setRegistrationNumber("" + i.getRegistrationNumber());
 		if(i.getUrl()==null) throw new ECIDataException("EC registry url not provided");
 		prefs.setCommissionRegisterUrl(i.getUrl()); 

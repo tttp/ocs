@@ -1,7 +1,15 @@
-#!/bin/bash
-#if [ -f ${JAVA_HOME}/bin/java ] then
-#    echo "!!! Bad JAVA_HOME environment variable: ${JAVA_HOME} is not pointing to a valid JRE"
-#    exit 1
-#fi
-MEM_ARGS="-Xms128m -Xmx256m"
-${JAVA_HOME}/bin/java ${MEM_ARGS} -jar ./../lib/oct-offline-1.0.0.jar
+if type -p java; then
+    echo Found java executable in PATH...
+    _java=java
+elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
+    echo Found java executable in JAVA_HOME.
+    _java="$JAVA_HOME/bin/java"
+else
+    echo "No java found. Please install it and try again!"
+    exit 1
+fi
+
+if [[ "$_java" ]]; then
+    echo This is good. Starting the Offline Tool...
+    $_java -jar ./../lib/oct-offline-1.0.0.jar
+fi

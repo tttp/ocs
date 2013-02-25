@@ -57,7 +57,7 @@ public class ExportDispatcherWorkerMDB implements MessageListener {
 	/**
 	 * The number of signatures per worker. This should probably be obtained from some persistent configurable source.
 	 */
-	private static final int SIGNATURES_PER_WORKER = 5000;
+	private static final int SIGNATURES_PER_WORKER = 3000;
 
 	@Override
 	public void onMessage(Message message) {
@@ -67,6 +67,7 @@ public class ExportDispatcherWorkerMDB implements MessageListener {
 			return;
 		}
 
+		Connection connection = null;
 		try {
 			Object payloadObject = ((ObjectMessage) message).getObject();
 			if (!(payloadObject instanceof ExportMessage)) {
@@ -78,7 +79,7 @@ public class ExportDispatcherWorkerMDB implements MessageListener {
 			final ExportMessage exportMessage = (ExportMessage) payloadObject;
 			final ExportParametersBean parameters = exportMessage.getExportParameters();
 
-			final Connection connection = connectionFactory.createConnection();
+			connection = connectionFactory.createConnection();
 			final Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 			final MessageProducer messageProducer = session.createProducer(queue);
 
@@ -114,7 +115,7 @@ public class ExportDispatcherWorkerMDB implements MessageListener {
 
 				// calculate the file name where this chunk should be exported
 				final String index = String.format("%03d", (idx + 1));
-				final String fileName = new StringBuilder().append(index).append("_")
+				final String fileName = new StringBuilder().append(index).append("_").append(workerCount).append("_")
 						.append(parameters.getCountryCode().toUpperCase()).append("_")
 						.append(parameters.getDescriptionLanguageCode()).append("_")
 						.append(UUID.randomUUID().toString()).append(".xml").toString();
@@ -138,6 +139,16 @@ public class ExportDispatcherWorkerMDB implements MessageListener {
 			logger.error("Error while processing queued object!", e);
 		} catch (OCTException e) {
 			logger.error("OCT Exception!", e);
+		} finally {
+			try {
+				if (connection != null) {
+					if (logger.isEnabledFor(Level.DEBUG)) {
+						logger.debug("Closing JMS connection.");
+					}
+					connection.close();
+				}
+			} catch (Exception e) {
+			}
 		}
 	}
 

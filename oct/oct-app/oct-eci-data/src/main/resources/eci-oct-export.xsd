@@ -6,6 +6,7 @@
 		XML schema for the export of ECI initiative data to OCT.
 		
 		History:
+		16/02/2012 - initiative registration number: moved from long to String.
 		07/11/2011 - initial version created by Martin Keschenau.
 		</xs:documentation>
 	</xs:annotation>
@@ -36,7 +37,7 @@
 			<xs:element name="organisers" type="organiserListType"/>
 			<xs:element name="languages" type="languageListType"/>
 		</xs:sequence>
-		<xs:attribute name="registrationNumber" type="xs:long" use="required">
+		<xs:attribute name="registrationNumber" type="xs:string" use="required">
 			<xs:annotation>
 				<xs:documentation>Commission registration number of this initiative.</xs:documentation>
 			</xs:annotation>

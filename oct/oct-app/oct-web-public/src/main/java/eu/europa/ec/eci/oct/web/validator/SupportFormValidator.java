@@ -1,7 +1,9 @@
 package eu.europa.ec.eci.oct.web.validator;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 
 import eu.europa.ec.eci.oct.entities.PropertyType;
@@ -24,6 +26,8 @@ import eu.europa.ec.eci.oct.webcommons.validator.BaseValidator;
  * 
  */
 public class SupportFormValidator extends BaseValidator {
+
+	Logger logger = Logger.getLogger(SupportFormValidator.class);
 
 	public SupportFormValidator(MessageSourceAware messageSource) {
 		super(messageSource);
@@ -55,7 +59,7 @@ public class SupportFormValidator extends BaseValidator {
 		SupportFormBean bean = (SupportFormBean) target;
 		if (!captchaService.validateCaptcha(captchaId, bean.getCaptcha())) {
 			errors.rejectValue("captcha", "oct.error.wrongcaptcha", "The security code is wrong! Please try again.");
-		}		
+		}
 	}
 
 	/**
@@ -130,9 +134,18 @@ public class SupportFormValidator extends BaseValidator {
 					errors.rejectValue(errorPath, "oct.error.propertytypemismatch", new Object[] { getMessageSource()
 							.getMessage(name) }, "The {0} format is not valid!");
 				} else {
-					// apply validation rules for given property
-					Set<ValidationRule> validationRules = propertyValue.getProperty().getProperty().getRules();
+					@SuppressWarnings("rawtypes")
+					Set<ValidationRule> validationRules = new LinkedHashSet<ValidationRule>();
+
+					// get global rules for the given property
+					validationRules.addAll(propertyValue.getProperty().getProperty().getRules());
+
+					// get local rules for the given country property
+					validationRules.addAll(propertyValue.getProperty().getRules());
+
+					// apply all validation rules
 					for (ValidationRule validationRule : validationRules) {
+						@SuppressWarnings("unchecked")
 						Set<RuleParameter> parameters = validationRule.getRuleParameters();
 
 						// for each rule, invoke needed validation method

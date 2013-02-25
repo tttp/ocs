@@ -22,6 +22,10 @@ public class CountryTypePropertyEditor extends PropertyEditorSupport {
 
 	@Override
 	public void setAsText(String code) throws IllegalArgumentException {
+		if (code == null || "".equals(code) || "-1".equals(code)) {
+			return;
+		}
+
 		try {
 			Country value = sysManager.getCountryByCode(code);
 			setValue(value);

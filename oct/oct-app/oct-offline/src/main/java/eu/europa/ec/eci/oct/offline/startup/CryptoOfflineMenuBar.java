@@ -78,7 +78,7 @@ public class CryptoOfflineMenuBar extends JMenuBar {
             Locale currentLocale = localizationProvider.getCurrentLocale();
 
             final JComboBox comboBox = new JComboBox();
-            comboBox.setMaximumSize(new Dimension(100, 20));
+            comboBox.setMaximumSize(new Dimension(100, 23));
             final List<Locale> supportedLocales = localizationProvider.getSupportedLocales();
             int defaultSelectedIndex = 0;
             for (int i = 0, availableLocalesLength = supportedLocales.size(); i < availableLocalesLength; i++) {

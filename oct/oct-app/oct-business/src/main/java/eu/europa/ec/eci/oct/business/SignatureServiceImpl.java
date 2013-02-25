@@ -107,20 +107,20 @@ public class SignatureServiceImpl implements SignatureService {
 
 			byte[] signatureHash = crypto.fingerprint(serialize(signature));
 			signature.setFingerprint(new String(Hex.encodeHex(signatureHash)));
-			
+
 			signature.setUuid(UUID.randomUUID().toString());
-			encryptSignatureData(signature, crypto); 
-			daof.getSignatureDAO().insertSignature(signature); 		
+			encryptSignatureData(signature, crypto);
+			daof.getSignatureDAO().insertSignature(signature);
 
 			return signature;
 		} catch (PersistenceException e) {
-			try{
+			try {
 				checkForDuplicate(signature);
-			}catch (DuplicateSignatureException de) {
-				logger.error("Duplicate signature detected", e);				
+			} catch (DuplicateSignatureException de) {
+				logger.error("Duplicate signature detected", e);
 				throw de;
 			}
-			
+
 			logger.error("There was a problem persisting signature. The message was: " + e.getLocalizedMessage(), e);
 			throw new OCTException("There was a problem persisting signature", e);
 		}
@@ -128,23 +128,22 @@ public class SignatureServiceImpl implements SignatureService {
 
 	private void encryptSignatureData(Signature signature, CryptographyService crypto) throws OCTCryptoException {
 		logger.debug("Encrypting signature data...");
-		
+
 		for (PropertyValue propertyValue : signature.getPropertyValues()) {
 			String encryptedValue = new String(Hex.encodeHex(crypto.encrypt(propertyValue.getValue())));
 			propertyValue.setValue(encryptedValue);
 		}
 	}
 
-	private void checkForDuplicate(Signature signature)
-			throws DuplicateSignatureException, OCTCryptoException, OCTException {
+	private void checkForDuplicate(Signature signature) throws DuplicateSignatureException, OCTCryptoException,
+			OCTException {
 		logger.debug("Checking whether signature exists...");
 
-		
 		try {
 			daof.getSignatureDAO().findByFingerprint(signature);
 			// if NoResultPersistenceException caught then duplicate found
-			throw new DuplicateSignatureException("Duplicate of signature with fingerprint " +
-					signature.getFingerprint() + " exists");
+			throw new DuplicateSignatureException("Duplicate of signature with fingerprint "
+					+ signature.getFingerprint() + " exists");
 		} catch (NoResultPersistenceException e) {
 			// expected!
 			return;
@@ -244,7 +243,7 @@ public class SignatureServiceImpl implements SignatureService {
 	@Override
 	public List<ExportPropertyBean> getPropertiesForSignatures(List<Long> ids) throws OCTException {
 		if (logger.isEnabledFor(Level.INFO)) {
-			logger.info("Getting properties for export for the following signature ids: " + ids.toString());
+			logger.info("Getting properties for export for " + (ids == null ? "0" : ids.size()) + " signature ids...");
 		}
 		try {
 			List<ExportPropertyBean> result = daof.getSignatureDAO().getPropertiesForSignatures(ids);
@@ -263,6 +262,9 @@ public class SignatureServiceImpl implements SignatureService {
 
 	@Override
 	public void deleteAllSignatures() throws OCTException {
+		if (logger.isEnabledFor(Level.INFO)) {
+			logger.info("Deleting all signatures...");
+		}
 		try {
 			daof.getSignatureDAO().deleteAllSignatures();
 		} catch (PersistenceException e) {

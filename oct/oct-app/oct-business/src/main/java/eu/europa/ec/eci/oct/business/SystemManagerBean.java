@@ -154,7 +154,7 @@ public class SystemManagerBean implements SystemManager {
 			return result;
 		} catch (PersistenceException e) {
 			logger.error(
-					"There was a roblem while retrieving the country for code " + code + ". Message: "
+					"There was a problem while retrieving the country for code " + code + ". Message: "
 							+ e.getLocalizedMessage(), e);
 			throw new OCTException("Getting property groups for " + code + " failed.", e);
 		}

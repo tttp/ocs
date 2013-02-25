@@ -55,9 +55,9 @@ public class ExportController extends HttpGetAndPostController<ExportBean> {
 			model.addAttribute("startDate", DateUtils.formatDate(bean.getStartDate()));
 			model.addAttribute("endDate", DateUtils.formatDate(bean.getEndDate()));
 		} else {
-			resetDeletionFields(bean);			
+			resetDeletionFields(bean);
 		}
-		
+
 		bean.getCountries().addAll(systemManager.getAllCountries());
 
 		model.addAttribute("form", bean);
@@ -80,28 +80,59 @@ public class ExportController extends HttpGetAndPostController<ExportBean> {
 		if (request.getParameter("exportAllAction") != null) {
 			export(null);
 			this.addSuccessMessage(request, model, "oct.export.success", null);
-			
+
 		} else if (request.getParameter("countAction") != null) {
 			processCountAction(model, (ExportBean) bean, result, request, response);
 		} else if (request.getParameter("exportAction") != null) {
-			ExportParametersBean params = new ExportParametersBean();
-			params.setStartDate(bean.getStartDate());
-			params.setEndDate(bean.getEndDate());
-			params.setCountryId(bean.getCountry() == null ? -1 : bean.getCountry().getId());
-			params.setCountryCode(bean.getCountry() == null ? "" : bean.getCountry().getCode());
-			export(params);
+			List<ExportParametersBean> exportBeans = new ArrayList<ExportParametersBean>();
+			List<InitiativeDescription> descriptions = initiativeService.getDescriptions();
+
+			boolean exportAllCountries = bean.getCountry() == null;
+			List<Country> countries = new ArrayList<Country>();
+			if (exportAllCountries) {
+				countries = systemManager.getAllCountries();
+			}
+
+			if (exportAllCountries) {
+				for (Country country : countries) {
+					for (InitiativeDescription description : descriptions) {
+						ExportParametersBean params = new ExportParametersBean();
+						params.setStartDate(bean.getStartDate());
+						params.setEndDate(bean.getEndDate());
+						params.setCountryId(country.getId());
+						params.setCountryCode(country.getCode());
+						params.setDescriptionLanguageId(description.getId());
+						params.setDescriptionLanguageCode(description.getLanguage().getCode());
+
+						exportBeans.add(params);
+					}
+				}
+			} else {
+				for (InitiativeDescription description : descriptions) {
+					ExportParametersBean params = new ExportParametersBean();
+					params.setStartDate(bean.getStartDate());
+					params.setEndDate(bean.getEndDate());
+					params.setCountryId(bean.getCountry() == null ? -1 : bean.getCountry().getId());
+					params.setCountryCode(bean.getCountry() == null ? "" : bean.getCountry().getCode());
+					params.setDescriptionLanguageId(description.getId());
+					params.setDescriptionLanguageCode(description.getLanguage().getCode());
+
+					exportBeans.add(params);
+				}
+			}
+			export(exportBeans);
 			this.addSuccessMessage(request, model, "oct.export.success", null);
-			
+
 		} else if (request.getParameter("deleteSignatureAction") != null) {
 			for (SignatureId sigId : bean.getSignatureIds()) {
-				if(!StringUtils.isEmpty(sigId.getToken())||sigId.getDate()!=null){
+				if (!StringUtils.isEmpty(sigId.getToken()) || sigId.getDate() != null) {
 					model.addAttribute("delete", true);
 					break;
 				}
 			}
-			
+
 		} else if (request.getParameter("confirmDeleteAction") != null) {
-			List<SignatureId> sigResult = processDeleteSignatureAction(model, bean, result, request, response);			
+			List<SignatureId> sigResult = processDeleteSignatureAction(model, bean, result, request, response);
 			model.addAttribute("sigDeletionResult", sigResult);
 			model.addAttribute("afterDeletion", true);
 			resetDeletionFields(bean);
@@ -110,10 +141,10 @@ public class ExportController extends HttpGetAndPostController<ExportBean> {
 		return super.doGet(model, request, response);
 	}
 
-	private void export(ExportParametersBean params) throws OCTException {
+	private void export(List<ExportParametersBean> params) throws OCTException {
 		final List<ExportParametersBean> exportBeans = new ArrayList<ExportParametersBean>();
 		if (params == null) {
-			logger.info("Starting export for all countries...");
+			logger.debug("Starting export for all countries...");
 			List<InitiativeDescription> descriptions = initiativeService.getDescriptions();
 			for (Country country : systemManager.getAllCountries()) {
 				for (InitiativeDescription description : descriptions) {
@@ -127,8 +158,8 @@ public class ExportController extends HttpGetAndPostController<ExportBean> {
 				}
 			}
 		} else {
-			logger.info("Starting export for selected country only.");
-			exportBeans.add(params);
+			logger.debug("Starting export for selected country only.");
+			exportBeans.addAll(params);
 		}
 		exportService.export(exportBeans);
 	}
@@ -189,7 +220,7 @@ public class ExportController extends HttpGetAndPostController<ExportBean> {
 					sigResult.add(sigId);
 				}
 			} else {
-				if(sigId.getDate()!=null){
+				if (sigId.getDate() != null) {
 					sigId.setDeletionStatus(DeletionStatus.TOKEN_NOT_PROVIDED);
 					sigResult.add(sigId);
 				}
@@ -198,7 +229,6 @@ public class ExportController extends HttpGetAndPostController<ExportBean> {
 
 		return sigResult;
 	}
-
 
 	private int getTotalSignatures(List<SignatureCountPerCountry> counts) {
 		int result = 0;

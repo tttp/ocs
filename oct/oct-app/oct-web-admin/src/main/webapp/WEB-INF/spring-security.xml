@@ -14,9 +14,9 @@
 		<security:intercept-url pattern="/error.do" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		
 		<security:intercept-url pattern="/*.do" access="ROLE_ADMIN" />
-		<security:logout logout-success-url="/index.do"/>
+		<security:logout success-handler-ref="logoutSuccessHandler"/>
 		
-		<security:session-management invalid-session-url="/login.do" session-authentication-strategy-ref="sessionAuthenticationStrategy" />
+		<security:session-management invalid-session-url="/login.do" session-fixation-protection="newSession" />
 	</security:http>
 	
 	<security:authentication-manager alias="authenticationManager">
@@ -29,7 +29,7 @@
 	</bean>
 
 	<bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
-
+	
 	<bean id="loginUrlAuthenticationEntryPoint" class=" eu.europa.ec.eci.oct.webcommons.security.OctLoginUrlAuthenticationEntryPoint">
 		<property name="loginFormUrl" value="/login.do" />
 	</bean>
@@ -55,4 +55,6 @@
 	</bean>
 
 	<bean id="octAuthentificationProvider" class="eu.europa.ec.eci.oct.admin.security.AdminAuthenticationProvider" />
+	
+	<bean id="logoutSuccessHandler" class="eu.europa.ec.eci.oct.webcommons.security.OctLogoutSuccessHandler" />
 </beans>

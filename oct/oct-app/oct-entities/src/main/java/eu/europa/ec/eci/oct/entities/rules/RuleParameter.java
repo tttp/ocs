@@ -1,16 +1,18 @@
 package eu.europa.ec.eci.oct.entities.rules;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 
-@Entity
-@Table(name = "OCT_RULE_PARAM")
-public class RuleParameter {
+@MappedSuperclass
+public abstract class RuleParameter<R extends ValidationRule> implements Serializable {
+
+	private static final long serialVersionUID = 5963818897707358723L;
 
 	@Id
 	private Long id;
@@ -23,7 +25,7 @@ public class RuleParameter {
 	private String value;
 
 	@ManyToOne
-	private ValidationRule rule;
+	private R rule;
 
 	public Long getId() {
 		return id;
@@ -31,14 +33,6 @@ public class RuleParameter {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public ValidationRule getRule() {
-		return rule;
-	}
-
-	public void setRule(ValidationRule rule) {
-		this.rule = rule;
 	}
 
 	public void setParameterType(RuleParameterType parameterType) {
@@ -55,6 +49,14 @@ public class RuleParameter {
 
 	public String getValue() {
 		return value;
+	}
+
+	public void setRule(R rule) {
+		this.rule = rule;
+	}
+
+	public R getRule() {
+		return rule;
 	}
 
 }

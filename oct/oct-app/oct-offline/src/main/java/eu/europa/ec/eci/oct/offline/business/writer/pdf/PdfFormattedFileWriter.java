@@ -7,6 +7,7 @@ import eu.europa.ec.eci.oct.offline.business.DecryptConstants;
 import eu.europa.ec.eci.oct.offline.business.writer.FormattedFileWriter;
 import eu.europa.ec.eci.oct.offline.business.writer.pdf.converter.CountrySupportFormConverter;
 import eu.europa.ec.eci.oct.offline.business.writer.pdf.model.PdfSupportForm;
+import eu.europa.ec.eci.oct.offline.support.localization.UTF8Control;
 import eu.europa.ec.eci.oct.offline.support.log.OfflineCryptoToolLogger;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -48,7 +49,12 @@ public class PdfFormattedFileWriter implements FormattedFileWriter {
             Map<String, Object> parameters = new HashMap<String, Object>();
 
             String countryCode = supportForm.getForCountry();
-            parameters.put(JRParameter.REPORT_LOCALE, new Locale(countryCode, countryCode));
+
+            //pass the resource bundle to be used as a parameter. Specifying it in teh jrxml file
+            // will cause the resource bundle to be loaded without an UTF8 control and encoding problems appear
+            List<Locale> localeList = PdfTranslations.getAvailableLocalesByCountryCode(countryCode);
+            ResourceBundle resourceBundle = getResourceBundleByLocales(localeList);
+            parameters.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
 
             JasperReport pdfJasperReport = JasperReportProvider.get(JasperReportProvider.STATEMENT_OF_SUPPORT);
 
@@ -87,6 +93,22 @@ public class PdfFormattedFileWriter implements FormattedFileWriter {
 
             throw new DataException("Unable to write the output file, ex: " + e.getClass().getName() + " -> " + e.getMessage(), e);
         }
+    }
+
+    private ResourceBundle getResourceBundleByLocales(List<Locale> localeList) {
+        for (Locale locale : localeList) {
+            try {
+                ResourceBundle resourceBundle = ResourceBundle.getBundle("reports/translations/report-translations", locale, new UTF8Control());
+                if(resourceBundle.getLocale().getLanguage().equals(locale.getLanguage())) {
+                    // a matching resource bundle has been found
+                    return resourceBundle;
+                }
+            } catch (Exception e) {
+                //ignore it for now
+            }
+        }
+        //as a default, load the english locale..
+        return ResourceBundle.getBundle("reports/translations/report-translations", Locale.ENGLISH, new UTF8Control());
     }
 
     public Object getFontMap() {

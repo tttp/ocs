@@ -38,7 +38,7 @@ public class LocalizationProvider {
         Locale[] locales = Locale.getAvailableLocales();
         for (Locale locale : locales) {
             try {
-                ResourceBundle resourceBundle = ResourceBundle.getBundle("messages/messages", locale);
+                ResourceBundle resourceBundle = ResourceBundle.getBundle("messages/messages", locale, new UTF8Control());
                 if(resourceBundle.getLocale().equals(locale)) {
                     supportedLocales.add(locale);
                 }
@@ -71,7 +71,7 @@ public class LocalizationProvider {
     }
 
     public Locale getDefaultLocale() {
-        //include logic for saving the locale on exiting the tool and loading it at start-up
+        //include logic for saving the locale on change and loading it at start-up
         return Locale.ENGLISH;
     }
 

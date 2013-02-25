@@ -101,5 +101,4 @@
 		<local>eu.europa.ec.eci.oct.business.api.InitiativeService</local>
 		<ejb-link>oct-business.jar#InitiativeServiceBean</ejb-link>
 	</ejb-local-ref>
-
 </web-app>

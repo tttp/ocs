@@ -1,18 +1,9 @@
-# --------------------------------------------------------
-# Host:                         localhost
-# Server version:               5.5.16
-# Server OS:                    Win64
-# HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-12-15 13:51:51
-# --------------------------------------------------------
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-# Dumping structure for table oct.oct_account
-CREATE TABLE IF NOT EXISTS `oct_account` (
+CREATE TABLE IF NOT EXISTS `OCT_ACCOUNT` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `passHash` varchar(255) NOT NULL,
   `userName` varchar(255) NOT NULL,
@@ -21,8 +12,7 @@ CREATE TABLE IF NOT EXISTS `oct_account` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 
-# Dumping structure for table oct.oct_contact
-CREATE TABLE IF NOT EXISTS `oct_contact` (
+CREATE TABLE IF NOT EXISTS `OCT_CONTACT` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `insertDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updateDate` timestamp,
@@ -33,16 +23,11 @@ CREATE TABLE IF NOT EXISTS `oct_contact` (
   `system_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK785287C1AAA9D6D7` (`system_id`),
-  CONSTRAINT `FK785287C1AAA9D6D7` FOREIGN KEY (`system_id`) REFERENCES `oct_system_prefs` (`id`)
+  CONSTRAINT `FK785287C1AAA9D6D7` FOREIGN KEY (`system_id`) REFERENCES `OCT_SYSTEM_PREFS` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table oct.oct_contact: ~0 rows (approximately)
-/*!40000 ALTER TABLE `oct_contact` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oct_contact` ENABLE KEYS */;
 
-
-# Dumping structure for table oct.oct_country
-CREATE TABLE IF NOT EXISTS `oct_country` (
+CREATE TABLE IF NOT EXISTS `OCT_COUNTRY` (
   `id` bigint(20) NOT NULL,
   `code` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -51,9 +36,8 @@ CREATE TABLE IF NOT EXISTS `oct_country` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table oct.oct_country: ~27 rows (approximately)
-/*!40000 ALTER TABLE `oct_country` DISABLE KEYS */;
-INSERT INTO `oct_country` (`id`, `code`, `name`) VALUES
+/*!40000 ALTER TABLE `OCT_COUNTRY` DISABLE KEYS */;
+INSERT INTO `OCT_COUNTRY` (`id`, `code`, `name`) VALUES
 	(1, 'pl', 'oct.country.pl'),
 	(2, 'de', 'oct.country.de'),
 	(3, 'uk', 'oct.country.uk'),
@@ -81,22 +65,20 @@ INSERT INTO `oct_country` (`id`, `code`, `name`) VALUES
 	(26, 'ie', 'oct.country.ie'),
 	(27, 'se', 'oct.country.se'),
 	(28, 'it', 'oct.country.it');
-/*!40000 ALTER TABLE `oct_country` ENABLE KEYS */;
+/*!40000 ALTER TABLE `OCT_COUNTRY` ENABLE KEYS */;
 
 
-# Dumping structure for table oct.oct_country_lang
-CREATE TABLE IF NOT EXISTS `oct_country_lang` (
+CREATE TABLE IF NOT EXISTS `OCT_COUNTRY_LANG` (
   `COUNTRY_ID` bigint(20) NOT NULL,
   `LANGUAGE_ID` bigint(20) NOT NULL,
   PRIMARY KEY (`COUNTRY_ID`,`LANGUAGE_ID`),
   KEY `FKA402F1F6C25D8AE4` (`COUNTRY_ID`),
   KEY `FKA402F1F6513A6710` (`LANGUAGE_ID`),
-  CONSTRAINT `FKA402F1F6513A6710` FOREIGN KEY (`LANGUAGE_ID`) REFERENCES `oct_lang` (`id`),
-  CONSTRAINT `FKA402F1F6C25D8AE4` FOREIGN KEY (`COUNTRY_ID`) REFERENCES `oct_country` (`id`)
+  CONSTRAINT `FKA402F1F6513A6710` FOREIGN KEY (`LANGUAGE_ID`) REFERENCES `OCT_LANG` (`id`),
+  CONSTRAINT `FKA402F1F6C25D8AE4` FOREIGN KEY (`COUNTRY_ID`) REFERENCES `OCT_COUNTRY` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping structure for table oct.oct_country_property
-CREATE TABLE IF NOT EXISTS `oct_country_property` (
+CREATE TABLE IF NOT EXISTS `OCT_COUNTRY_PROPERTY` (
   `id` bigint(20) NOT NULL,
   `required` tinyint(4) DEFAULT NULL,
   `country_id` bigint(20) DEFAULT NULL,
@@ -104,13 +86,12 @@ CREATE TABLE IF NOT EXISTS `oct_country_property` (
   PRIMARY KEY (`id`),
   KEY `FK49CFF1DD86EFF898` (`property_id`),
   KEY `FK49CFF1DDC25D8AE4` (`country_id`),
-  CONSTRAINT `FK49CFF1DDC25D8AE4` FOREIGN KEY (`country_id`) REFERENCES `oct_country` (`id`),
-  CONSTRAINT `FK49CFF1DD86EFF898` FOREIGN KEY (`property_id`) REFERENCES `oct_property` (`id`)
+  CONSTRAINT `FK49CFF1DDC25D8AE4` FOREIGN KEY (`country_id`) REFERENCES `OCT_COUNTRY` (`id`),
+  CONSTRAINT `FK49CFF1DD86EFF898` FOREIGN KEY (`property_id`) REFERENCES `OCT_PROPERTY` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table oct.oct_country_property: ~225 rows (approximately)
-/*!40000 ALTER TABLE `oct_country_property` DISABLE KEYS */;
-INSERT INTO `oct_country_property` (`id`, `required`, `country_id`, `property_id`) VALUES
+/*!40000 ALTER TABLE `OCT_COUNTRY_PROPERTY` DISABLE KEYS */;
+INSERT INTO `OCT_COUNTRY_PROPERTY` (`id`, `required`, `country_id`, `property_id`) VALUES
 	(1, 1, 1, 3),
 	(3, 1, 1, 5),
 	(4, 1, 1, 6),
@@ -336,11 +317,10 @@ INSERT INTO `oct_country_property` (`id`, `required`, `country_id`, `property_id
 	(246, 1, 26, 39),
 	(247, 1, 27, 39),
 	(248, 1, 28, 39);
-/*!40000 ALTER TABLE `oct_country_property` ENABLE KEYS */;
+/*!40000 ALTER TABLE `OCT_COUNTRY_PROPERTY` ENABLE KEYS */;
 
 
-# Dumping structure for table oct.oct_initiative_desc
-CREATE TABLE IF NOT EXISTS `oct_initiative_desc` (
+CREATE TABLE IF NOT EXISTS `OCT_INITIATIVE_DESC` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `insertDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updateDate` timestamp,
@@ -353,16 +333,11 @@ CREATE TABLE IF NOT EXISTS `oct_initiative_desc` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `language_id` (`language_id`),
   KEY `FK136443A5513A6710` (`language_id`),
-  CONSTRAINT `FK136443A5513A6710` FOREIGN KEY (`language_id`) REFERENCES `oct_lang` (`id`)
+  CONSTRAINT `FK136443A5513A6710` FOREIGN KEY (`language_id`) REFERENCES `OCT_LANG` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table oct.oct_initiative_desc: ~0 rows (approximately)
-/*!40000 ALTER TABLE `oct_initiative_desc` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oct_initiative_desc` ENABLE KEYS */;
 
-
-# Dumping structure for table oct.oct_lang
-CREATE TABLE IF NOT EXISTS `oct_lang` (
+CREATE TABLE IF NOT EXISTS `OCT_LANG` (
   `id` bigint(20) NOT NULL,
   `code` varchar(3) NOT NULL,
   `name` varchar(64) NOT NULL,
@@ -373,9 +348,8 @@ CREATE TABLE IF NOT EXISTS `oct_lang` (
   UNIQUE KEY `display_order` (`display_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table oct.oct_lang: ~23 rows (approximately)
-/*!40000 ALTER TABLE `oct_lang` DISABLE KEYS */;
-INSERT INTO `oct_lang` (`id`, `code`, `name`, `display_order`) VALUES
+/*!40000 ALTER TABLE `OCT_LANG` DISABLE KEYS */;
+INSERT INTO `OCT_LANG` (`id`, `code`, `name`, `display_order`) VALUES
 	(1, 'cs', 'oct.lang.Czech',2),
 	(2, 'da', 'oct.lang.Danish',3),
 	(3, 'de', 'oct.lang.German',4),
@@ -399,10 +373,9 @@ INSERT INTO `oct_lang` (`id`, `code`, `name`, `display_order`) VALUES
 	(21, 'fi', 'oct.lang.Finnish',22),
 	(22, 'sv', 'oct.lang.Swedish',23),
 	(23, 'bg', 'oct.lang.Bulgarian',1);
-/*!40000 ALTER TABLE `oct_lang` ENABLE KEYS */;
+/*!40000 ALTER TABLE `OCT_LANG` ENABLE KEYS */;
 
-# Dumping structure for table oct.oct_property
-CREATE TABLE IF NOT EXISTS `oct_property` (
+CREATE TABLE IF NOT EXISTS `OCT_PROPERTY` (
   `id` bigint(20) NOT NULL,
   `name` varchar(64) NOT NULL,
   `priority` int(11) NOT NULL,
@@ -411,12 +384,11 @@ CREATE TABLE IF NOT EXISTS `oct_property` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `FK789EEE34CBC45847` (`group_id`),
-  CONSTRAINT `FK789EEE34CBC45847` FOREIGN KEY (`group_id`) REFERENCES `oct_property_group` (`id`)
+  CONSTRAINT `FK789EEE34CBC45847` FOREIGN KEY (`group_id`) REFERENCES `OCT_PROPERTY_GROUP` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table oct.oct_property: ~37 rows (approximately)
-/*!40000 ALTER TABLE `oct_property` DISABLE KEYS */;
-INSERT INTO `oct_property` (`id`, `name`, `priority`, `type`, `group_id`) VALUES
+/*!40000 ALTER TABLE `OCT_PROPERTY` DISABLE KEYS */;
+INSERT INTO `OCT_PROPERTY` (`id`, `name`, `priority`, `type`, `group_id`) VALUES
 	(1, 'oct.property.name.at.birth', 96, 'ALPHANUMERIC', 1),
 	(2, 'oct.property.fathers.name', 97, 'ALPHANUMERIC', 1),
 	(3, 'oct.property.address', 89, 'LARGETEXT', 2),
@@ -454,11 +426,10 @@ INSERT INTO `oct_property` (`id`, `name`, `priority`, `type`, `group_id`) VALUES
 	(37, 'oct.property.firstname', 99, 'ALPHANUMERIC', 1),
 	(38, 'oct.property.lastname', 98, 'ALPHANUMERIC', 1),
 	(39, 'oct.property.nationality', 92, 'NATIONALITY', 1);
-/*!40000 ALTER TABLE `oct_property` ENABLE KEYS */;
+/*!40000 ALTER TABLE `OCT_PROPERTY` ENABLE KEYS */;
 
 
-# Dumping structure for table oct.oct_property_group
-CREATE TABLE IF NOT EXISTS `oct_property_group` (
+CREATE TABLE IF NOT EXISTS `OCT_PROPERTY_GROUP` (
   `id` bigint(20) NOT NULL,
   `multichoice` tinyint(4) DEFAULT NULL,
   `name` varchar(64) NOT NULL,
@@ -467,17 +438,15 @@ CREATE TABLE IF NOT EXISTS `oct_property_group` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table oct.oct_property_group: ~3 rows (approximately)
-/*!40000 ALTER TABLE `oct_property_group` DISABLE KEYS */;
-INSERT INTO `oct_property_group` (`id`, `multichoice`, `name`, `priority`) VALUES
+/*!40000 ALTER TABLE `OCT_PROPERTY_GROUP` DISABLE KEYS */;
+INSERT INTO `OCT_PROPERTY_GROUP` (`id`, `multichoice`, `name`, `priority`) VALUES
 	(1, 0, 'oct.group.general', 2),
 	(2, 0, 'oct.group.address', 3),
 	(3, 1, 'oct.group.id', 1);
-/*!40000 ALTER TABLE `oct_property_group` ENABLE KEYS */;
+/*!40000 ALTER TABLE `OCT_PROPERTY_GROUP` ENABLE KEYS */;
 
 
-# Dumping structure for table oct.oct_property_value
-CREATE TABLE IF NOT EXISTS `oct_property_value` (
+CREATE TABLE IF NOT EXISTS `OCT_PROPERTY_VALUE` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `value` text,
   `property_id` bigint(20) DEFAULT NULL,
@@ -485,52 +454,122 @@ CREATE TABLE IF NOT EXISTS `oct_property_value` (
   PRIMARY KEY (`id`),
   KEY `FK7AEF73861BC05E92` (`property_id`),
   KEY `FK7AEF73861D72D746` (`signature_id`),
-  CONSTRAINT `FK7AEF73861BC05E92` FOREIGN KEY (`property_id`) REFERENCES `oct_country_property` (`id`),
-  CONSTRAINT `FK7AEF73861D72D746` FOREIGN KEY (`signature_id`) REFERENCES `oct_signature` (`id`)
+  CONSTRAINT `FK7AEF73861BC05E92` FOREIGN KEY (`property_id`) REFERENCES `OCT_COUNTRY_PROPERTY` (`id`),
+  CONSTRAINT `FK7AEF73861D72D746` FOREIGN KEY (`signature_id`) REFERENCES `OCT_SIGNATURE` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table oct.oct_property_value: ~0 rows (approximately)
-/*!40000 ALTER TABLE `oct_property_value` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oct_property_value` ENABLE KEYS */;
 
-
-# Dumping structure for table oct.oct_rule
-CREATE TABLE IF NOT EXISTS `oct_rule` (
+CREATE TABLE IF NOT EXISTS `OCT_GLOBAL_RULE` (
   `id` bigint(20) NOT NULL,
   `ruleType` varchar(255) DEFAULT NULL,
   `property_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK7B76B6DB86EFF898` (`property_id`),
-  CONSTRAINT `FK7B76B6DB86EFF898` FOREIGN KEY (`property_id`) REFERENCES `oct_property` (`id`)
+  CONSTRAINT `FK7B76B6DB86EFF898` FOREIGN KEY (`property_id`) REFERENCES `OCT_PROPERTY` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table oct.oct_rule: ~1 rows (approximately)
-/*!40000 ALTER TABLE `oct_rule` DISABLE KEYS */;
-INSERT INTO `oct_rule` (`id`, `ruleType`, `property_id`) VALUES
+/*!40000 ALTER TABLE `OCT_GLOBAL_RULE` DISABLE KEYS */;
+INSERT INTO `OCT_GLOBAL_RULE` (`id`, `ruleType`, `property_id`) VALUES
 	(1, 'RANGE', 9);
-/*!40000 ALTER TABLE `oct_rule` ENABLE KEYS */;
+/*!40000 ALTER TABLE `OCT_GLOBAL_RULE` ENABLE KEYS */;
 
 
-# Dumping structure for table oct.oct_rule_param
-CREATE TABLE IF NOT EXISTS `oct_rule_param` (
+CREATE TABLE IF NOT EXISTS `OCT_GLOBAL_RULE_PARAM` (
   `id` bigint(20) NOT NULL,
   `parameterType` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   `rule_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK20AD6A09D523D828` (`rule_id`),
-  CONSTRAINT `FK20AD6A09D523D828` FOREIGN KEY (`rule_id`) REFERENCES `oct_rule` (`id`)
+  CONSTRAINT `FK20AD6A09D523D828` FOREIGN KEY (`rule_id`) REFERENCES `OCT_GLOBAL_RULE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table oct.oct_rule_param: ~1 rows (approximately)
-/*!40000 ALTER TABLE `oct_rule_param` DISABLE KEYS */;
-INSERT INTO `oct_rule_param` (`id`, `parameterType`, `value`, `rule_id`) VALUES
+/*!40000 ALTER TABLE `OCT_GLOBAL_RULE_PARAM` DISABLE KEYS */;
+INSERT INTO `OCT_GLOBAL_RULE_PARAM` (`id`, `parameterType`, `value`, `rule_id`) VALUES
 	(1, 'MIN', '16y', 1);
-/*!40000 ALTER TABLE `oct_rule_param` ENABLE KEYS */;
+/*!40000 ALTER TABLE `OCT_GLOBAL_RULE_PARAM` ENABLE KEYS */;
 
 
-# Dumping structure for table oct.oct_signature
-CREATE TABLE IF NOT EXISTS `oct_signature` (
+CREATE TABLE IF NOT EXISTS `oct_local_rule` (
+	`id` BIGINT(20) NOT NULL,
+	`ruleType` VARCHAR(255) NULL DEFAULT NULL,
+	`countryProperty_id` BIGINT(20) NULL DEFAULT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `FK7B7AA6DB8C2F898` (`countryProperty_id`),
+	CONSTRAINT `FK7B7AA6DB8C2F898` FOREIGN KEY (`countryProperty_id`) REFERENCES `oct_country_property` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*!40000 ALTER TABLE `oct_local_rule` DISABLE KEYS */;
+INSERT INTO `oct_local_rule` (`id`, `ruleType`, `countryProperty_id`) VALUES
+	(2, 'REGEXP', 26),
+	(3, 'REGEXP', 27),
+	(5, 'REGEXP', 83),
+	(6, 'REGEXP', 82),
+	(7, 'REGEXP', 84),
+	(8, 'REGEXP', 106),
+	(9, 'REGEXP', 108),
+	(12, 'REGEXP', 6),
+	(14, 'REGEXP', 15),
+	(15, 'REGEXP', 16),
+	(16, 'REGEXP', 17),
+	(17, 'REGEXP', 14),
+	(21, 'REGEXP', 64),
+	(22, 'REGEXP', 65),
+	(23, 'REGEXP', 66),
+	(24, 'REGEXP', 74),
+	(25, 'REGEXP', 155),
+	(26, 'REGEXP', 156),
+	(27, 'REGEXP', 157),
+	(28, 'REGEXP', 158),
+	(29, 'REGEXP', 159),
+	(30, 'REGEXP', 160),
+	(31, 'REGEXP', 161),
+	(32, 'REGEXP', 162),
+	(33, 'REGEXP', 164);
+/*!40000 ALTER TABLE `oct_local_rule` ENABLE KEYS */;
+
+
+CREATE TABLE IF NOT EXISTS `oct_local_rule_param` (
+	`id` BIGINT(20) NOT NULL,
+	`parameterType` VARCHAR(255) NULL DEFAULT NULL,
+	`value` VARCHAR(255) NULL DEFAULT NULL,
+	`rule_id` BIGINT(20) NULL DEFAULT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `FK20ADDC09D5233828` (`rule_id`),
+	CONSTRAINT `FK20ADDC09D5233828` FOREIGN KEY (`rule_id`) REFERENCES `oct_local_rule` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*!40000 ALTER TABLE `oct_local_rule_param` DISABLE KEYS */;
+INSERT INTO `oct_local_rule_param` (`id`, `parameterType`, `value`, `rule_id`) VALUES
+	(2, 'REGEXP', '[a-z][0-9]{7}', 2),
+	(3, 'REGEXP', '[0-9]{7}|[0-9]{8}', 3),
+	(5, 'REGEXP', '([0-9]{6}[a-z]{2})|([a-z]{2}\-[a-z][0-9]{6})|([a-z]{2}\-[a-z]{2}[0-9]{6})|([a-z]{2}\-[a-z]{3}[0-9]{6})|([a-z]{2}[0-9]{6})', 5),
+	(6, 'REGEXP', '([a-z]{2}[0-9]{6})|([a-z]{2}[0-9]{7})', 6),
+	(7, 'REGEXP', '[0-9]\-[0-9]{6}\-[0-9]{4}', 7),
+	(8, 'REGEXP', '[0-9]{11}', 8),
+	(9, 'REGEXP', '[0-9]{11}|[0-9]{13}', 9),
+	(12, 'REGEXP', '[0-9]{2}((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))[0-9]{5}', 12),
+	(14, 'REGEXP', '[0-9]{3}((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))[0-9]{6}', 14),
+	(15, 'REGEXP', '[0-9]{3}((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))[0-9]{6}', 15),
+	(16, 'REGEXP', '[0-9]{3}((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))[0-9]{6}', 16),
+	(17, 'REGEXP', '[a-z]{2}[0-9]{6}', 17),
+	(21, 'REGEXP', '([0-9]){2}([a-z] ){2}([0-9]){4}[0-9]', 21),
+	(22, 'REGEXP', '[0-9]{7}|[0-9]{12}', 22),
+	(23, 'REGEXP', '[0-9]{10}', 23),
+	(24, 'REGEXP', '([a-z]){2}([0-9]){4}[0-9]', 24),
+	(25, 'REGEXP', '([0-9]{4})|([0-9]{2}\-[0-9]\(((?=.)(?i)M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX]))\))', 25),
+	(26, 'REGEXP', '[0-9]{2}\-[0-9]{2}', 26),
+	(27, 'REGEXP', '([0-9]{2}\.[0-9]{3})|([0-9]{3}\.[0-9]{3})', 27),
+	(28, 'REGEXP', '[0-9]{9}', 28),
+	(29, 'REGEXP', '[0-9]{6}', 29),
+	(30, 'REGEXP', '([0-9]){5}\-[a-z][0-9]', 30),
+	(31, 'REGEXP', '([a-z]){2}([0-9]){4}[0-9]', 31),
+	(32, 'REGEXP', '[0-9]{6}', 32),
+	(33, 'REGEXP', '([a-z0-9]{10,17})|[0-9]{10}', 33);
+/*!40000 ALTER TABLE `oct_local_rule_param` ENABLE KEYS */;
+
+
+CREATE TABLE IF NOT EXISTS `OCT_SIGNATURE` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `insertDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updateDate` timestamp,
@@ -544,17 +583,12 @@ CREATE TABLE IF NOT EXISTS `oct_signature` (
   UNIQUE KEY `fingerprint` (`fingerprint`),  
   KEY `FK64E94196933581F` (`countryToSignFor_id`),
   KEY `FK64E94198EFFF971` (`description_id`),
-  CONSTRAINT `FK64E94196933581F` FOREIGN KEY (`countryToSignFor_id`) REFERENCES `oct_country` (`id`),
-  CONSTRAINT `FK64E94198EFFF971` FOREIGN KEY (`description_id`) REFERENCES `oct_initiative_desc` (`id`)
+  CONSTRAINT `FK64E94196933581F` FOREIGN KEY (`countryToSignFor_id`) REFERENCES `OCT_COUNTRY` (`id`),
+  CONSTRAINT `FK64E94198EFFF971` FOREIGN KEY (`description_id`) REFERENCES `OCT_INITIATIVE_DESC` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table oct.oct_signature: ~0 rows (approximately)
-/*!40000 ALTER TABLE `oct_signature` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oct_signature` ENABLE KEYS */;
 
-
-# Dumping structure for table oct.oct_system_prefs
-CREATE TABLE IF NOT EXISTS `oct_system_prefs` (
+CREATE TABLE IF NOT EXISTS `OCT_SYSTEM_PREFS` (
   `id` bigint(20) NOT NULL,
   `insertDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updateDate` timestamp,
@@ -578,20 +612,19 @@ CREATE TABLE IF NOT EXISTS `oct_system_prefs` (
   UNIQUE KEY `registrationNumber` (`registrationNumber`),
   KEY `FK6BCFAD5F95B49F2` (`defaultDescription_id`),
   KEY `FK6BCFAD5F2F9FCE2F` (`defaultLanguage_id`),
-  CONSTRAINT `FK6BCFAD5F2F9FCE2F` FOREIGN KEY (`defaultLanguage_id`) REFERENCES `oct_lang` (`id`),
-  CONSTRAINT `FK6BCFAD5F95B49F2` FOREIGN KEY (`defaultDescription_id`) REFERENCES `oct_initiative_desc` (`id`)
+  CONSTRAINT `FK6BCFAD5F2F9FCE2F` FOREIGN KEY (`defaultLanguage_id`) REFERENCES `OCT_LANG` (`id`),
+  CONSTRAINT `FK6BCFAD5F95B49F2` FOREIGN KEY (`defaultDescription_id`) REFERENCES `OCT_INITIATIVE_DESC` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TRIGGER system_prefs_ts BEFORE INSERT ON oct_system_prefs
+CREATE TRIGGER system_prefs_ts BEFORE INSERT ON OCT_SYSTEM_PREFS
 FOR EACH ROW set new.updateDate = now();
 
-# Dumping data for table oct.oct_system_prefs: ~1 rows (approximately)
-/*!40000 ALTER TABLE `oct_system_prefs` DISABLE KEYS */;
-INSERT INTO `oct_system_prefs` (`id`, `CERT_CONTENT_TYPE`, `CERT_FILE_NAME`, `collecting`, `commissionRegisterUrl`, `eciDataTimestamp`, `FILE_STORE`, `publicKey`, `registrationDate`, `registrationNumber`, `state`, `defaultDescription_id`, `defaultLanguage_id`) VALUES
+/*!40000 ALTER TABLE `OCT_SYSTEM_PREFS` DISABLE KEYS */;
+INSERT INTO `OCT_SYSTEM_PREFS` (`id`, `CERT_CONTENT_TYPE`, `CERT_FILE_NAME`, `collecting`, `commissionRegisterUrl`, `eciDataTimestamp`, `FILE_STORE`, `publicKey`, `registrationDate`, `registrationNumber`, `state`, `defaultDescription_id`, `defaultLanguage_id`) VALUES
 	(1, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 'DEPLOYED', NULL, 6);
-	
-	
-/*!40000 ALTER TABLE `oct_system_prefs` ENABLE KEYS */;
+/*!40000 ALTER TABLE `OCT_SYSTEM_PREFS` ENABLE KEYS */;
+
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
