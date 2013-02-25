@@ -110,7 +110,13 @@ public class SignatoryTypeToPdfTableRowDataConverter {
                     //do translations if needed
                     switch(property) {
                         case COUNTRY:
-                            result.append(PdfTranslations.getCountryNameForCountryCodeInLanguage(propertyValue, countryCode));
+                        	String translatedCountryName = PdfTranslations.getCountryNameForCountryCodeInLanguage(propertyValue, countryCode);
+                        	if (translatedCountryName.startsWith("???")) {
+                        		result.append(propertyValue);
+                        	} else {
+                        		result.append(translatedCountryName);
+                        	}
+                            //result.append(PdfTranslations.getCountryNameForCountryCodeInLanguage(propertyValue, countryCode));
                             break;
                         case NATIONALITY:
                             result.append(PdfTranslations.getNationalityNameForCountryCodeInLanguage(propertyValue, countryCode));

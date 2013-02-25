@@ -140,9 +140,7 @@ table.fields td.v, table.login td.v {
 
 table.fields td.v input, table.fields td.v textarea{
 	font-family: monospace;
-	width: 95%; /* show to Mozilla/Safari/Opera */
-    _width: auto; /* show to IE */
-			
+	width: 95%; 	
 }
 
 table.login td.v input, table.login td.v textarea{
@@ -301,8 +299,17 @@ table.fields td.tab {
 	background-image: url('../images/icon_status.png');
 }
 
+#menu li.manual {
+	background-image: url('../images/icon_usermanual.png');
+}
+
 #menu li.logout {
 	background-image: url('../images/icon_logout.png');
+}
+
+#menu li.itemActive{
+	font-weight: bold;	
+	text-decoration: underline;
 }
 
 #content, #content-login {
@@ -530,6 +537,25 @@ div.clear {
 #home-nav td a:link, #home-nav td a:hover, #home-nav td a:active, #home-nav td a:visited {
 	color: #4EA1D3;
 	text-decoration: underline;
+}
+
+#home-nav h1 {
+	padding-left: 30px;
+	background-position: left center;
+	background-repeat: no-repeat;
+	min-height: 25px;
+}
+
+#home-nav h1.setup {
+	background-image: url("../images/icon_setup.png");
+}
+
+#home-nav h1.export {
+	background-image: url("../images/icon_export.png");
+}
+
+#home-nav h1.systemstatus {
+	background-image: url("../images/icon_status.png");
 }
 
 /* Title styles */

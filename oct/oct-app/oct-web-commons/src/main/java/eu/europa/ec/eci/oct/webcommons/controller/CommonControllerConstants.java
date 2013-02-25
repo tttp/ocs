@@ -32,5 +32,6 @@ public interface CommonControllerConstants {
 	 * cross-site request forgery attacks.
 	 */
 	public static final String REQUEST_PARAM_REQUEST_TOKEN = "oct_request_token";
+	public static final String MODEL_ATTRIBUTE_PATH = "oct_path";
 	
 }

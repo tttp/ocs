@@ -3,11 +3,15 @@
 
 <div id="contry-distribution">
 						<ul>
+							<oct:items>																
 							<c:forEach items="${countsPerCountry}" var="countryCount">
+								<oct:item>
 								<li>
-									<p class="country"><spring:message code="${countryCount.country.name}" /></p>
+									<p class="country"><oct:property><spring:message code="${countryCount.country.name}" /></oct:property></p>
 									<p class="count"><c:out value="${countryCount.count}" /></p>
 								</li>
+								</oct:item>
 							</c:forEach>
+							</oct:items>																
 						</ul>
 					</div>

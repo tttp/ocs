@@ -64,6 +64,12 @@ public class LocalizationMessageProvider {
     }
 
     public String getMessage(String key) {
+        String message = getMessageOrNullString(key);
+
+        return message == null ? "???" + key + "???" : message;
+    }
+
+    public String getMessageOrNullString(String key) {
         String message = localizedMessages.get(key);
 
         //if the message was not found localized, read it from system's default locale messages
@@ -71,7 +77,7 @@ public class LocalizationMessageProvider {
             message = defaultMessages.get(key);
         }
 
-        return message == null ? "???" + key + "???" : message;
+        return message;
     }
 
     public String getMessage(String key, String... args) {

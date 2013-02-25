@@ -14,26 +14,20 @@
 			<p>
 				<spring:message code="oct.s2.welcome" />
 			</p>
-			<p>
-				<spring:message code="oct.s2.intro.1" />
-			</p>
 			
 			<table id="home-nav">
 				<tr>
 					<td>
-						<h1><a href="./systemprefs.do"><spring:message code="oct.menu.setup" /></a></h1>
-						<spring:message code="oct.menu.setup" var="sysPrefs"/>
-						<spring:message code="oct.s2.intro.2" arguments="<a href=./systemprefs.do>${sysPrefs}</a>"/>
+						<h1 class="setup"><a href="./systemprefs.do"><spring:message code="oct.menu.setup" /></a></h1>
+						<spring:message code="oct.s2.intro.2" />
 					</td>
 					<td>
-						<h1><a href="./export.do"><spring:message code="oct.menu.monitor.export" /></a></h1>
-						<spring:message code="oct.menu.monitor.export" var="export"/>
-						<spring:message code="oct.s2.intro.4" arguments="<a href=./export.do>${export}</a>"/>
+						<h1 class="export"><a href="./export.do"><spring:message code="oct.menu.monitor.export" /></a></h1>
+						<spring:message code="oct.s2.intro.4" />
 					</td>
 					<td>
-						<h1><a href="./systemstatus.do"><spring:message code="oct.menu.system.status" /></a></h1>
-						<spring:message code="oct.menu.system.status" var="state"/>
-						<spring:message code="oct.s2.intro.5" arguments="<a href=./systemstatus.do>${state}</a>"/>
+						<h1 class="systemstatus"><a href="./systemstatus.do"><spring:message code="oct.menu.system.status" /></a></h1>
+						<spring:message code="oct.s2.intro.5" />
 					</td>
 				</tr>
 			</table>

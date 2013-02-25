@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="StatementOfSupport-PartB" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" resourceBundle="reports/translations/report-translations">
-	<property name="ireport.zoom" value="1.1000000000000105"/>
-	<property name="ireport.x" value="0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="StatementOfSupport-PartB" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="2" resourceBundle="reports/translations/report-translations">
+	<property name="ireport.zoom" value="2.59374246010003"/>
+	<property name="ireport.x" value="1313"/>
 	<property name="ireport.y" value="0"/>
 	<field name="backingBean" class="eu.europa.ec.eci.oct.offline.business.writer.pdf.model.PdfSupportForm"/>
 	<background>
@@ -11,9 +11,9 @@
 		<band splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="220" splitType="Stretch">
+		<band height="243" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="832" height="30"/>
+				<reportElement x="0" y="25" width="832" height="30"/>
 				<box>
 					<topPen lineWidth="1.5" lineStyle="Solid"/>
 					<leftPen lineWidth="1.5" lineStyle="Solid"/>
@@ -28,7 +28,7 @@
 $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="0" y="81" width="832" height="15" backcolor="#CCCCCC"/>
+				<reportElement mode="Opaque" x="0" y="107" width="832" height="15" backcolor="#CCCCCC"/>
 				<box topPadding="2" leftPadding="10" bottomPadding="1">
 					<leftPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
@@ -39,7 +39,7 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA["<b>4."+$R{report.1.label.webAddress}+"</b> "+$F{backingBean}.getInitiativePublicSiteUrl()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="0" y="96" width="832" height="15" backcolor="#CCCCCC"/>
+				<reportElement mode="Opaque" x="0" y="122" width="832" height="15" backcolor="#CCCCCC"/>
 				<box topPadding="2" leftPadding="10" bottomPadding="1">
 					<leftPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
@@ -50,7 +50,7 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA["<b>5."+$R{report.1.label.titleOfInitiative}+"</b> "+$F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="0" y="111" width="832" height="15" backcolor="#CCCCCC"/>
+				<reportElement mode="Opaque" x="0" y="137" width="832" height="15" backcolor="#CCCCCC"/>
 				<box topPadding="2" leftPadding="10" bottomPadding="1">
 					<leftPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
@@ -61,7 +61,7 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA["<b>6."+$R{report.1.label.subjectMatter}+"</b> "+$F{backingBean}.getInitiativeSubject()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="0" y="126" width="832" height="15" backcolor="#CCCCCC"/>
+				<reportElement mode="Opaque" x="0" y="152" width="832" height="15" backcolor="#CCCCCC"/>
 				<box topPadding="2" leftPadding="10" bottomPadding="1">
 					<leftPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
@@ -72,7 +72,7 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA["<b>7."+$R{report.1.label.mainObjectives}+"</b> "+$F{backingBean}.getInitiativeDescription()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Opaque" x="0" y="141" width="832" height="15" backcolor="#CCCCCC"/>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="167" width="832" height="15" backcolor="#CCCCCC"/>
 				<box topPadding="2" leftPadding="10" bottomPadding="1">
 					<leftPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
@@ -83,7 +83,7 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA["<b>8."+$R{report.1.label.nameOfOrganisers}+"</b> "+$F{backingBean}.getNameOfOrganisers()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Opaque" x="0" y="156" width="832" height="15" backcolor="#CCCCCC"/>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="182" width="832" height="15" backcolor="#CCCCCC"/>
 				<box topPadding="2" leftPadding="10" bottomPadding="1">
 					<leftPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
@@ -94,7 +94,7 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA["<b>9."+$R{report.1.label.contactPersons}+"</b> "+$F{backingBean}.getContactPersons()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Opaque" x="0" y="171" width="832" height="15" backcolor="#CCCCCC"/>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="197" width="832" height="15" backcolor="#CCCCCC"/>
 				<box topPadding="2" leftPadding="10" bottomPadding="1">
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -106,24 +106,24 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA["<b>10."+$R{report.1.label.website}+"</b> "+$F{backingBean}.getInitiativeSiteUrl()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="190" width="832" height="15"/>
+				<reportElement positionType="Float" x="0" y="212" width="832" height="15"/>
 				<box leftPadding="0">
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="8" isBold="true" isUnderline="false"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{report.1.label.toBeCompleted} + " - " + $R{report.1.header.label.mandatoryFields}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="205" width="832" height="15"/>
-				<textElement>
+				<reportElement positionType="Float" x="0" y="227" width="832" height="15"/>
+				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{report.1.label.policy}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="44" width="832" height="15" isRemoveLineWhenBlank="true">
+				<reportElement x="0" y="74" width="832" height="15" isRemoveLineWhenBlank="true">
 					<printWhenExpression><![CDATA[$F{backingBean}.getDisplaySeePartC()]]></printWhenExpression>
 				</reportElement>
 				<box topPadding="3"/>
@@ -133,7 +133,7 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{report.1.label.seePartC}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="30" width="832" height="15"/>
+				<reportElement x="0" y="60" width="832" height="15"/>
 				<box topPadding="3"/>
 				<textElement markup="styled">
 					<font fontName="Arial" size="8"/>
@@ -141,7 +141,7 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA["<b>1."+str($F{backingBean}.getAllSignatoriesKey())+" "+$F{backingBean}.getCountryName()+"</b>"]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="0" y="66" width="400" height="15" backcolor="#CCCCCC"/>
+				<reportElement mode="Opaque" x="0" y="92" width="400" height="15" backcolor="#CCCCCC"/>
 				<box topPadding="2" leftPadding="10" bottomPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -152,7 +152,7 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA["<b>2."+$R{report.1.label.commRegNumber}+"</b> "+$F{backingBean}.getInitiativeId()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="400" y="66" width="432" height="15" backcolor="#CCCCCC"/>
+				<reportElement mode="Opaque" x="400" y="92" width="432" height="15" backcolor="#CCCCCC"/>
 				<box topPadding="2" bottomPadding="1">
 					<topPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
@@ -162,15 +162,25 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["<b>3."+$R{report.1.label.dateOfRegistration}+"</b> "+new SimpleDateFormat("dd/MM/yyyy").format($F{backingBean}.getInitiativeRegistrationDate())]]></textFieldExpression>
 			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="0" width="832" height="25"/>
+				<box bottomPadding="1" rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom" markup="html">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{report.1.label.disclaimer.1}
++"<br/>"+
+"<b>"+$R{report.1.label.disclaimer.2}+"</b>"]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="240" splitType="Stretch">
+		<band height="200" splitType="Stretch">
 			<subreport>
-				<reportElement x="0" y="0" width="832" height="240" isPrintWhenDetailOverflows="true"/>
+				<reportElement x="0" y="0" width="832" height="200" isPrintWhenDetailOverflows="true"/>
 				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{backingBean}.getRowsData())]]></dataSourceExpression>
 				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$F{backingBean}.getTableSubreport()]]></subreportExpression>
@@ -181,7 +191,7 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="32" splitType="Stretch">
+		<band height="50" splitType="Stretch">
 			<line>
 				<reportElement x="0" y="1" width="832" height="1"/>
 				<graphicElement>
@@ -189,7 +199,7 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 				</graphicElement>
 			</line>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="2" width="832" height="30"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="10" width="832" height="40"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.0" lineStyle="Solid"/>
@@ -201,6 +211,14 @@ $F{backingBean}.getInitiativeTitle()]]></textFieldExpression>
 					<font fontName="Arial" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{report.1.label.privacyStatement}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="2" width="385" height="8"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font fontName="Arial" size="6" isBold="false" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["<sup>1</sup> "+$R{report.1.label.footer}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

@@ -1,5 +1,6 @@
 package eu.europa.ec.eci.oct.offline.dialog.challenge;
 
+import eu.europa.ec.eci.oct.offline.dialog.menu.CopyPasteContextualMenu;
 import eu.europa.ec.eci.oct.offline.support.Utils;
 import eu.europa.ec.eci.oct.offline.support.swing.localization.LocalizedJButton;
 import eu.europa.ec.eci.oct.offline.support.swing.localization.LocalizedJDialog;
@@ -50,6 +51,7 @@ public class ChallengeDecryptionDialog {
         JTextArea challengeTextArea = new JTextArea(10, 30);
         challengeTextArea.setBackground(Color.white);
         challengeTextArea.setLineWrap(true);
+        challengeTextArea.addMouseListener(new CopyPasteContextualMenu());
         final JScrollPane scrollPane = new JScrollPane(challengeTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -60,6 +62,7 @@ public class ChallengeDecryptionDialog {
         JTextField challengeResponse = new JTextField(30);
         challengeResponse.setEditable(false);
         challengeResponse.setAlignmentX(Component.LEFT_ALIGNMENT);
+        challengeResponse.addMouseListener(new CopyPasteContextualMenu());
 
         JPanel decryptButtonPanel = new JPanel();
         decryptButtonPanel.setLayout(new BoxLayout(decryptButtonPanel, BoxLayout.X_AXIS));

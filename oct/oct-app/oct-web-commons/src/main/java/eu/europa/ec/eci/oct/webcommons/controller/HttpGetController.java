@@ -156,7 +156,7 @@ public abstract class HttpGetController {
 			prefs.setCommissionRegisterUrl("");
 		}
 
-		// TODO remove one of preference references
+		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_PATH, request.getAttribute(org.springframework.web.servlet.HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE));
 		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_LANGUAGES, ll);
 		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_COUNTRIES,
 				getSessionCache(request).get(CommonControllerConstants.MODEL_ATTRIBUTE_COUNTRIES));

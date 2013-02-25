@@ -2,6 +2,8 @@ package eu.europa.ec.eci.oct.web.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import eu.europa.ec.eci.oct.entities.member.Language;
 import eu.europa.ec.eci.oct.webcommons.controller.CommonControllerConstants;
 import eu.europa.ec.eci.oct.webcommons.controller.HttpGetController;
 import eu.europa.ec.eci.oct.webcommons.security.requesttoken.RequestTokenHelper;
+import eu.europa.ec.eci.oct.webcommons.tag.sort.SortedItemTag;
 
 /**
  * Controller for handling the Index (default) page.
@@ -53,6 +56,12 @@ public class IndexController extends HttpGetController {
 		for (InitiativeDescription initiativeDescription : descriptions) {
 			languages.add(initiativeDescription.getLanguage());
 		}
+		Collections.sort(languages, new Comparator<Language>() {			
+			@Override
+			public int compare(Language l1, Language l2) {						
+				return l1.getDisplayOrder().intValue() - l2.getDisplayOrder().intValue(); 
+			}			
+		});	
 		model.addAttribute("initiativeLanguages", languages);
 
 		return "index";

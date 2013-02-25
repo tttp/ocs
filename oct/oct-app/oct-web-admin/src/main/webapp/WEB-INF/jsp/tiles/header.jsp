@@ -26,16 +26,43 @@
 						
 						<option value="<c:out value="${language.code}" />" <c:out value="${isSelected}"/>><c:out value="${language.label} (${language.code})"/></option>
 					</c:forEach>
-		</select>
+		</select>		
 		</div>
 	</div>
 	<security:authorize ifAnyGranted="ROLE_ADMIN">
+		<c:choose>
+			<c:when test="${oct_path == '/index.do'}">
+				<c:set var="itemClassIndex" value="itemActive" />
+				<c:set var="itemClassPrefs" value="" />
+				<c:set var="itemClassExport" value="" />
+				<c:set var="itemClassStatus" value="" />								
+			</c:when>
+			<c:when test="${oct_path == '/systemprefs.do'}">
+				<c:set var="itemClassIndex" value="" />
+				<c:set var="itemClassPrefs" value="itemActive" />
+				<c:set var="itemClassExport" value="" />
+				<c:set var="itemClassStatus" value="" />								
+			</c:when>
+			<c:when test="${oct_path == '/export.do'}">
+				<c:set var="itemClassIndex" value="" />
+				<c:set var="itemClassPrefs" value="" />
+				<c:set var="itemClassExport" value="itemActive" />
+				<c:set var="itemClassStatus" value="" />								
+			</c:when>
+			<c:when test="${oct_path == '/systemstatus.do'}">
+				<c:set var="itemClassIndex" value="" />
+				<c:set var="itemClassPrefs" value="" />
+				<c:set var="itemClassExport" value="" />
+				<c:set var="itemClassStatus" value="itemActive" />								
+			</c:when>			
+		</c:choose>
 		<div id="menu-container">
 			<ul id="menu">
-				<li class="first home"><a href="./index.do"><spring:message code="oct.menu.home" /></a></li>
-				<li class="setup"><a href="./systemprefs.do"><spring:message code="oct.menu.setup" /></a></li>
-				<li class="export"><a href="./export.do"><spring:message code="oct.menu.monitor.export" /></a></li>
-				<li class="status"><a href="./systemstatus.do"><spring:message code="oct.menu.system.status" /></a></li>
+				<li class="first home <c:out value="${itemClassIndex}"/>"><a href="./index.do"><spring:message code="oct.menu.home" /></a></li>
+				<li class="setup <c:out value="${itemClassPrefs}"/>"><a href="./systemprefs.do"><spring:message code="oct.menu.setup" /></a></li>
+				<li class="export <c:out value="${itemClassExport}"/>"><a href="./export.do"><spring:message code="oct.menu.monitor.export" /></a></li>
+				<li class="status <c:out value="${itemClassStatus}"/>"><a href="./systemstatus.do"><spring:message code="oct.menu.system.status" /></a></li>
+				<li class="manual "><a href="./manual.do"  target="_blank"><spring:message code="oct.menu.manual" /></a></li>
 				<li class="last logout"><a href="<c:url value="/j_spring_security_logout"/>"><spring:message code="oct.menu.logout"/></a></li>
 			</ul>
 		</div>

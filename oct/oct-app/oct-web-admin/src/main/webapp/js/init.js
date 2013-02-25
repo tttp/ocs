@@ -1,12 +1,16 @@
 $(document).ready(function(){
-	$("input[rel=date]").datepicker({
-		inline: true,
-		changeMonth: true,
-		changeYear: true,
-		dateFormat: "dd/mm/yy",
-		yearRange: "2011:c"
-	});
-
+	_datepicker = $.datepicker.regional[_langOCT];
+	if(!_datepicker){
+		_datepicker = $.datepicker.regional[''];
+	} 	
+	_datepicker.inline = true;
+	_datepicker.changeMonth = true;
+	_datepicker.changeYear = true;
+	_datepicker.dateFormat = "dd/mm/yy";
+	_datepicker.yearRange = "2011:c";	
+	_datepicker.showMonthAfterYear = false;
+	$("input[rel=date]").datepicker(_datepicker);
+	
 	if ($("#langChange")) {
 		$("#langChange").change(function(evt) {
 			var _lang = $("#langChange option:selected").val();

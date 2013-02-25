@@ -2,6 +2,7 @@ package eu.europa.ec.eci.oct.offline.dialog.hashpass;
 
 import eu.europa.ec.eci.oct.crypto.CryptoException;
 import eu.europa.ec.eci.oct.crypto.Cryptography;
+import eu.europa.ec.eci.oct.offline.dialog.menu.CopyPasteContextualMenu;
 import eu.europa.ec.eci.oct.offline.dialog.pwd.SimplePasswordValidator;
 import eu.europa.ec.eci.oct.offline.support.Utils;
 import eu.europa.ec.eci.oct.offline.support.log.OfflineCryptoToolLogger;
@@ -68,6 +69,7 @@ public class HashPasswordDialog {
         final JTextField hashedPasswordResult = new JTextField(20);
         hashedPasswordResult.setEditable(false);
         hashedPasswordResult.setAlignmentX(Component.LEFT_ALIGNMENT);
+        hashedPasswordResult.addMouseListener(new CopyPasteContextualMenu());
         hashPasswordPanel.add(hashedPasswordResult);
         hashPasswordPanel.add(Utils.getYSeparator(10));
 

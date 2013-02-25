@@ -1,5 +1,6 @@
 package eu.europa.ec.eci.oct.offline.dialog.initialize;
 
+import eu.europa.ec.eci.oct.offline.dialog.menu.CopyPasteContextualMenu;
 import eu.europa.ec.eci.oct.offline.support.Utils;
 import eu.europa.ec.eci.oct.offline.support.swing.localization.LocalizedJButton;
 import eu.europa.ec.eci.oct.offline.support.swing.localization.LocalizedJDialog;
@@ -98,6 +99,8 @@ public class CryptoInitializeDialog {
 
         JTextArea publicKeyTextArea = new JTextArea(10, 25);
         publicKeyTextArea.setBackground(Color.white);
+        publicKeyTextArea.setEditable(false);
+        publicKeyTextArea.addMouseListener(new CopyPasteContextualMenu());
         publicKeyTextArea.setLineWrap(true);
         final JScrollPane scrollPane = new JScrollPane(publicKeyTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -114,6 +117,7 @@ public class CryptoInitializeDialog {
         JTextField hashedPasswordResult = new JTextField(30);
         hashedPasswordResult.setEditable(false);
         hashedPasswordResult.setAlignmentX(Component.LEFT_ALIGNMENT);
+        hashedPasswordResult.addMouseListener(new CopyPasteContextualMenu());
         initializationPanel.add(hashedPasswordResult);
         initializationPanel.add(Utils.getYSeparator(10));
 

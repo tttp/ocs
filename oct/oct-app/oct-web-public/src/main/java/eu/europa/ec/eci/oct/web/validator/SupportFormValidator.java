@@ -44,7 +44,7 @@ public class SupportFormValidator extends BaseValidator {
 	}
 
 	/**
-	 * Validates the security code (capotcha).
+	 * Validates the security code (captcha).
 	 * 
 	 * @param target
 	 * @param errors
@@ -55,7 +55,7 @@ public class SupportFormValidator extends BaseValidator {
 		SupportFormBean bean = (SupportFormBean) target;
 		if (!captchaService.validateCaptcha(captchaId, bean.getCaptcha())) {
 			errors.rejectValue("captcha", "oct.error.wrongcaptcha", "The security code is wrong! Please try again.");
-		}
+		}		
 	}
 
 	/**

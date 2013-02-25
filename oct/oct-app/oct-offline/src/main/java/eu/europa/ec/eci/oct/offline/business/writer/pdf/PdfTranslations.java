@@ -18,7 +18,7 @@ public class PdfTranslations {
     private static LocalizationMessageProvider documentNamesProvider = null;
     private static Map<String, Locale> localeByCountryCode = new HashMap<String, Locale>();
 
-    static{
+    static {
         for (Locale locale : Locale.getAvailableLocales()) {
             String countryCode = locale.getCountry().toUpperCase();
             localeByCountryCode.put(countryCode, locale);
@@ -33,7 +33,7 @@ public class PdfTranslations {
 
     private static synchronized LocalizationMessageProvider getMessagesForLanguage(String countryCodeForLanguage) {
         Locale locale = countryCodeForLanguage != null ? localeByCountryCode.get(countryCodeForLanguage.toUpperCase()) : Locale.ENGLISH;
-        if(!byCountryMessageProvider.containsKey(countryCodeForLanguage)){
+        if (!byCountryMessageProvider.containsKey(countryCodeForLanguage)) {
             LocalizationMessageProvider messageProvider = new LocalizationMessageProvider(locale, "reports/signatureTranslations/messages");
             byCountryMessageProvider.put(countryCodeForLanguage, messageProvider);
         }
@@ -41,7 +41,7 @@ public class PdfTranslations {
     }
 
     private static synchronized LocalizationMessageProvider getDocumentNamesProvider() {
-        if(documentNamesProvider == null) {
+        if (documentNamesProvider == null) {
             documentNamesProvider = new LocalizationMessageProvider(Locale.ENGLISH, "reports/signatureTranslations/documentnames");
         }
         return documentNamesProvider;
@@ -60,8 +60,20 @@ public class PdfTranslations {
     }
 
     public static String getPrefixForProperty(SignatureProperty signatureProperty, String languageCode) {
-        LocalizationMessageProvider documentNames = getDocumentNamesProvider();
 
-        return documentNames.getMessage(signatureProperty.getKey() + "." + languageCode);
+        String prefix = null;
+        
+        if (signatureProperty.equals(SignatureProperty.ISSUING_AUTHORITY)) {
+            LocalizationMessageProvider countryMessageProvider = getMessagesForLanguage(languageCode);
+
+            prefix = countryMessageProvider.getMessage(signatureProperty.getKey());
+        } else {
+            //here we are on the document names scenario
+            LocalizationMessageProvider documentNames = getDocumentNamesProvider();
+
+            prefix = documentNames.getMessageOrNullString(signatureProperty.getKey() + "." + languageCode);
+        }
+
+        return prefix;
     }
 }

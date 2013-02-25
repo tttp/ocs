@@ -26,7 +26,7 @@ public class BaseBindingInitializer implements WebBindingInitializer {
 		binder.registerCustomEditor(Country.class, new CountryTypePropertyEditor(sysManager));
 		final SimpleDateFormat dateFormat = new SimpleDateFormat(DateValidator.DEFAULT_DATE_FORMAT);
 		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true)); 
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true, DateValidator.DEFAULT_DATE_FORMAT.length())); 
 	}
 
 }

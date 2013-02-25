@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -149,6 +150,12 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 		if (defDesc != null) {
 			committedDescs.remove(defDesc);
 		}
+		Collections.sort(committedDescs, new Comparator<InitiativeDescription>() {			
+			@Override
+			public int compare(InitiativeDescription i1, InitiativeDescription i2) {						
+				return i1.getLanguage().getDisplayOrder().intValue() - i2.getLanguage().getDisplayOrder().intValue(); 
+			}			
+		});	
 
 		request.getSession().setAttribute(LANGUAGE_VERSIONS, committedDescs);
 	}
@@ -373,6 +380,12 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 					populateLanguageVersion(defaultDesc, bean);
 				}
 
+				Collections.sort(descs, new Comparator<InitiativeDescription>() {			
+					@Override
+					public int compare(InitiativeDescription i1, InitiativeDescription i2) {						
+						return i1.getLanguage().getDisplayOrder().intValue() - i2.getLanguage().getDisplayOrder().intValue(); 
+					}			
+				});	
 				request.getSession().setAttribute(LANGUAGE_VERSIONS, descs);
 
 				model.addAttribute("draftUploaded", true);

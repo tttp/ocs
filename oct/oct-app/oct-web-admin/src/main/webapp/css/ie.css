@@ -1,0 +1,4 @@
+table.fields td.v input, table.fields td.v textarea{
+	font-family: monospace;
+	width: auto; 
+}

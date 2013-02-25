@@ -30,7 +30,9 @@
 			
 				<fieldset class="signup">
 					<p><spring:message code="oct.s2.info.1" /></p>
-					<p><spring:message code="oct.s2.info.conditions" /> <a href="http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf" target="_blank">http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf</a></p>
+					<p><spring:message code="oct.s2.info.conditions" />
+					<br />
+					<a href="http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf" target="_blank">http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf</a></p>
 					<p><spring:message code="oct.s2.info.2" /></p>
 					<p>
 						<spring:message code="oct.s2.info.3" />
@@ -181,6 +183,7 @@
 																	<option value=""><spring:message code="oct.s2.selectcountry"/></option>
 																	</c:otherwise>
 																</c:choose>
+																<oct:items>
 																<c:forEach items="${countries}" var="country">
 																	<c:choose>
 																		<c:when test="${country.code == status.value}">
@@ -191,8 +194,13 @@
 																			<c:set var="isSelected" value="" />
 																		</c:otherwise>
 																	</c:choose>
-																	<option value="<c:out value="${country.code}" />" <c:out value="${isSelected}"/>><spring:message code="${country.name}${sufix}"/></option>
+																	<oct:item>
+																		<option value="<c:out value="${country.code}" />" <c:out value="${isSelected}"/>>
+																			<oct:property><spring:message code="${country.name}${sufix}"/></oct:property>
+																		</option>
+																	</oct:item>
 																</c:forEach>
+																</oct:items>
 																<c:if test="${propertyValue.property.property.type == 'COUNTRY'}">
 																	<c:choose>
 																		<c:when test="${status.value != null && status.value != '' && somethingSelected == ''}">
@@ -210,7 +218,11 @@
 																__default = "<c:out value="${defaultSelected}" />"; 
 																__code = "<c:out value="${status.value}" />";
 															</script>
-														</c:when>
+
+
+															
+																
+															</c:when>
 														<c:when test="${propertyValue.property.property.type == 'LARGETEXT'}">
 															<textarea id="<c:out value="${status.expression}"/>" name="<c:out value="${status.expression}"/>"><c:out value="${status.value}"/></textarea>
 														</c:when>
@@ -249,8 +261,10 @@
 						</td>
 						
 						<td class="v">
-							<form:input path="captcha" id="captcha"/>
-							<form:errors path="captcha" cssClass="error" element="span" />
+							<spring:bind path="captcha">
+								<input id="captcha" name="captcha" value="" />
+								<form:errors path="captcha" cssClass="error" element="span" />
+							</spring:bind>
 						</td>
 					</tr>
 					</table>

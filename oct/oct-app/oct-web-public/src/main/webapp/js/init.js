@@ -1,12 +1,17 @@
 $(document).ready(function(){
-	$("input[rel=date]").datepicker({
-		inline: true,
-		changeMonth: true,
-		changeYear: true,
-		dateFormat: "dd/mm/yy",
-		yearRange: "1900:2010",
-		defaultDate: "-16y"
-	});
+	
+	_datepicker = $.datepicker.regional[_langOCT];
+	if(!_datepicker){
+		_datepicker = $.datepicker.regional[''];
+	} 
+	_datepicker.inline = true;
+	_datepicker.changeMonth = true;
+	_datepicker.changeYear = true;
+	_datepicker.dateFormat = "dd/mm/yy";
+	_datepicker.yearRange = "1900:2010";
+	_datepicker.defaultDate = "-16y";
+	_datepicker.showMonthAfterYear = false;
+	$("input[rel=date]").datepicker(_datepicker);
 
 	if ($("#langChange")) {
 		$("#langChange").change(function(evt) {
@@ -86,4 +91,13 @@ $(document).ready(function(){
 			$("#" + ADDITIONAL_FIELD_ID).val(__code);
 		}
 	}
+	
+	$("form input").keydown(function(evt) {
+		if (evt.keyCode == 13) {
+			evt.preventDefault();
+			evt.stopPropagation();
+			
+			$("input[name='_finish']").click();
+		}		
+	});	
 });

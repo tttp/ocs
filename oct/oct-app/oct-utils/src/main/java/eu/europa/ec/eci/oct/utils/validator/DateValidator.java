@@ -1,6 +1,7 @@
 package eu.europa.ec.eci.oct.utils.validator;
 
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,16 +16,13 @@ public class DateValidator extends AbstractValidator {
 			return true;
 		}
 
-		boolean result = true;
-
 		try {
-			SimpleDateFormat dateParser = new SimpleDateFormat(DateValidator.DEFAULT_DATE_FORMAT);
-			dateParser.parse(value);
+			parseDate(value);
 		} catch (ParseException e) {
-			result = false;
+			return false;
 		}
 
-		return result;
+		return true;
 	}
 
 	@Override
@@ -38,8 +36,7 @@ public class DateValidator extends AbstractValidator {
 
 		Date date;
 		try {
-			SimpleDateFormat dateParser = new SimpleDateFormat(DateValidator.DEFAULT_DATE_FORMAT);
-			date = dateParser.parse(value);
+			date = parseDate(value);
 		} catch (ParseException e) {
 			return false;
 		}
@@ -55,4 +52,26 @@ public class DateValidator extends AbstractValidator {
 
 		return result;
 	}
+	
+	/**
+	 * Parses a Date from a string. The date format used
+	 * is {@link DateValidator.DEFAULT_DATE_FORMAT}. 
+	 * @param text the text
+	 * @return the date
+	 * @throws ParseException on parsing failures
+	 */
+	private Date parseDate(String text) throws ParseException {
+		final SimpleDateFormat dateParser = new SimpleDateFormat(DateValidator.DEFAULT_DATE_FORMAT);
+		dateParser.setLenient(false); // use strict date parsing
+		
+		final ParsePosition parsePosition = new ParsePosition(0);
+		final Date date = dateParser.parse(text, parsePosition);
+		// accept only, if the *entire format string length* was used during parsing
+		if (parsePosition.getIndex() < DateValidator.DEFAULT_DATE_FORMAT.length()) {
+			throw new ParseException("Parsed an incomplete string with regard to format '" + DateValidator.DEFAULT_DATE_FORMAT +
+					"': " + text.substring(0, parsePosition.getIndex()), parsePosition.getIndex());
+		}
+		return date;
+	}
+	
 }

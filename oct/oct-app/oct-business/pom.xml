@@ -67,11 +67,6 @@
 			<type>jar</type>
 		</dependency>
 		<dependency>
-			<groupId>net.oauth.core</groupId>
-			<artifactId>oauth</artifactId>
-			<version>20090617</version>
-		</dependency>
-		<dependency>
 			<groupId>eu.europa.ec.eci.oct</groupId>
 			<artifactId>oct-export-model</artifactId>
 			<version>1.0.0</version>
@@ -81,4 +76,6 @@
 	<build>
 		<finalName>oct-business</finalName>
 	</build>
+	
+
 </project>

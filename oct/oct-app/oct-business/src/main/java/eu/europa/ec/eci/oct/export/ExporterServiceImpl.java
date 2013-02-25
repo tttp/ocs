@@ -88,7 +88,7 @@ public class ExporterServiceImpl implements ExporterService {
 			// populate contact information into the initiative
 			final Contact contact = initiativeService.getContact();
 			if (contact != null) {
-				initiative.setContactPersonsList(contact.getName());
+				initiative.setContactPersonsList(contact.getName() + " (" + contact.getEmail() + ")");
 				initiative.setOrganizerList(contact.getOrganizers());
 			}
 			// also add system preferences to the initiative details

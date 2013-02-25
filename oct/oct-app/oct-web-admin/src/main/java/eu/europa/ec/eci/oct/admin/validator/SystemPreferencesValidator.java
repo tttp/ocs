@@ -2,12 +2,14 @@ package eu.europa.ec.eci.oct.admin.validator;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 
 import org.springframework.validation.Errors;
 
 import eu.europa.ec.eci.oct.admin.model.SystemPreferencesBean;
 import eu.europa.ec.eci.oct.entities.admin.InitiativeDescription;
 import eu.europa.ec.eci.oct.entities.member.Language;
+import eu.europa.ec.eci.oct.utils.CalendarHelper;
 import eu.europa.ec.eci.oct.utils.StringUtils;
 import eu.europa.ec.eci.oct.webcommons.locale.MessageSourceAware;
 import eu.europa.ec.eci.oct.webcommons.validator.BaseValidator;
@@ -63,6 +65,14 @@ public class SystemPreferencesValidator extends BaseValidator {
 		
 		validateUrl(bean.getRegisterUrl(), getMessageSource().getMessage("oct.s4.initiative.url"), errors, null);
 		validateUrl(bean.getWebsite(), getMessageSource().getMessage("oct.s4.website"), errors, null);
+		
+		if(bean.getRegistrationDate()!=null){
+			Date regDate = CalendarHelper.removeTime(bean.getRegistrationDate());
+			Date todayDate = CalendarHelper.removeTime(new Date());
+			if(!regDate.before(todayDate) && todayDate.before(regDate)){
+				errors.reject("oct.s4.date.future", "Registration date must be before current date");
+			}
+		}
 		
 		if (!manual) {
 			for (InitiativeDescription desc : bean.getLanguageVersions()) {

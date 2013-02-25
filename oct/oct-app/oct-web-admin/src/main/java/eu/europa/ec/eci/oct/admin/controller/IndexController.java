@@ -1,5 +1,7 @@
 package eu.europa.ec.eci.oct.admin.controller;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import eu.europa.ec.eci.oct.business.api.SignatureService;
 import eu.europa.ec.eci.oct.business.api.SystemManager;
 import eu.europa.ec.eci.oct.entities.admin.InitiativeDescription;
 import eu.europa.ec.eci.oct.entities.admin.SystemState;
+import eu.europa.ec.eci.oct.entities.member.Language;
 import eu.europa.ec.eci.oct.entities.signature.SignatureCountPerCountry;
 import eu.europa.ec.eci.oct.vo.export.ExportParametersBean;
 import eu.europa.ec.eci.oct.webcommons.controller.HttpGetController;
@@ -69,6 +72,12 @@ public class IndexController extends HttpGetController {
 					descriptionList.remove(toRemoveDescription);
 				}
 			}
+			Collections.sort(descriptionList, new Comparator<InitiativeDescription>() {			
+				@Override
+				public int compare(InitiativeDescription i1, InitiativeDescription i2) {						
+					return i1.getLanguage().getDisplayOrder().intValue() - i2.getLanguage().getDisplayOrder().intValue(); 
+				}			
+			});	
 			model.addAttribute("languageVersions", descriptionList);
 
 			// preview url

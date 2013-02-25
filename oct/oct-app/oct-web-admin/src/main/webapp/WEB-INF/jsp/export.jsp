@@ -71,7 +71,15 @@
 					<div class="clear"></div>
 					<div id="total">
 						<spring:message code="oct.s6.total" />: <span><c:out value="${totalCount}" /></span>
-						<input type="submit" class="btn" value="<spring:message code="oct.s6.export.all" /> &raquo;" name="exportAllAction" />
+						<c:choose>
+							<c:when test="${totalCount==0}">
+								<c:set var="exportAllDisabled" value="disabled" />
+							</c:when>
+							<c:otherwise>
+								<c:set var="exportAllDisabled" value=""/>
+							</c:otherwise>
+						</c:choose>						
+						<input type="submit" class="btn" ${exportAllDisabled} value="<spring:message code="oct.s6.export.all" /> &raquo;" name="exportAllAction" />
 					</div>
 				</fieldset>
 				
@@ -134,7 +142,15 @@
 										</c:if>
 									</td>		
 									<td class="right">
-										<input type="submit" class="btn" value="<spring:message code="oct.s6.export" /> &raquo;" name="exportAction" />						
+										<c:choose>
+											<c:when test="${count==0}">
+												<c:set var="exportDisabled" value="disabled" />
+											</c:when>
+											<c:otherwise>
+												<c:set var="exportlDisabled" value=""/>
+											</c:otherwise>
+										</c:choose>
+										<input type="submit" class="btn" ${exportDisabled} value="<spring:message code="oct.s6.export" /> &raquo;" name="exportAction" />						
 									</td>					
 								</tr>
 							</table>

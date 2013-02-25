@@ -38,7 +38,9 @@
 				</p>
 				<fieldset class="signup">
 					<p><spring:message code="oct.s2.info.1" /></p>
-					<p><spring:message code="oct.s2.info.conditions" /> <a href="http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf" target="_blank">http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf</a></p>
+					<p><spring:message code="oct.s2.info.conditions" />
+					<br /> 
+					<a href="http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf" target="_blank">http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf</a></p>
 					<p><spring:message code="oct.s2.info.2" /></p>
 					<p>
 						<spring:message code="oct.s2.info.3" />
@@ -54,14 +56,21 @@
 								<label for="countryCode"><spring:message code="oct.s2.selectcountry" /></label>
 							</td>
 							<td class="v">
-								<spring:bind path="countryCode">
-									<select id="countryCode" name="countryCode">
-										<option value=""><spring:message code="oct.s2.selectcountry"/></option>
+																
+								<form:select path="countryCode" id="countryCode">
+									<form:option value=""><spring:message code="oct.s2.selectcountry"/></form:option>										
+ 									<oct:items>
 										<c:forEach items="${countries}" var="country">
-											<option value="<c:out value="${country.code}"/>"><spring:message code="${country.name}"/></option>
+											<oct:item>
+												<form:option value="${country.code}">
+													<oct:property><spring:message code="${country.name}"/></oct:property>
+												</form:option>
+											</oct:item>
 										</c:forEach>
-									</select>
-								</spring:bind>
+									</oct:items>
+								</form:select>
+								
+								
 								<input type="hidden" value="0" name="_page" />
 								<input type="submit" id="submitBtn" value="<spring:message code="oct.s2.selectcountrybutton" /> &raquo;" name="_target1" tabindex="1"/>
 								<form:errors path="countryCode" cssClass="error" element="span" />
