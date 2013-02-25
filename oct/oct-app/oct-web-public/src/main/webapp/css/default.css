@@ -1,0 +1,351 @@
+* {
+	/*font-family: verdana;*/
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	font-family: Trebuchet MS;
+	font-size: 0.8em;
+	background-image: url('../images/bg-body.png');
+	background-repeat: repeat-x;
+	background-position: top;
+}
+
+a {
+	color:4EA1D3;
+}
+
+a:hover {
+	
+}
+
+form {
+}
+
+fieldset {
+	padding: 10px;
+	border: 1px solid #ccc;
+	margin-bottom: 8px;
+	margin: 6px;
+	margin-top: 8px;
+}
+
+fieldset.home {
+	background: url("../images/icon_bg-home.png") no-repeat scroll left bottom transparent;
+}
+
+fieldset.certificate {
+	background: url("../images/icon_bg-certificate.png") no-repeat scroll left bottom transparent;
+}
+
+div.privacy {
+	background: url("../images/icon_bg-privacy.png") no-repeat scroll left bottom transparent;
+}
+
+ul li {
+	margin-left: 10px;
+}
+
+img {
+	border: 0;
+}
+
+form #buttons {
+	background-color: #4EA1D3;
+	margin: 6px 0 0 0;
+	padding: 6px;
+	text-align:right;
+}
+
+form #buttons input {
+	margin-left: 6px;
+}
+
+table.fields {
+	width: 100%;	
+}
+
+table.fields td {
+	padding: 4px;
+}
+
+table.fields td select {
+	max-width: 400px;
+}
+
+table.fields textarea {
+	width: 300px;
+	height: 50px;
+}
+
+#content-login table.fields textarea {
+	width: 450px;
+	height: 170px;
+}
+ 
+#content-login table.fields td.small-textarea textarea {
+	height: 30px;
+}
+ 
+table.fields td.k {
+	text-align:right;
+	vertical-align:top;
+	width:250px;
+}
+
+table.fields td.selectedcountry {
+	text-align:right;
+	vertical-align:bottom;
+	width:250px;
+}
+
+table.fields td.v {
+	background-color: #EFF6FC;
+	font-weight: bold;
+	vertical-align: bottom;
+	width:500px;
+}
+
+#regulation-info {
+	width: 740px;	
+}
+
+img.captcha {
+	border: 1px solid #999;
+}
+
+#buttons input {
+}
+
+input[type=text] {
+	min-width: 200px;
+}
+
+input[type=button], input[type=submit] {
+	width: auto;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+select {
+	min-width: 200px;
+}
+
+/* Work out to display long texts in drop-down menus in IE */
+.improvedDropDownContainer {
+	width:400px;
+	overflow:hidden;	
+}
+.improvedDropDown{
+    width:200px;
+}
+.improvedDropDownClick{
+	max-width: 700px !important;
+    width:700px !important;
+}
+/**********/
+
+#page {
+	margin: 4px auto;
+	width: 800px;
+	background-color: #fff;
+	border: 1px solid #4EA1D3;
+}
+
+#header {
+	margin-bottom: 10px;
+}
+
+#header-init-title {
+	background-image: url('../images/eu.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding: 12px 0 0 70px; 
+	height: 52px;
+	color: #606060;
+	font-size: 1.4em;
+	font-weight: bold;
+	text-align: center;
+	clear: both;
+	padding: 12px;
+}
+
+#header-title {
+	color: #606060;
+	margin-bottom: 5px;
+	font-size: 0.9em;
+}
+
+#menu {
+	list-style-type: none;
+	padding: 6px 0 6px 0;
+	background-color: #4EA1D3;
+	padding-top: 10px;
+	padding-bottom: 6px;
+}
+
+#menu li {
+	display: inline;
+	padding: 7px 0 0 25px;
+	background-position: left center;
+	background-repeat: no-repeat;
+	padding-bottom: 6px;
+}
+
+#menu li.first {
+	margin-left: 0;
+}
+
+#menu li.last {
+	margin-right: 0;
+}
+
+
+#menu li.home {
+	background-image: url('../images/icon_home.png');
+}
+
+#menu li.conformity {
+	background-image: url('../images/icon_certificate.png');
+}
+
+#menu li.privacy {
+	background-image: url('../images/icon_privacy.png');
+}
+
+/* #menu li.lang { */
+/* 	float: right; */
+/* 	text-align: right; */
+/* 	margin-left: 0px; */
+/* 	padding-top: 0px; */
+/* 	padding-left: 0px; */
+/* } */
+
+.lang {
+	position: relative;
+	right: -12px;
+	top: 22px;
+	text-align: right;
+	float: right;
+}
+
+#menu a {
+	color: #fff;
+}
+
+#langChange {
+	width: auto;
+	min-width: 70px;
+	margin-right: 4px;
+}
+
+#content {
+	margin: 14px 0 0 0;
+	padding: 5px;
+}
+
+#content h2 {
+	color: #606060;
+	font-size: 1.4em;
+	margin: 0 0 10px;
+	padding-left: 4px;
+}
+
+#content h3 {
+	padding-left: 4px;
+}
+
+#content p {
+	text-align: justify;
+	margin-bottom: 8px;
+}
+
+#content p.support-link {
+	border-top: 1px solid #eee;
+	margin-top: 10px;
+	padding-top: 10px;
+	text-align: right;
+}
+
+#content form p {
+	padding-left: 4px;
+}
+
+#footer {
+}
+
+#footer a.country-link {
+	padding-right: 5px;
+}
+
+.error {
+	display: inline-block;
+	color: #f00;
+	margin: 4px 0 10px 6px;
+	padding: 4px 4px 4px 30px;
+	background-repeat: no-repeat;
+	background-position: 6px center;
+	background-image: url('../images/error.png');
+	font-weight: normal; 
+}
+
+div.error {
+	margin-left: 0;
+}
+
+#error-message {
+	border: 1px solid #eee;
+	padding: 6px;
+	margin: 6px 0 6px 0;
+	color: #f00;
+}
+
+#error-cause {
+	height: 300px;
+	overflow: auto;
+	border: 1px solid #eee;
+	padding: 6px;
+	margin: 6px 0 6px 0;
+}
+
+#review {
+	border: 1px solid #eee;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+	font-size: 14px;
+	text-align: center;
+}
+
+#review p {
+	margin: 8px 0 8px 50px;
+	font-size: 18px;
+}
+
+p.box {
+	border: 1px solid #eee;
+	margin: 4px;
+	padding: 4px;
+}
+
+#lower-info {
+	padding: 4px;
+}
+
+.left {
+	text-align: left !important;
+}
+
+span.required {
+	color: #f00;
+	padding-left: 4px;
+}
+
+#_additional_input {
+	margin-top: 4px;
+}
+
+#ui-datepicker-div select {
+	min-width: 20px;
+}

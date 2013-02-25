@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>oct-dist</artifactId>
+		<groupId>eu.europa.ec.eci.oct</groupId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>oct-ear</artifactId>
+	<packaging>ear</packaging>
+
+	<name>oct-ear</name>
+
+	<build>
+		<finalName>oct-ear</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<version>5</version>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<modules>
+						<webModule>
+							<groupId>eu.europa.ec.eci.oct</groupId>
+							<artifactId>oct-web-admin</artifactId>
+						</webModule>
+						<webModule>
+							<groupId>eu.europa.ec.eci.oct</groupId>
+							<artifactId>oct-web-public</artifactId>
+						</webModule>
+						<ejbModule>
+							<groupId>eu.europa.ec.eci.oct</groupId>
+							<artifactId>oct-business</artifactId>
+						</ejbModule>
+						<ejbModule>
+							<groupId>eu.europa.ec.eci.oct</groupId>
+							<artifactId>oct-dataaccess</artifactId>
+						</ejbModule>						
+					</modules>
+
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-ear-plugin
+										</artifactId>
+										<versionRange>
+											[2.4.1,)
+										</versionRange>
+										<goals>
+											<goal>
+												generate-application-xml
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>eu.europa.ec.eci.oct</groupId>
+			<artifactId>oct-business</artifactId>
+			<version>1.0.0</version>
+			<type>ejb</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.eci.oct</groupId>
+			<artifactId>oct-web-admin</artifactId>
+			<version>1.0.0</version>
+			<type>war</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.eci.oct</groupId>
+			<artifactId>oct-web-public</artifactId>
+			<version>1.0.0</version>
+			<type>war</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.eci.oct</groupId>
+			<artifactId>oct-dataaccess</artifactId>
+			<version>1.0.0</version>
+			<type>ejb</type>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+</project>

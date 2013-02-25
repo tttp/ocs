@@ -1,0 +1,14 @@
+oct_country
+oct_lang
+oct_country_lang
+oct_initiative_desc
+oct_property_group
+oct_property
+oct_country_property
+oct_rule
+oct_rule_param
+oct_signature
+oct_property_value
+oct_system_prefs
+oct_contact
+oct_account

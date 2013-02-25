@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 rel. 3 sp1 (http://www.altova.com) by MKE (European Commission) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>
+		XML schema for the export of ECI initiative data to OCT.
+		
+		History:
+		07/11/2011 - initial version created by Martin Keschenau.
+		</xs:documentation>
+	</xs:annotation>
+	
+	<xs:element name="export">
+		<xs:annotation>
+			<xs:documentation>Root element for the export.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="initiative" type="initiativeType"/>
+			</xs:sequence>
+			<xs:attribute name="date" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Timestamp of the export.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- === type definitions == -->
+	
+	<xs:complexType name="initiativeType">
+		<xs:annotation>
+			<xs:documentation>The initiative data.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="organisers" type="organiserListType"/>
+			<xs:element name="languages" type="languageListType"/>
+		</xs:sequence>
+		<xs:attribute name="registrationNumber" type="xs:long" use="required">
+			<xs:annotation>
+				<xs:documentation>Commission registration number of this initiative.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="registrationDate" type="xs:date" use="required">
+			<xs:annotation>
+				<xs:documentation>Date on which this initiative has been registered by the Commission.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="url" type="xs:anyURI" use="required">
+			<xs:annotation>
+				<xs:documentation>URL of the public site of this initiative (in the ECI application).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="organiserListType">
+		<xs:annotation>
+			<xs:documentation>Organisers of an initiative.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="organiser" type="organiserType"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="organiserType">
+		<xs:annotation>
+			<xs:documentation>Organiser (a member of a citizens' committee for this initiative).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="firstName" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>First name(s) of this organiser.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="familyName" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Family name(s) of this organiser.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="email" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Email address of this organiser. Not supplied for role=member.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="role" type="organiserRoleType" use="required">
+			<xs:annotation>
+				<xs:documentation>A well-defined role of an organiser within the committee.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:simpleType name="organiserRoleType">
+		<xs:annotation>
+			<xs:documentation>All supported organiser roles.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="representative"/>
+			<xs:enumeration value="substitute"/>
+			<xs:enumeration value="member"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="languageListType">
+		<xs:annotation>
+			<xs:documentation>All initiative language versions.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="language" type="languageType"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="languageType">
+		<xs:annotation>
+			<xs:documentation>Initiative language version.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="title" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The title.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subject" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The subject.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The description.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="site" type="xs:anyURI" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A dedicated website for this initiative (NOT the Commission site in ECI). Optional for any language version.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="code" type="xs:language" use="required">
+			<xs:annotation>
+				<xs:documentation>2-letter ISO code defining the language of this language version.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="original" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation>Whether this language version is the original one (true) or a translation (false).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>

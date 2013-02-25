@@ -1,0 +1,4 @@
+id,name,priority,multichoice
+1,oct.group.general,2,0
+2,oct.group.address,3,0
+3,oct.group.id,1,1

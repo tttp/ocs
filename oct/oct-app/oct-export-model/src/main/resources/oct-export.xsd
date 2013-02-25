@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 rel. 3 sp1 (http://www.altova.com) by abc (European 
+	Commission) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xs:element name="supportForm">
+		<xs:annotation>
+			<xs:documentation>Statement of support form</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="forCountry" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Country for which this support form applies to
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="forLanguage" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Language for which this support form applies to
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="initiativeData" type="InitiativeDataType"
+					maxOccurs="1" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The data of the initiative being supported
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="signatures" type="SignatureListType">
+					<xs:annotation>
+						<xs:documentation>The collection of signatures</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="InitiativeDataType">
+		<xs:all>
+			<xs:element name="registrationNumber" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Commission registration number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="registrationDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Date of registration</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="urlOnCommissionRegister" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Web address of the proposed initiative on the
+						Commission register</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="title" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Title of the proposed initiative
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectMatter" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Subject matter</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="mainObjectives" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Main objectives</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="organizerList" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>List of organizers</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="contactPersonsList" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Names and email of contact person
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="url" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Website of the proposed initiative
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="SignatureListType">
+		<xs:sequence>
+			<xs:element name="signature" type="SignatureType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>One signatory (and its data)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SignatureType">
+		<xs:sequence>
+			<xs:element name="submissionDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Date of the signature submission
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="signatureIdentifier" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The signature identifier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="signatoryInfo" type="SignatoryType">
+				<xs:annotation>
+					<xs:documentation>Identification data of the person supporting the
+						initiative</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SignatoryType">
+		<xs:sequence>
+			<xs:element name="groups" type="InformationGroupListType"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InformationGroupListType">
+		<xs:sequence>
+			<xs:element name="group" type="GroupType" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The list of groups</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GroupType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Group name</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:element name="properties" type="PropertyListType">
+				<xs:annotation>
+					<xs:documentation>Collection of properties within group
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PropertyListType">
+		<xs:sequence>
+			<xs:element name="property" type="PropertyType" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>One group property (and its data)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PropertyType">
+		<xs:all>
+			<xs:element name="key" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Key</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:element name="value" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Value</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+
+</xs:schema>

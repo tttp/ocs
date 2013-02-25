@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>oct-app</artifactId>
+		<groupId>eu.europa.ec.eci.oct</groupId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>oct-business</artifactId>
+	<packaging>ejb</packaging>
+
+	<name>oct-business</name>
+	<url>http://maven.apache.org</url>
+
+	<dependencies>
+		<dependency>
+			<groupId>javaee</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.5</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.eci.oct</groupId>
+			<artifactId>oct-business-api</artifactId>
+			<version>1.0.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.eci.oct</groupId>
+			<artifactId>oct-persistence</artifactId>
+			<version>1.0.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.eci.oct</groupId>
+			<artifactId>oct-entities</artifactId>
+			<version>1.0.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.eci.oct</groupId>
+			<artifactId>oct-utils</artifactId>
+			<version>1.0.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.eci.oct</groupId>
+			<artifactId>oct-dataaccess</artifactId>
+			<version>1.0.0</version>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.eci.oct</groupId>
+			<artifactId>oct-crypto</artifactId>
+			<version>1.0.0</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>net.oauth.core</groupId>
+			<artifactId>oauth</artifactId>
+			<version>20090617</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.eci.oct</groupId>
+			<artifactId>oct-export-model</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>oct-business</finalName>
+	</build>
+</project>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>oct</artifactId>
+		<groupId>eu.europa.ec.eci.oct</groupId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>oct-app</artifactId>
+	<packaging>pom</packaging>
+	<name>oct-app</name>
+	<modules>
+		<module>oct-web-admin</module>
+		<module>oct-web-public</module>
+		<module>oct-persistence</module>
+		<module>oct-business</module>
+		<module>oct-business-api</module>
+		<module>oct-entities</module>
+		<module>oct-jpa2-patch</module>
+		<module>oct-dataaccess</module>
+		<module>oct-i18n</module>
+        <module>oct-utils</module>
+        <module>oct-web-commons</module>
+        <module>oct-offline</module>
+        <module>oct-eci-data</module>
+        <module>oct-crypto</module>
+        <module>oct-export-model</module>
+	</modules>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+		
+		 <dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<scope>compile</scope>
+		</dependency>  
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<configLocation>config/sun_checks.xml</configLocation><!-- default -->
+					<!-- <configLocation>config/maven_checks.xml</configLocation> -->
+					<!-- <configLocation>config/turbine_checks.xml</configLocation> -->
+					<!-- <configLocation>config/avalon_checks.xml</configLocation> -->
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</reporting>
+
+
+</project>

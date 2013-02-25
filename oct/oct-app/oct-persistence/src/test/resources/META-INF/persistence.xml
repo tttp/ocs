@@ -1,0 +1,96 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+
+	<persistence-unit name="oct" transaction-type="RESOURCE_LOCAL">
+
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+				
+		<class>eu.europa.ec.eci.oct.entities.admin.Contact</class>
+		<class>eu.europa.ec.eci.oct.entities.admin.Account</class>
+		<class>eu.europa.ec.eci.oct.entities.admin.InitiativeDescription</class>
+		<class>eu.europa.ec.eci.oct.entities.admin.SystemPreferences</class>		
+		<class>eu.europa.ec.eci.oct.entities.member.Country</class>
+		<class>eu.europa.ec.eci.oct.entities.member.Language</class>
+		<class>eu.europa.ec.eci.oct.entities.signature.PropertyValue</class>
+		<class>eu.europa.ec.eci.oct.entities.signature.Signature</class>
+		<class>eu.europa.ec.eci.oct.entities.CountryProperty</class>
+		<class>eu.europa.ec.eci.oct.entities.Property</class>
+		<class>eu.europa.ec.eci.oct.entities.PropertyGroup</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.RuleParameter</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.ValidationRule</class>
+		
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:testoct" />
+			
+		</properties>
+	</persistence-unit>
+	<persistence-unit name="mysqloct" transaction-type="RESOURCE_LOCAL">
+
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<class>eu.europa.ec.eci.oct.entities.admin.Contact</class>
+		<class>eu.europa.ec.eci.oct.entities.admin.Account</class>
+		<class>eu.europa.ec.eci.oct.entities.admin.InitiativeDescription</class>
+		<class>eu.europa.ec.eci.oct.entities.admin.SystemPreferences</class>		
+		<class>eu.europa.ec.eci.oct.entities.member.Country</class>
+		<class>eu.europa.ec.eci.oct.entities.member.Language</class>
+		<class>eu.europa.ec.eci.oct.entities.signature.PropertyValue</class>
+		<class>eu.europa.ec.eci.oct.entities.signature.Signature</class>
+		<class>eu.europa.ec.eci.oct.entities.CountryProperty</class>
+		<class>eu.europa.ec.eci.oct.entities.Property</class>
+		<class>eu.europa.ec.eci.oct.entities.PropertyGroup</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.RuleParameter</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.ValidationRule</class>
+		
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<property name="hibernate.connection.username" value="root"/>
+			<property name="hibernate.connection.password" value="admin"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/oct" />
+			<property name="hibernate.connection.autocommit" value="false"/>
+			
+
+		</properties>
+	</persistence-unit>
+	<persistence-unit name="oracleoct" transaction-type="RESOURCE_LOCAL">
+
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<class>eu.europa.ec.eci.oct.entities.admin.Contact</class>
+		<class>eu.europa.ec.eci.oct.entities.admin.Account</class>
+		<class>eu.europa.ec.eci.oct.entities.admin.InitiativeDescription</class>
+		<class>eu.europa.ec.eci.oct.entities.admin.SystemPreferences</class>		
+		<class>eu.europa.ec.eci.oct.entities.member.Country</class>
+		<class>eu.europa.ec.eci.oct.entities.member.Language</class>
+		<class>eu.europa.ec.eci.oct.entities.signature.PropertyValue</class>
+		<class>eu.europa.ec.eci.oct.entities.signature.Signature</class>
+		<class>eu.europa.ec.eci.oct.entities.CountryProperty</class>
+		<class>eu.europa.ec.eci.oct.entities.Property</class>
+		<class>eu.europa.ec.eci.oct.entities.PropertyGroup</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.RuleParameter</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.ValidationRule</class>
+		
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<property name="hibernate.connection.autocommit" value="false"/>
+			<!-- to customise per database -->
+			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@devora9.cc.cec.eu.int:1597:ECISGD" />
+			<property name="hibernate.connection.username" value="eci_oct_dev1"/>
+			<property name="hibernate.connection.password" value="devdb1234#"/>
+		</properties>
+	</persistence-unit>
+
+</persistence>
+

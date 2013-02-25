@@ -1,0 +1,194 @@
+<class-diagram version="1.0.4" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" corner="BOTTOM_RIGHT" language="java" name="eu.europa.ec.eci.oct.entities.admin.Initiative" 
+    project="oct-domain" file="/oct-domain/src/main/java/eu/europa/ec/eci/oct/entities/admin/Initiative.java" 
+    binary="false">    
+    <position height="-1" width="-1" x="550" y="186"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class id="2" corner="BOTTOM_RIGHT" language="java" name="eu.europa.ec.eci.oct.entities.admin.InitiativeRegistration" 
+    project="oct-domain" 
+    file="/oct-domain/src/main/java/eu/europa/ec/eci/oct/entities/admin/InitiativeRegistration.java" binary="false">    
+    <position height="-1" width="-1" x="289" y="188"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class id="3" corner="BOTTOM_RIGHT" language="java" name="eu.europa.ec.eci.oct.entities.admin.InitiativeDescription" 
+    project="oct-domain" file="/oct-domain/src/main/java/eu/europa/ec/eci/oct/entities/admin/InitiativeDescription.java" 
+    binary="false">    
+    <position height="-1" width="-1" x="548" y="436"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <enumeration id="4" corner="BOTTOM_RIGHT" language="java" name="eu.europa.ec.eci.oct.entities.admin.SystemState" 
+    project="oct-domain" file="/oct-domain/src/main/java/eu/europa/ec/eci/oct/entities/admin/SystemState.java" 
+    binary="false">    
+    <position height="-1" width="-1" x="821" y="515"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </enumeration>  
+  <class id="5" corner="BOTTOM_RIGHT" language="java" name="eu.europa.ec.eci.oct.entities.admin.SystemPreferences" 
+    project="oct-domain" file="/oct-domain/src/main/java/eu/europa/ec/eci/oct/entities/admin/SystemPreferences.java" 
+    binary="false">    
+    <position height="-1" width="-1" x="821" y="640"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class id="6" corner="BOTTOM_RIGHT" language="java" name="eu.europa.ec.eci.oct.entities.admin.Organizer" 
+    project="oct-domain" file="/oct-domain/src/main/java/eu/europa/ec/eci/oct/entities/admin/Organizer.java" 
+    binary="false">    
+    <position height="-1" width="-1" x="818" y="184"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class id="7" corner="BOTTOM_RIGHT" language="java" name="eu.europa.ec.eci.oct.entities.member.CountryLanguage" 
+    project="oct-domain" file="/oct-domain/src/main/java/eu/europa/ec/eci/oct/entities/member/CountryLanguage.java" 
+    binary="false">    
+    <position height="-1" width="-1" x="323" y="636"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class id="8" corner="BOTTOM_RIGHT" language="java" name="eu.europa.ec.eci.oct.entities.member.Language" 
+    project="oct-domain" file="/oct-domain/src/main/java/eu/europa/ec/eci/oct/entities/member/Language.java" 
+    binary="false">    
+    <position height="-1" width="-1" x="548" y="638"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class id="9" corner="BOTTOM_RIGHT" language="java" name="eu.europa.ec.eci.oct.entities.member.Country" 
+    project="oct-domain" file="/oct-domain/src/main/java/eu/europa/ec/eci/oct/entities/member/Country.java" 
+    binary="false">    
+    <position height="-1" width="-1" x="323" y="525"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class id="10" corner="BOTTOM_RIGHT" language="java" name="eu.europa.ec.eci.oct.entities.admin.ContactPerson" 
+    project="oct-domain" file="/oct-domain/src/main/java/eu/europa/ec/eci/oct/entities/admin/ContactPerson.java" 
+    binary="false">    
+    <position height="-1" width="-1" x="818" y="326"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <association>    
+    <end type="SOURCE" nodeId="1" navigable="false">      
+      <attribute name="contactPoints">        
+        <position height="14" width="69" x="665" y="303"/>      
+      </attribute>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" nodeId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <bendpoint x="510" y="297"/>    
+    <end type="SOURCE" nodeId="1" navigable="false">      
+      <attribute name="defaultDescription">        
+        <position height="14" width="91" x="585" y="342"/>      
+      </attribute>      
+      <multiplicity minimum="0" maximum="1">        
+        <position height="14" width="18" x="508" y="358"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" nodeId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <end type="SOURCE" nodeId="5" navigable="false">      
+      <attribute name="state"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <end type="SOURCE" nodeId="7" navigable="false">      
+      <attribute name="country"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <end type="SOURCE" nodeId="7" navigable="false">      
+      <attribute name="language"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <bendpoint x="600" y="296"/>    
+    <end type="SOURCE" nodeId="1" navigable="false">      
+      <attribute name="languageVersions">        
+        <position height="14" width="92" x="423" y="342"/>      
+      </attribute>      
+      <multiplicity minimum="0" maximum="2147483647">        
+        <position height="14" width="16" x="583" y="359"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" nodeId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <end type="SOURCE" nodeId="1" navigable="false">      
+      <attribute name="organizers"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" nodeId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <end type="SOURCE" nodeId="3" navigable="false">      
+      <attribute name="language"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <end type="SOURCE" nodeId="1" navigable="false">      
+      <attribute name="registration"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization>    
+    <end type="SOURCE" nodeId="6"/>    
+    <end type="TARGET" nodeId="10"/>  
+  </generalization>  
+  <association>    
+    <end type="SOURCE" nodeId="5" navigable="false">      
+      <attribute name="defaultLanguage"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true"/>    
+    <operations public="true" package="true" protected="true" private="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

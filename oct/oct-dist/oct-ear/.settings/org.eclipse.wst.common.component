@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="oct-ear">
+        <wb-resource deploy-path="/" source-path="/target/oct-ear"/>
+        <dependent-module archiveName="oct-web-admin.war" deploy-path="/" handle="module:/resource/oct-web-admin/oct-web-admin">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="oct-business.jar" deploy-path="/" handle="module:/resource/oct-business/oct-business">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="oct-web-public.war" deploy-path="/" handle="module:/resource/oct-web-public/oct-web-public">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="oct-dataaccess.jar" deploy-path="/" handle="module:/resource/oct-dataaccess/oct-dataaccess">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>

@@ -1,0 +1,64 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+
+	<persistence-unit name="oct" transaction-type="JTA">
+
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		<jta-data-source>jdbc/oct</jta-data-source>
+
+		<class>eu.europa.ec.eci.oct.entities.admin.Contact</class>
+		<class>eu.europa.ec.eci.oct.entities.admin.Account</class>
+		<class>eu.europa.ec.eci.oct.entities.admin.InitiativeDescription</class>
+		<class>eu.europa.ec.eci.oct.entities.admin.SystemPreferences</class>
+		<class>eu.europa.ec.eci.oct.entities.member.Country</class>
+		<class>eu.europa.ec.eci.oct.entities.member.Language</class>
+		<class>eu.europa.ec.eci.oct.entities.signature.PropertyValue</class>
+		<class>eu.europa.ec.eci.oct.entities.signature.Signature</class>
+		<class>eu.europa.ec.eci.oct.entities.CountryProperty</class>
+		<class>eu.europa.ec.eci.oct.entities.Property</class>
+		<class>eu.europa.ec.eci.oct.entities.PropertyGroup</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.RuleParameter</class>
+		<class>eu.europa.ec.eci.oct.entities.rules.ValidationRule</class>
+
+		<shared-cache-mode>NONE</shared-cache-mode>
+		<validation-mode>NONE</validation-mode>
+		<properties>
+		
+			<!-- MySQL variant start -->
+ 			<!-- property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /-->			
+			<!-- MySQL variant end -->
+			
+		
+			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.connection.release_mode" value="auto" />
+			<property name="hibernate.current_session_context_class"
+				value="jta" />
+			<property name="hibernate.transaction.flush_before_completion" value="true" 
+				/> 
+			<property name="hibernate.transaction.auto_close_session"
+				value="true" />
+			<property name="hibernate.order_updates" value="true" />
+			<property name="hibernate.generate_statistics" value="true" />
+			<property name="hibernate.jdbc.use_streams_for_binary"
+				value="true" />
+			<property name="transaction.factory_class"
+				value="org.hibernate.transaction.JTATransactionFactory" />
+			<property name="hibernate.query.factory_class"
+				value="org.hibernate.hql.ast.ASTQueryTranslatorFactory" />
+			<property name="hibernate.transaction.manager_lookup_class"
+				value="org.hibernate.transaction.WeblogicTransactionManagerLookup" />
+			<property name="hibernate.cache.use_second_level_cache"
+				value="false" />
+			<property name="hibernate.cache.use_query_cache" value="false" />
+		</properties>
+
+
+
+	</persistence-unit>
+
+</persistence>
+

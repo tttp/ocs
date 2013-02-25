@@ -1,0 +1,410 @@
+<!DOCTYPE dataset SYSTEM "dataset.dtd">
+<dataset>
+    <table name="OCT_LANG">
+        <column>ID</column>
+        <column>CODE</column>
+        <column>NAME</column>
+        <column>DISPLAY_ORDER</column>
+        <row>
+            <value>1</value>
+            <value>PL</value>
+            <value>Polish</value>
+            <value>1</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>DE</value>
+            <value>German</value>
+            <value>2</value>
+        </row>
+        <row>
+            <value>3</value>
+            <value>EN</value>
+            <value>English</value>
+            <value>3</value>
+        </row>
+        <row>
+            <value>4</value>
+            <value>FR</value>
+            <value>French</value>
+            <value>4</value>
+        </row>
+        <row>
+            <value>5</value>
+            <value>NL</value>
+            <value>Dutch</value>
+            <value>5</value>
+        </row>
+    </table>
+
+     <table name="OCT_INITIATIVE_DESC">
+    	<column>ID</column>
+    	<column>TITLE</column>
+    	<column>SUBJECTMATTER</column>
+    	<column>OBJECTIVES</column>
+    	<column>LANGUAGE_ID</column>
+    	<column>UPDATEDATE</column>
+    	<column>INSERTDATE</column>
+    	<column>VERSION</column>
+    	<row>
+    		<value>1</value>
+    		<value>Tytul</value>
+    		<value>Drugi tytul</value>
+    		<value>Inicjatywa testowa</value>
+    		<value>1</value>
+    		<value>21-11-2011 11:12:22</value>
+    		<value>21-11-2011 11:12:22</value>   
+    		<value>1</value>    		 		
+    	</row> 
+    	<row>
+    		<value>2</value>
+    		<value>Lorem</value>
+    		<value>ipsum</value>
+    		<value>Lorem ipsum</value>
+    		<value>2</value>
+    		<value>21-11-2011 11:12:22</value>
+    		<value>21-11-2011 11:12:22</value>  
+			<value>1</value>    		 		
+    	</row>
+    	<row>
+    		<value>3</value>
+    		<value>Lorem 3</value>
+    		<value>ipsum 3</value>
+    		<value>Lorem ipsum 3</value>
+    		<value>3</value>
+    		<value>21-11-2011 11:12:22</value>
+    		<value>21-11-2011 11:12:22</value>    
+    		<value>1</value>    				
+    	</row>    	
+    </table>
+
+    <table name="OCT_PROPERTY_GROUP">
+        <column>ID</column>
+        <column>NAME</column>
+        <column>PRIORITY</column>
+        <column>MULTICHOICE</column>
+        <row>
+            <value>1</value>
+            <value>oct.group.general</value>
+            <value>1</value>
+            <value>0</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>oct.group.address</value>
+            <value>2</value>
+            <value>0</value>
+        </row>
+        <row>
+            <value>3</value>
+            <value>oct.group.id</value>
+            <value>3</value>
+            <value>0</value>
+        </row>        
+    </table>
+    
+    <table name="OCT_PROPERTY">
+        <column>ID</column>
+        <column>NAME</column>
+        <column>GROUP_ID</column>
+        <column>TYPE</column>
+        <column>PRIORITY</column>
+        <row>
+            <value>1</value>
+            <value>name</value>
+            <value>1</value>
+            <value>ALPHANUMERIC</value>
+            <value>0</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>street</value>
+            <value>2</value>
+            <value>ALPHANUMERIC</value>
+            <value>0</value>
+        </row>
+        <row>
+            <value>3</value>
+            <value>city</value>
+            <value>2</value>
+            <value>ALPHANUMERIC</value>
+            <value>0</value>
+        </row>
+        <row>
+            <value>4</value>
+            <value>date_of_birth</value>
+            <value>1</value>
+            <value>DATE</value>
+            <value>0</value>
+        </row>
+    </table>
+    
+    <table name="OCT_COUNTRY">
+        <column>ID</column>
+        <column>CODE</column>
+        <column>NAME</column>
+        <row>
+            <value>1</value>
+            <value>PL</value>
+            <value>Poland</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>DE</value>
+            <value>Germany</value>
+        </row>
+        <row>
+            <value>3</value>
+            <value>GB</value>
+            <value>Great Britain</value>
+        </row>
+        <row>
+            <value>4</value>
+            <value>FR</value>
+            <value>France</value>
+        </row>
+        <row>
+            <value>5</value>
+            <value>BE</value>
+            <value>Belgium</value>
+        </row>
+    </table>
+    
+    <table name="OCT_COUNTRY_LANG">
+        <column>LANGUAGE_ID</column>
+        <column>COUNTRY_ID</column>        
+        <row>
+            <value>1</value>
+            <value>1</value>            
+        </row>
+        <row>
+            <value>2</value>
+            <value>2</value>            
+        </row>
+        <row>
+            <value>3</value>
+            <value>3</value>            
+        </row>
+        <row>
+            <value>4</value>
+            <value>4</value>            
+        </row>
+        <row>
+            <value>4</value>
+            <value>5</value>            
+        </row>
+        <row>
+            <value>5</value>
+            <value>5</value>            
+        </row>        
+    </table>
+    
+    <table name="OCT_COUNTRY_PROPERTY">
+    	<column>ID</column>
+        <column>PROPERTY_ID</column>
+        <column>COUNTRY_ID</column>
+        <column>REQUIRED</column>
+        <row>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>2</value>
+            <value>1</value>
+            <value>1</value>
+        </row>
+        <row>
+            <value>3</value>
+            <value>3</value>
+            <value>1</value>
+            <value>1</value>
+        </row>
+        <row>
+            <value>4</value>
+            <value>4</value>
+            <value>1</value>
+            <value>1</value>
+        </row>
+        <row>
+            <value>5</value>
+            <value>1</value>
+            <value>2</value>
+            <value>1</value>
+        </row>
+        <row>
+            <value>6</value>
+            <value>2</value>
+            <value>2</value>
+            <value>1</value>
+        </row>
+        <row>
+            <value>7</value>
+            <value>3</value>
+            <value>2</value>
+            <value>1</value>
+        </row>
+        <row>
+            <value>8</value>
+            <value>4</value>
+            <value>2</value>
+            <value>1</value>
+        </row>
+    </table>
+    <table name="OCT_SIGNATURE">
+    	<column>ID</column>
+    	<column>COUNTRYTOSIGNFOR_ID</column>
+    	<column>UUID</column>
+    	<column>FINGERPRINT</column>
+    	<column>DESCRIPTION_ID</column>
+    	<column>DATEOFSIGNATURE</column>
+    	<column>UPDATEDATE</column>
+    	<column>INSERTDATE</column>
+    	<column>VERSION</column>
+    	<row>
+    		<value>1</value>
+    		<value>1</value>
+    		<value>aaa</value>
+    		<value>aaa</value>
+    		<value>1</value>
+    		<value>21-11-2011 11:12:22</value>
+    		<value>21-11-2011 11:12:22</value>
+    		<value>21-11-2011 11:12:22</value>   
+    		<value>1</value>  
+    	</row>
+    	<row>
+    		<value>2</value>
+    		<value>1</value>
+    		<value>bbb</value>
+    		<value>bbb</value>
+    		<value>2</value>
+    		<value>21-11-2011 11:12:22</value>
+    		<value>21-11-2011 11:12:22</value>
+    		<value>21-11-2011 11:12:22</value>   
+    		<value>1</value>  
+    	</row>
+    	<row>
+    		<value>3</value>
+    		<value>2</value>
+    		<value>ccc</value>
+    		<value>ccc</value>
+    		<value>2</value>
+    		<value>21-11-2011 11:12:22</value>
+    		<value>21-11-2011 11:12:22</value>
+    		<value>21-11-2011 11:12:22</value>   
+    		<value>1</value>  
+    	</row>    
+    </table>
+    
+   <table name="OCT_PROPERTY_VALUE">
+    	<column>ID</column>
+    	<column>VALUE</column>
+    	<column>PROPERTY_ID</column>
+    	<column>SIGNATURE_ID</column>    	
+    	<row>
+    		<value>1</value>
+    		<value>Kowalski</value>
+    		<value>1</value>
+    		<value>1</value>
+    	</row>
+    	<row>
+    		<value>2</value>
+    		<value>Belliard</value>
+    		<value>2</value>
+    		<value>1</value>
+    	</row>
+    	<row>
+    		<value>3</value>
+    		<value>Warszawa</value>
+    		<value>3</value>
+    		<value>1</value>
+    	</row>   
+    	<row>
+    		<value>4</value>
+    		<value>12/12/12</value>
+    		<value>4</value>
+    		<value>1</value>
+    	</row>  
+    	<row>
+    		<value>5</value>
+    		<value>Popescu</value>
+    		<value>1</value>
+    		<value>2</value>
+    	</row>
+    	<row>
+    		<value>6</value>
+    		<value>Rue Loi</value>
+    		<value>2</value>
+    		<value>2</value>
+    	</row>
+    	<row>
+    		<value>7</value>
+    		<value>Warszawa</value>
+    		<value>3</value>
+    		<value>2</value>
+    	</row>   
+    	<row>
+    		<value>8</value>
+    		<value>12/12/12</value>
+    		<value>4</value>
+    		<value>2</value>
+    	</row> 
+    	<row>
+    		<value>9</value>
+    		<value>Shultz</value>
+    		<value>5</value>
+    		<value>3</value>
+    	</row>
+    	<row>
+    		<value>10</value>
+    		<value>Mainstrasse</value>
+    		<value>6</value>
+    		<value>3</value>
+    	</row>
+    	<row>
+    		<value>11</value>
+    		<value>Berlin</value>
+    		<value>7</value>
+    		<value>3</value>
+    	</row>   
+    	<row>
+    		<value>12</value>
+    		<value>12/12/12</value>
+    		<value>8</value>
+    		<value>3</value>
+    	</row>  
+    </table>
+    
+    
+    <table name="OCT_SYSTEM_PREFS">
+        <column>ID</column>
+        <column>PUBLICKEY</column>
+        <column>STATE</column>     
+        <column>DEFAULTDESCRIPTION_ID</column>     
+        <column>DEFAULTLANGUAGE_ID</column>     
+        <column>COMMISSIONREGISTERURL</column>     
+        <column>REGISTRATIONNUMBER</column>
+        <column>REGISTRATIONDATE</column>
+        <column>COLLECTING</column> 
+        <column>UPDATEDATE</column>
+    	<column>INSERTDATE</column>
+    	<column>VERSION</column>              
+        <row>
+            <value>1</value>
+            <value>30820122300d06092a864886f70d01010105000382010f003082010a02820101008640dabc6a8c10aff60512550e6c91463ebf64aa6fda28e0726515782e8413c9b09ac98c69bd4e3aa53b816d2073f759a14959899a649cadea2cdeafec3095c55316cb372f045d346777836df5edcd1d54d973bb8646a0a3872404daac795d3594b426fadfc069f490a80d4f10e985d0efd6038dcfbcbca04a4205971866f692ed0aee358e06097341b4b5b78c6e6c31d0b6a672415ee1b513b11e046b926a32f2a3a79d28137697d441b03be6eb3d1364a3eae3c23f4bc49746541112945a53e6c3fddf72db623e910200179c65f8f39570facecd8e5b548ffe75c71e83e88be9cf188516acf191e1486d13a268304ce8f003766932a0640cefdc24cd60eb630203010001</value>  
+            <value>DEPLOYED</value>
+            <value>1</value>
+            <value>1</value>
+            <value>http://ec.europa.eu/eci/firstinitiative</value>          
+            <value>937459734</value>
+            <value>2012-12-12</value>
+            <value>1</value>
+            <value>21-11-2011 11:12:22</value>
+    		<value>21-11-2011 11:12:22</value>   
+    		<value>1</value> 
+        </row>       
+    </table>
+</dataset>
+
