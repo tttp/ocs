@@ -43,7 +43,7 @@ public class DateValidator extends AbstractValidator {
 
 		// TODO currently this only supports ranges consisting of years; if needed, please extend
 		int minYear = Integer.parseInt(minValue.substring(0, minValue.indexOf("y")));
-		
+
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.YEAR, 0 - minYear);
 		Date etalonDate = calendar.getTime();
@@ -52,26 +52,29 @@ public class DateValidator extends AbstractValidator {
 
 		return result;
 	}
-	
+
 	/**
-	 * Parses a Date from a string. The date format used
-	 * is {@link DateValidator.DEFAULT_DATE_FORMAT}. 
-	 * @param text the text
+	 * Parses a Date from a string. The date format used is {@link DateValidator.DEFAULT_DATE_FORMAT}.
+	 * 
+	 * @param text
+	 *            the text
 	 * @return the date
-	 * @throws ParseException on parsing failures
+	 * @throws ParseException
+	 *             on parsing failures
 	 */
 	private Date parseDate(String text) throws ParseException {
 		final SimpleDateFormat dateParser = new SimpleDateFormat(DateValidator.DEFAULT_DATE_FORMAT);
 		dateParser.setLenient(false); // use strict date parsing
-		
+
 		final ParsePosition parsePosition = new ParsePosition(0);
 		final Date date = dateParser.parse(text, parsePosition);
 		// accept only, if the *entire format string length* was used during parsing
 		if (parsePosition.getIndex() < DateValidator.DEFAULT_DATE_FORMAT.length()) {
-			throw new ParseException("Parsed an incomplete string with regard to format '" + DateValidator.DEFAULT_DATE_FORMAT +
-					"': " + text.substring(0, parsePosition.getIndex()), parsePosition.getIndex());
+			throw new ParseException("Parsed an incomplete string with regard to format '"
+					+ DateValidator.DEFAULT_DATE_FORMAT + "': " + text.substring(0, parsePosition.getIndex()),
+					parsePosition.getIndex());
 		}
 		return date;
 	}
-	
+
 }

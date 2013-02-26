@@ -1,0 +1,5 @@
+<weblogic-web-app xmlns="http://xmlns.oracle.com/weblogic/weblogic-web-app">
+	<session-descriptor>
+		<cookie-secure>true</cookie-secure>
+	</session-descriptor>
+</weblogic-web-app>  

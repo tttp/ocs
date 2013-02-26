@@ -103,6 +103,18 @@ public class SignupController extends HttpGetController {
 		if (request.getParameter("_cancel") != null) {
 			status.setComplete();
 			return "redirect:index.do";
+		} else if ((request.getParameter("_changeCaptchaToImage.x") != null && request
+				.getParameter("_changeCaptchaToImage.y") != null)
+				|| (request.getParameter("_changeCaptchaToAudio.x") != null && request
+						.getParameter("_changeCaptchaToAudio.y") != null)) {
+			if (request.getParameter("_changeCaptchaToImage.x") != null) {
+				formBean.setCaptchaType(CaptchaService.CAPTCHA_IMAGE_TYPE);
+			} else {
+				formBean.setCaptchaType(CaptchaService.CAPTCHA_AUDIO_TYPE);
+			}
+			request.getSession().removeAttribute(CaptchaService.CAPTCHA_AUDIO_STREAM);
+			setCurrentPage(request.getSession(), WIZARD_STEP_1);
+			return super.doGet(model, request, response);
 		} else if (request.getParameter("_finish") != null) {
 			if (formBean.getCountryToSignFor() == null) {
 				result.rejectValue("countryCode", "err.empty.country", "The country name cannot be empty!");
@@ -111,6 +123,7 @@ public class SignupController extends HttpGetController {
 				return super.doGet(model, request, response);
 			}
 
+			// populate multichoice values
 			for (PropertyValue property : formBean.getProperties()) {
 				if (property != null && property.getProperty() != null
 						&& property.getProperty().getProperty().getGroup().isMultichoice()) {
@@ -119,7 +132,7 @@ public class SignupController extends HttpGetController {
 							property.getProperty().getProperty().getGroup().getId());
 					if (selectedPropertyId != DEFAULT_PROPERTY_VALUE_ID) {
 						selectedProperty = signatureService.getCountryPropertyById(selectedPropertyId);
-						if (selectedProperty != null) {
+						if (selectedProperty != null && selectedProperty.getProperty().getGroup().isMultichoice()) {
 							property.setProperty(selectedProperty);
 						}
 					}
@@ -146,6 +159,9 @@ public class SignupController extends HttpGetController {
 					setCurrentPage(request.getSession(), WIZARD_STEP_1);
 					return super.doGet(model, request, response);
 				} else {
+					// clear audio captcha, if any
+					request.getSession().removeAttribute(CaptchaService.CAPTCHA_AUDIO_STREAM);
+
 					// everything is ok, store the signature
 					Signature signature = new Signature();
 					signature.setCountryToSignFor(formBean.getCountryToSignFor());

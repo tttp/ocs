@@ -83,7 +83,6 @@ public abstract class HttpGetController {
 	}
 
 	protected void setState(Model model, HttpServletRequest request) throws OCTException {
-
 		if (request.getParameter("initiativeLang") != null) {
 			request.getSession().setAttribute(CommonControllerConstants.SESSION_ATTR_INITIATIVE_LANGUAGE,
 					request.getParameter("initiativeLang"));
@@ -107,9 +106,9 @@ public abstract class HttpGetController {
 		SystemPreferences prefs = systemManager.getSystemPreferences();
 
 		InitiativeDescription description = null;
+		String langCode = (String) request.getSession().getAttribute(
+				CommonControllerConstants.SESSION_ATTR_INITIATIVE_LANGUAGE);
 		try {
-			String langCode = (String) request.getSession().getAttribute(
-					CommonControllerConstants.SESSION_ATTR_INITIATIVE_LANGUAGE);
 			if (langCode == null) {
 				langCode = LocaleUtils.getCurrentLanguage(request);
 			}
@@ -132,12 +131,14 @@ public abstract class HttpGetController {
 			logger.warn("problem occured while fetching initiative description. obtaining default description", e);
 			try {
 				description = initiativeService.getDefaultDescription();
+				langCode = description.getLanguage().getCode();
 			} catch (OCTException e2) {
 				logger.warn("default initiative description not found", e2);
 
 			}
 		}
-
+		model.addAttribute("initiativeLang", langCode);
+		
 		if (!model.containsAttribute("oct_cert")) {
 			try {
 				Certificate cert = systemManager.getCertificate();
@@ -146,7 +147,7 @@ public abstract class HttpGetController {
 				// ignore
 			}
 		}
-
+		
 		// sanitize urls
 		try {
 			if (prefs != null) {

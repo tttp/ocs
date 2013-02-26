@@ -23,7 +23,6 @@ import eu.europa.ec.eci.oct.entities.member.Language;
 import eu.europa.ec.eci.oct.webcommons.controller.CommonControllerConstants;
 import eu.europa.ec.eci.oct.webcommons.controller.HttpGetController;
 import eu.europa.ec.eci.oct.webcommons.security.requesttoken.RequestTokenHelper;
-import eu.europa.ec.eci.oct.webcommons.tag.sort.SortedItemTag;
 
 /**
  * Controller for handling the Index (default) page.

@@ -9,6 +9,7 @@ import java.util.Random;
 import eu.europa.ec.eci.oct.entities.PropertyGroup;
 import eu.europa.ec.eci.oct.entities.member.Country;
 import eu.europa.ec.eci.oct.entities.signature.PropertyValue;
+import eu.europa.ec.eci.oct.web.captcha.CaptchaService;
 import eu.europa.ec.eci.oct.webcommons.model.SimpleBean;
 
 /**
@@ -30,6 +31,7 @@ public class SupportFormBean extends SimpleBean {
 	private Map<String, String> translatedProperties = new HashMap<String, String>();
 
 	private String captcha;
+	private String captchaType = CaptchaService.CAPTCHA_IMAGE_TYPE;
 
 	public List<PropertyValue> getProperties() {
 		return properties;
@@ -106,5 +108,13 @@ public class SupportFormBean extends SimpleBean {
 
 	public String getCountryCode() {
 		return countryCode;
+	}
+
+	public void setCaptchaType(String captchaType) {
+		this.captchaType = captchaType;
+	}
+
+	public String getCaptchaType() {
+		return captchaType;
 	}
 }

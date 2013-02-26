@@ -5,6 +5,8 @@
 
 	<bean id="captchaService" class="eu.europa.ec.eci.oct.web.captcha.CaptchaServiceImpl">
 		<property name="imageCaptchaService" ref="imageCaptchaService" />
+		<property name="soundCaptchaService" ref="soundCaptchaservice" />
+		<property name="captchaEnabled" value="true" />
 	</bean>
 
 	<bean id="imageCaptchaService"
@@ -299,4 +301,64 @@
 			<null />
 		</constructor-arg>
 	</bean>
+
+	<bean id="soundCaptchaservice"
+		class="com.octo.captcha.service.sound.DefaultManageableSoundCaptchaService">
+		<constructor-arg index="0">
+			<bean class="com.octo.captcha.service.captchastore.FastHashMapCaptchaStore" />
+		</constructor-arg>
+		<constructor-arg index="1" ref="soundEngine" />
+		<constructor-arg index="2">
+			<value>1200</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>100000</value>
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>75000</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="soundEngine"
+		class="eu.europa.ec.eci.oct.web.captcha.SpellerSoundCaptchaEngine">
+		<constructor-arg index="0" ref="wordgen1" />
+		<constructor-arg index="1" ref="soundConfigurator" />
+		<constructor-arg index="2">
+			<bean
+				class="com.octo.captcha.component.word.worddecorator.SpellerWordDecorator">
+				<constructor-arg>
+					<value>, </value>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="wordgen1"
+		class="com.octo.captcha.component.word.wordgenerator.RandomWordGenerator">
+		<constructor-arg>
+			<value>0123456789</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="soundConfigurator"
+		class="com.octo.captcha.component.sound.soundconfigurator.FreeTTSSoundConfigurator">
+		<!-- voice name -->
+		<constructor-arg index="0">
+			<value>kevin16</value>
+		</constructor-arg>
+		<!-- voices location -->
+		<constructor-arg index="1">
+			<value>com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>1.0f</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>100</value>
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>110</value>
+		</constructor-arg>
+	</bean>
+
 </beans>

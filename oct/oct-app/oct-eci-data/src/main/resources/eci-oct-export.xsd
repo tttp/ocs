@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2006 rel. 3 sp1 (http://www.altova.com) by MKE (European Commission) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified">
 	<xs:annotation>
 		<xs:documentation>
@@ -7,7 +6,7 @@
 		
 		History:
 		16/02/2012 - initiative registration number: moved from long to String.
-		07/11/2011 - initial version created by Martin Keschenau.
+		07/11/2011 - initial version created
 		</xs:documentation>
 	</xs:annotation>
 	

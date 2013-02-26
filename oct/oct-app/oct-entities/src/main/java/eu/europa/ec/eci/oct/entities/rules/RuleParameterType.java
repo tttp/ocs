@@ -2,5 +2,5 @@ package eu.europa.ec.eci.oct.entities.rules;
 
 public enum RuleParameterType {
 
-	MIN, MAX, REGEXP
+	MIN, MAX, REGEXP, JAVAEXP
 }

@@ -21,5 +21,4 @@ public class DefaultValidator extends AbstractValidator {
 	public boolean validateRange(String value, String minValue, String maxValue) {
 		return true;
 	}
-
 }

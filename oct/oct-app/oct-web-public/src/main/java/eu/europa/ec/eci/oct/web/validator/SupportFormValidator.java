@@ -14,6 +14,7 @@ import eu.europa.ec.eci.oct.utils.validator.AbstractValidator;
 import eu.europa.ec.eci.oct.utils.validator.ValidatorFactory;
 import eu.europa.ec.eci.oct.web.captcha.CaptchaService;
 import eu.europa.ec.eci.oct.web.converters.PropertyType2DataType;
+import eu.europa.ec.eci.oct.web.converters.SupportFormBean2JAXELStructure;
 import eu.europa.ec.eci.oct.web.model.SupportFormBean;
 import eu.europa.ec.eci.oct.webcommons.locale.MessageSourceAware;
 import eu.europa.ec.eci.oct.webcommons.validator.BaseValidator;
@@ -57,7 +58,7 @@ public class SupportFormValidator extends BaseValidator {
 	 */
 	public void validateCaptcha(Object target, Errors errors, CaptchaService captchaService, String captchaId) {
 		SupportFormBean bean = (SupportFormBean) target;
-		if (!captchaService.validateCaptcha(captchaId, bean.getCaptcha())) {
+		if (!captchaService.validateCaptcha(captchaId, bean.getCaptcha(), bean.getCaptchaType())) {
 			errors.rejectValue("captcha", "oct.error.wrongcaptcha", "The security code is wrong! Please try again.");
 		}
 	}
@@ -144,8 +145,9 @@ public class SupportFormValidator extends BaseValidator {
 					validationRules.addAll(propertyValue.getProperty().getRules());
 
 					// apply all validation rules
-					for (ValidationRule validationRule : validationRules) {
-						@SuppressWarnings("unchecked")
+					for (@SuppressWarnings("rawtypes")
+					ValidationRule validationRule : validationRules) {
+						@SuppressWarnings({ "unchecked", "rawtypes" })
 						Set<RuleParameter> parameters = validationRule.getRuleParameters();
 
 						// for each rule, invoke needed validation method
@@ -154,7 +156,8 @@ public class SupportFormValidator extends BaseValidator {
 						case RANGE:
 							String minValue = "";
 							String maxValue = "";
-							for (RuleParameter parameter : parameters) {
+							for (@SuppressWarnings("rawtypes")
+							RuleParameter parameter : parameters) {
 								switch (parameter.getParameterType()) {
 								case MIN:
 									minValue = parameter.getValue();
@@ -176,7 +179,8 @@ public class SupportFormValidator extends BaseValidator {
 						case SIZE:
 							int minSize = 0;
 							int maxSize = Integer.MAX_VALUE;
-							for (RuleParameter parameter : parameters) {
+							for (@SuppressWarnings("rawtypes")
+							RuleParameter parameter : parameters) {
 								switch (parameter.getParameterType()) {
 								case MIN:
 									minSize = Integer.parseInt(parameter.getValue());
@@ -197,7 +201,8 @@ public class SupportFormValidator extends BaseValidator {
 							break;
 						case REGEXP:
 							String regexp = "";
-							for (RuleParameter parameter : parameters) {
+							for (@SuppressWarnings("rawtypes")
+							RuleParameter parameter : parameters) {
 								switch (parameter.getParameterType()) {
 								case REGEXP:
 									regexp = parameter.getValue();
@@ -208,6 +213,26 @@ public class SupportFormValidator extends BaseValidator {
 							}
 
 							if (!validator.validateRegularExpression(value, regexp)) {
+								errors.rejectValue(errorPath, "oct.error.propertytypemismatch",
+										new Object[] { getMessageSource().getMessage(name) },
+										"The {0} format is not valid!");
+							}
+							break;
+						case JAVAEXP:
+							String javaExpression = "";
+							for (@SuppressWarnings("rawtypes")
+							RuleParameter parameter : parameters) {
+								switch (parameter.getParameterType()) {
+								case JAVAEXP:
+									javaExpression = parameter.getValue();
+									break;
+								default:
+									break;
+								}
+							}
+
+							if (!validator.validateJavaExpression(javaExpression,
+									SupportFormBean2JAXELStructure.convert(bean))) {
 								errors.rejectValue(errorPath, "oct.error.propertytypemismatch",
 										new Object[] { getMessageSource().getMessage(name) },
 										"The {0} format is not valid!");
