@@ -126,7 +126,7 @@
 						<tr>							
 							<td class="buttons">
 								<c:out value="${oct_cert.fileName}"/> &nbsp;	
-								<a href="./certificate.do" target="_blank"><spring:message code="oct.s17.view" /></a>
+								<a href="<c:url value="./certificate.do" />" target="_blank"><spring:message code="oct.s17.view" /></a>
 								 &nbsp;
 							</td>
 						</tr>

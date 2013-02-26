@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface CaptchaService {
 
-	String CAPTCHA_AUDIO_STREAM = "captchaAudio";
 	String CAPTCHA_AUDIO_TYPE = "audio";
 	String CAPTCHA_IMAGE_TYPE = "image";
 

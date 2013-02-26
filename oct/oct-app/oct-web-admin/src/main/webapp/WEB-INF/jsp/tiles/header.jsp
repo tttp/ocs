@@ -58,12 +58,12 @@
 		</c:choose>
 		<div id="menu-container">
 			<ul id="menu">
-				<li class="first home <c:out value="${itemClassIndex}"/>"><a href="./index.do"><spring:message code="oct.menu.home" /></a></li>
-				<li class="setup <c:out value="${itemClassPrefs}"/>"><a href="./systemprefs.do"><spring:message code="oct.menu.setup" /></a></li>
-				<li class="export <c:out value="${itemClassExport}"/>"><a href="./export.do"><spring:message code="oct.menu.monitor.export" /></a></li>
-				<li class="status <c:out value="${itemClassStatus}"/>"><a href="./systemstatus.do"><spring:message code="oct.menu.system.status" /></a></li>
-				<li class="manual "><a href="./manual.do"  target="_blank"><spring:message code="oct.menu.manual" /></a></li>
-				<li class="last logout"><a href="<c:url value="/j_spring_security_logout"/>"><spring:message code="oct.menu.logout"/></a></li>
+				<li class="first home <c:out value="${itemClassIndex}"/>"><a href="<c:url value="./index.do"/>"><spring:message code="oct.menu.home" /></a></li>
+				<li class="setup <c:out value="${itemClassPrefs}"/>"><a href="<c:url value="./systemprefs.do"/>"><spring:message code="oct.menu.setup" /></a></li>
+				<li class="export <c:out value="${itemClassExport}"/>"><a href="<c:url value="./export.do"/>"><spring:message code="oct.menu.monitor.export" /></a></li>
+				<li class="status <c:out value="${itemClassStatus}"/>"><a href="<c:url value="./systemstatus.do"/>"><spring:message code="oct.menu.system.status" /></a></li>
+				<li class="manual "><a href="<c:url value="./manual.do"/>"  target="_blank"><spring:message code="oct.menu.manual" /></a></li>
+				<li class="last logout"><a href="./j_spring_security_logout"><spring:message code="oct.menu.logout"/></a></li>
 			</ul>
 		</div>
 	<div id="state">

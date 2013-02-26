@@ -11,9 +11,10 @@ $(document).ready(function(){
 	_datepicker.yearRange = "1900:2010";
 	_datepicker.defaultDate = "-16y";
 	_datepicker.showMonthAfterYear = false;
-	$("input[rel=date]").datepicker(_datepicker);
+	$("input[class=date]").datepicker(_datepicker);
 
 	if ($("#langChange")) {
+		$("#langChange").show();
 		$("#langChange").change(function(evt) {
 			var _lang = $("#langChange option:selected").val();
 			if (_lang && _lang != "-1") {
@@ -56,7 +57,12 @@ $(document).ready(function(){
 			var _input =  $("<input/>", {
 				id: ADDITIONAL_FIELD_ID,
 				type: "text",
-				name: _select.attr("name")
+				name: _select.attr("name"),
+				keydown: function(evt) {
+					if (evt.keyCode == 13) {
+						onEnterPressed(evt);
+					}		
+				} 
 			});
 			_input.insertAfter(_select);
 			
@@ -86,7 +92,7 @@ $(document).ready(function(){
 			}
 		});
 		
-		if (__code != "" && __default == "selected") {
+		if (__code != "" && __default == "selected=&#034;selected&#034;") {
 			_select.createInput();
 			$("#" + ADDITIONAL_FIELD_ID).val(__code);
 		}
@@ -94,10 +100,14 @@ $(document).ready(function(){
 	
 	$("form input").keydown(function(evt) {
 		if (evt.keyCode == 13) {
-			evt.preventDefault();
-			evt.stopPropagation();
-			
-			$("input[name='_finish']").click();
+			onEnterPressed(evt);
 		}		
-	});	
+	});
+	
+	function onEnterPressed(evt) {
+		evt.preventDefault();
+		evt.stopPropagation();
+		
+		$("input[name='_finish']").click();
+	}	
 });

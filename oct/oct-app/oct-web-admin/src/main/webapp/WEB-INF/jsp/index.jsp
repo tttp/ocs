@@ -18,15 +18,15 @@
 			<table id="home-nav">
 				<tr>
 					<td>
-						<h1 class="setup"><a href="./systemprefs.do"><spring:message code="oct.menu.setup" /></a></h1>
+						<h1 class="setup"><a href="<c:url value="./systemprefs.do" />"><spring:message code="oct.menu.setup" /></a></h1>
 						<spring:message code="oct.s2.intro.2" />
 					</td>
 					<td>
-						<h1 class="export"><a href="./export.do"><spring:message code="oct.menu.monitor.export" /></a></h1>
+						<h1 class="export"><a href="<c:url value="./export.do" />"><spring:message code="oct.menu.monitor.export" /></a></h1>
 						<spring:message code="oct.s2.intro.4" />
 					</td>
 					<td>
-						<h1 class="systemstatus"><a href="./systemstatus.do"><spring:message code="oct.menu.system.status" /></a></h1>
+						<h1 class="systemstatus"><a href="<c:url value="./systemstatus.do" />"><spring:message code="oct.menu.system.status" /></a></h1>
 						<spring:message code="oct.s2.intro.5" />
 					</td>
 				</tr>
@@ -34,11 +34,16 @@
 			<p>
 				<spring:message code="oct.s2.msg.1" />
 			</p>
+			
 			<p>
-				<spring:message code="oct.s2.msg.3" arguments="<a href=./systemprefs.do>${sysPrefs}</a>"/>				
+				<spring:message code="oct.menu.setup" var="sysPrefs"/>
+				<c:url value="./systemprefs.do" var="spUrl" />
+				<spring:message code="oct.s2.msg.3" arguments="<a href='${spUrl}'>${sysPrefs}</a>" />
 			</p>
 			<p>
-				<spring:message code="oct.s2.msg.4" arguments="<a href=./systemstatus.do>${state}</a>"/>				
+				<spring:message code="oct.menu.system.status" var="state"/>
+				<c:url value="./systemstatus.do" var="stUrl" />
+				<spring:message code="oct.s2.msg.3" arguments="<a href='${stUrl}'>${state}</a>" />
 			</p>
 		</div>
 		<%@ include file="./tiles/footer.jsp"%>

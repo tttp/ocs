@@ -149,7 +149,7 @@
 												disabled="${!editing}" size="50" />
 										</c:when>
 										<c:otherwise>
-											<a href="<c:out value="${form.registerUrl}" />" target="_blank"><c:out value="${form.registerUrl}" /></a>											
+											<a href="<c:url value="${form.registerUrl}" />" target="_blank"><c:out value="${form.registerUrl}" /></a>											
 										</c:otherwise>
 									</c:choose></td>
 							</tr>

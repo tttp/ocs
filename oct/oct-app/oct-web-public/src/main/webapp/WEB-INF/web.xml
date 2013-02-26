@@ -74,6 +74,10 @@
 		<location>/error.do?token=404</location>
 	</error-page>
 
+	<session-config>
+		<session-timeout>600</session-timeout>
+	</session-config>
+	
 	<jsp-config>
 		<taglib>
 			<taglib-uri>oct</taglib-uri>

@@ -112,7 +112,6 @@ public class SignupController extends HttpGetController {
 			} else {
 				formBean.setCaptchaType(CaptchaService.CAPTCHA_AUDIO_TYPE);
 			}
-			request.getSession().removeAttribute(CaptchaService.CAPTCHA_AUDIO_STREAM);
 			setCurrentPage(request.getSession(), WIZARD_STEP_1);
 			return super.doGet(model, request, response);
 		} else if (request.getParameter("_finish") != null) {
@@ -159,9 +158,6 @@ public class SignupController extends HttpGetController {
 					setCurrentPage(request.getSession(), WIZARD_STEP_1);
 					return super.doGet(model, request, response);
 				} else {
-					// clear audio captcha, if any
-					request.getSession().removeAttribute(CaptchaService.CAPTCHA_AUDIO_STREAM);
-
 					// everything is ok, store the signature
 					Signature signature = new Signature();
 					signature.setCountryToSignFor(formBean.getCountryToSignFor());

@@ -3,6 +3,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-	<div id="footer">
-		
-	</div>
+<p id="version">
+	<spring:message code="oct.header.title" /> JOINUP_VERSION
+</p>

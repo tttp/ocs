@@ -42,7 +42,7 @@ import eu.europa.ec.eci.oct.vo.export.PropertyValueBean;
 @MessageDriven(activationConfig = { @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue") }, mappedName = "OctExportQueue")
 public class ExportWorkerMDB implements MessageListener {
 
-	private final Logger logger = Logger.getLogger(ExportDispatcherWorkerMDB.class);
+	private final Logger logger = Logger.getLogger(ExportWorkerMDB.class);
 
 	@EJB
 	private SignatureService sigService;

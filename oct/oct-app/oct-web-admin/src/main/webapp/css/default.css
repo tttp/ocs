@@ -579,3 +579,10 @@ h2.page-title {
 	height: 80px;
 	background: url("../images/bg_title-status.png") no-repeat left bottom transparent;
 }
+
+#version {
+	text-align: right;
+	margin-right: 6px;
+	margin-bottom: 4px;
+	font-size: 0.85em;
+}

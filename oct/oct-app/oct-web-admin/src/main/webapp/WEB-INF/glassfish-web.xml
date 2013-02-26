@@ -3,6 +3,7 @@
 	<session-config>
 		<cookie-properties>
 			<property name="cookieSecure" value="true" />
+			<property name="cookieHttpOnly" value="true" />
 		</cookie-properties>
 	</session-config>
 </glassfish-web-app>

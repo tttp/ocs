@@ -1,14 +1,14 @@
 <%@page pageEncoding="UTF-8"%>
 <%@page contentType="text/html;charset=UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="oct" uri="oct"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="<c:out value="${currentLanguage}"/>">
 <head>
+	<title><spring:message code="oct.menu.home" /> - <spring:message code="oct.title" /></title>
 <%@ include file="./tiles/head.jsp"%>
 </head>
 <body>
@@ -21,126 +21,97 @@
 			</c:if>
 		
 			<c:if test="${oct_system_state != 'DEPLOYED'}">
-			<h2>
+			<h1>
 				<spring:message code="oct.s1.intro" />
 				<br />
-				<c:out value="${oct_initiative_description.title}" />
-			</h2>
+				<span lang="<c:out value="${initiativeLang}" />"><c:out value="${oct_initiative_description.title}" /></span>
+			</h1>
 			
-			<form:form method="post" modelAttribute="form" name="signupForm" id="signupForm">
-				<oct:requestToken/>
-			<fieldset class="home">
-			<table cellspacing="0" cellpadding="0" class="fields">
-			<tr>
-				<td class="k">
-					<spring:message code="oct.s1.subject" />
-				</td>
-				<td class="v">
-					<c:out value="${oct_initiative_description.subjectMatter}" />
-				</td>
-			</tr>
+			<form:form method="post" modelAttribute="form" id="signupForm">
+				<fieldset class="home">
+					<oct:requestToken/>
+				
+					<p>
+						<label><spring:message code="oct.s1.subject" /></label>
+						<br />
+						<strong lang="<c:out value="${initiativeLang}" />"><c:out value="${oct_initiative_description.subjectMatter}" /></strong>
+					</p>
+					
+					<p>
+						<label><spring:message code="oct.s1.objectives" /></label>
+						<br />
+						<strong lang="<c:out value="${initiativeLang}" />"><c:out value="${oct_initiative_description.objectives}" /></strong>
+					</p>
+					
+					<p>
+						<label><spring:message code="oct.s1.languages" /></label>
+						<br />
+						<c:forEach items="${initiativeLanguages}" var="language">
+							<c:url value="./index.do" var="iUrl">
+								<c:param name="initiativeLang" value="${language.code}" />
+							</c:url>
+							<a href="${iUrl}" lang="<c:out value="${language.code}" />"><spring:message code="${language.name}" /></a> &nbsp;
+						</c:forEach>
+					</p>
+					
+					<p>
+						<label><spring:message code="oct.s1.registrationno" /></label>
+						<br />
+						<strong><c:out value="${oct_system_preferences.registrationNumber}" /></strong>
+					</p>
+					
+					<p>
+						<label><spring:message code="oct.s1.registrationdate" /></label>
+						<br />
+						<strong><fmt:formatDate value="${oct_system_preferences.registrationDate}" pattern="dd/MM/yyyy"/></strong>
+					</p>
 
-			<tr>
-				<td class="k">
-					<spring:message code="oct.s1.objectives" />
-				</td>
-				<td class="v">
-					<c:out value="${oct_initiative_description.objectives}" />
-				</td>
-			</tr>
-			
-			<tr>
-				<td class="k">
-					<spring:message code="oct.s1.languages" />
-				</td>
-				<td class="v">
-					<c:forEach items="${initiativeLanguages}" var="language">
-						<a href="./index.do?initiativeLang=<c:out value="${language.code}" />"><spring:message code="${language.name}" /></a>
-						&nbsp;
-					</c:forEach>
-				</td>
-			</tr>
+                    <p>
+						<label><spring:message code="oct.s1.url" /></label>
+						<br />
+						<a href="<c:out value="${oct_system_preferences.commissionRegisterUrl}/${oct_initiative_description.language.code}" />"><c:out value="${oct_system_preferences.commissionRegisterUrl}/${oct_initiative_description.language.code}" /></a>
+					</p>						
+					
+					<p>
+						<label><spring:message code="oct.s1.organizers" /></label>
+						<br />
+						<strong lang="<c:out value="${initiativeLang}" />"><c:out value="${contact.organizers}" /></strong>
+					</p>
 
-			<tr>
-				<td class="k">
-					<spring:message code="oct.s1.registrationno" />
-				</td>
-				<td class="v">
-					<c:out value="${oct_system_preferences.registrationNumber}" />
-				</td>
-			</tr>
+                    <p>
+						<label><spring:message code="oct.s1.contactpersons" /></label>
+						<br />
+						<strong lang="<c:out value="${initiativeLang}" />"><c:out value="${contact.name}" /></strong>
+					</p>
+					
+					<p>
+						<label><spring:message code="oct.s1.contactemails" /></label>
+						<br />
+						<strong><c:out value="${contact.email}" /></strong>
+					</p>
+					
+					<p>
+						<label><spring:message code="oct.organiser.website.${currentLanguage}" /></label>
+						<br />
+						<a href="<c:out value="${oct_initiative_description.url}" />"><c:out value="${oct_initiative_description.url}" /></a>
+					</p>
+				</fieldset>
 
-			<tr>
-				<td class="k">
-					<spring:message code="oct.s1.registrationdate" />
-				</td>
-				<td class="v">
-					<fmt:formatDate value="${oct_system_preferences.registrationDate}" pattern="dd/MM/yyyy"/>
-				</td>
-			</tr>
-
-			<tr>
-				<td class="k">
-					<spring:message code="oct.s1.url" />
-				</td>
-				<td class="v">
-					<a href="<c:out value="${oct_system_preferences.commissionRegisterUrl}/${oct_initiative_description.language.code}" />" target="_blank"><c:out value="${oct_system_preferences.commissionRegisterUrl}/${oct_initiative_description.language.code}" /></a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class="k">
-					<spring:message code="oct.s1.organizers" />
-				</td>
-				<td class="v">
-					<c:out value="${contact.organizers}" />
-				</td>
-			</tr>
-
-			<tr>
-				<td class="k">
-					<spring:message code="oct.s1.contactpersons" />
-				</td>
-				<td class="v">
-					<c:out value="${contact.name}" />
-				</td>
-			</tr>
-
-			<tr>
-				<td class="k">
-					<spring:message code="oct.s1.contactemails" />
-				</td>
-				<td class="v">
-					<c:out value="${contact.email}" />
-				</td>
-			</tr>
-
-			<tr>
-				<td class="k">
-					<spring:message code="oct.organiser.website.${currentLanguage}" />
-				</td>
-				<td class="v">
-					<a href="<c:out value="${oct_initiative_description.url}" />" target="_blank"><c:out value="${oct_initiative_description.url}" /></a>
-				</td>
-			</tr>
-
-			</table>
-			</fieldset>
-
-			<div id="lower-info">
-				<spring:message code="oct.s1.support.info1" />
-				<br />
-				<spring:message code="oct.s1.support.info2" /> <a href="http://ec.europa.eu/citizens-initiative" target="_blank">http://ec.europa.eu/citizens-initiative</a>
-			</div>
-			<div id="buttons">
-				<c:if test="${!oct_system_preferences.collecting}">
-					<spring:message code="oct.collection.off.error" />
-				</c:if>
-			
-				<c:if test="${oct_system_preferences.collecting}">
-					<input type="submit" value="<spring:message code="oct.s1.supportbutton" /> &raquo;" name="_support" tabindex="3"/>
-				</c:if>
-			</div>
+				<p id="lower-info">
+					<spring:message code="oct.s1.support.info1" />
+					<br />
+					<spring:message code="oct.s1.support.info2" /> <a href="http://ec.europa.eu/citizens-initiative">http://ec.europa.eu/citizens-initiative</a>
+				</p>
+				
+				<div id="buttons">
+					<c:if test="${!oct_system_preferences.collecting}">
+						<spring:message code="oct.collection.off.error" />
+					</c:if>
+				
+					<c:if test="${oct_system_preferences.collecting}">
+						<input type="submit" value="<spring:message code="oct.s1.supportbutton" /> &raquo;" name="_support" accesskey="s"/>
+					</c:if>
+				</div>
 			</form:form>
 			</c:if>
 		</div>

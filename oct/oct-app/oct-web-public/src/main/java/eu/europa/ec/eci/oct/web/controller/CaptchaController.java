@@ -44,14 +44,7 @@ public class CaptchaController {
 				responseOutputStream.close();
 			}
 		} else if ("a".equalsIgnoreCase(type)) {
-			byte[] captchaChallengeSound;
-			if (request.getSession().getAttribute(CaptchaService.CAPTCHA_AUDIO_STREAM) == null) {
-				captchaChallengeSound = captchaService.generateAudioCaptcha(request);
-				request.getSession().setAttribute(CaptchaService.CAPTCHA_AUDIO_STREAM, captchaChallengeSound);
-			} else {
-				captchaChallengeSound = (byte[]) request.getSession().getAttribute(CaptchaService.CAPTCHA_AUDIO_STREAM);
-			}
-
+			byte[] captchaChallengeSound = captchaService.generateAudioCaptcha(request);
 			if (captchaChallengeSound != null) {
 				response.setHeader("Cache-control",
 						"private,no-cache,no-store,must-revalidate,proxy-revalidate,max-age=0,s-maxage=0");

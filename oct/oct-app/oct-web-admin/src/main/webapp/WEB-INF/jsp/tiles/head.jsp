@@ -12,8 +12,6 @@
 	<script type="text/javascript" src="js/jquery-ui.js" ></script>
 	<script type="text/javascript" src="js/jquery-ui-i18n.min.js"></script>
 	
-
-	
 	<script src="./js/init.js" type="text/javascript"></script>
 	 
 	<link type="text/css" href="./css/ui-lightness/jquery-ui.css" rel="stylesheet"/>

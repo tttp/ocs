@@ -97,7 +97,7 @@
 
 	<bean id="fontArial" class="java.awt.Font">
 		<constructor-arg index="0">
-			<value>Arial</value>
+			<value>SansSerif</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>0</value>
@@ -118,6 +118,7 @@
 			<value type="java.lang.Integer">255</value>
 		</constructor-arg>
 	</bean>
+	
 	<bean id="blueColor" class="java.awt.Color">
 		<constructor-arg index="0">
 			<value type="java.lang.Integer">0</value>
