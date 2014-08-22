@@ -8,8 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import eu.europa.ec.eci.oct.entities.admin.InitiativeDescription;
 import eu.europa.ec.eci.oct.entities.member.Language;
@@ -18,7 +17,7 @@ import eu.europa.ec.eci.oct.persistence.PersistenceException;
 
 public class JpaInitiativeDAO extends AbstractJpaDAO implements InitiativeDAO {
 
-	private Logger logger = LoggerFactory.getLogger(JpaInitiativeDAO.class);
+	Logger logger = Logger.getLogger(JpaInitiativeDAO.class);
 
 	JpaInitiativeDAO(EntityManager entityManager) {
 		super(entityManager);
@@ -72,9 +71,10 @@ public class JpaInitiativeDAO extends AbstractJpaDAO implements InitiativeDAO {
 				if(lid!=null && lid.size()==1){			
 					initiative = lid.get(0);				
 				} 
-						 
+			
 				return initiative;
 			} catch (NoResultException nre) {
+				logger.warn("no description was found for the given language code " + lang.getCode());
 				return null;
 			}
 		}

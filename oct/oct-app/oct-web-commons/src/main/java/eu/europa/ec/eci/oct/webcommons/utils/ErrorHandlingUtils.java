@@ -1,8 +1,14 @@
+/** ====================================================================
+ * Licensed under the European Union Public Licence (EUPL v1.2) 
+ * https://joinup.ec.europa.eu/community/eupl/topic/public-consultation-draft-eupl-v12
+ * ====================================================================
+ *
+ * @author Daniel CHIRITA
+ * @created: 23/05/2013
+ *
+ */
 package eu.europa.ec.eci.oct.webcommons.utils;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Random;
 
 /**
@@ -12,21 +18,6 @@ import java.util.Random;
  * 
  */
 public final class ErrorHandlingUtils {
-
-	/**
-	 * Returns the entire stacktrace of the given {@link Exception} as a string.
-	 * 
-	 * @param t
-	 *            the exception
-	 * @return the stacktrace
-	 */
-	public static final String getStackTrace(Throwable t) {
-		final Writer result = new StringWriter();
-		final PrintWriter printWriter = new PrintWriter(result);
-		t.printStackTrace(printWriter);
-
-		return result.toString();
-	}
 
 	/**
 	 * Generates a random hexadecimal string to be used as error token.

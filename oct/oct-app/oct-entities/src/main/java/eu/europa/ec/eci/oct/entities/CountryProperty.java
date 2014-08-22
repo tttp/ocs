@@ -30,6 +30,9 @@ public class CountryProperty {
 	@Column
 	private byte required = 1;
 
+	@Column
+	private byte markedAsDeleted = 0;
+
 	@OneToMany(mappedBy = "countryProperty", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<LocalValidationRule> rules;
 
@@ -71,6 +74,14 @@ public class CountryProperty {
 
 	public Set<LocalValidationRule> getRules() {
 		return rules;
+	}
+
+	public byte getMarkedAsDeleted() {
+		return markedAsDeleted;
+	}
+
+	public void setMarkedAsDeleted(byte markedAsDeleted) {
+		this.markedAsDeleted = markedAsDeleted;
 	}
 
 }

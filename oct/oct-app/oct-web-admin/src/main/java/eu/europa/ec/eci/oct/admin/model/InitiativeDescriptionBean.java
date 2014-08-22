@@ -8,6 +8,7 @@ import eu.europa.ec.eci.oct.webcommons.model.SimpleBean;
 
 public class InitiativeDescriptionBean extends SimpleBean {
 
+	private static final long serialVersionUID = 4419064918803207976L;
 	private Long id;
 	private Language language;
 	private String title;

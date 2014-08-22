@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="oct" uri="oct"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<c:out value="${currentLanguage}"/>">
 <head>
 	<title><spring:message code="oct.s2.subtitle" /> - <spring:message code="oct.title" /></title>
@@ -31,6 +31,8 @@
 				<span lang="<c:out value="${initiativeLang}" />"><c:out value="${oct_initiative_description.title}" /></span>
 			</h1>
 			
+			<p class="no-refresh"><spring:message code="oct.sos.home.alert" /></p>
+			
 			<form:form method="post" modelAttribute="form" id="signupForm">
 				<h2><spring:message code="oct.s2.subtitle" /></h2>
 				
@@ -48,13 +50,13 @@
 					<p>
 						<spring:message code="oct.s2.info.conditions" />
 						<br />
-						<a href="http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf">http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf</a>
+						<a href="http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf" target="_blank">http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf</a>
 					</p>
 					
 					<p>
 						<spring:message code="oct.s2.info.3" />
 						<br />
-						<a href="http://ec.europa.eu/citizens-initiative/public/how-to-signup">http://ec.europa.eu/citizens-initiative/public/how-to-signup</a>
+						<a href="http://ec.europa.eu/citizens-initiative/public/how-to-signup" target="_blank">http://ec.europa.eu/citizens-initiative/public/how-to-signup</a>
 					</p>
 				</fieldset>
 

@@ -1,34 +1,27 @@
 package eu.europa.ec.eci.oct.web.validator;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 
-import eu.europa.ec.eci.oct.entities.PropertyType;
-import eu.europa.ec.eci.oct.entities.rules.RuleParameter;
-import eu.europa.ec.eci.oct.entities.rules.ValidationRule;
 import eu.europa.ec.eci.oct.entities.signature.PropertyValue;
-import eu.europa.ec.eci.oct.utils.validator.AbstractValidator;
-import eu.europa.ec.eci.oct.utils.validator.ValidatorFactory;
+import eu.europa.ec.eci.oct.validation.OCSValidationResult;
+import eu.europa.ec.eci.oct.validation.OCSValidator;
+import eu.europa.ec.eci.oct.validation.core.JAXELStructure;
 import eu.europa.ec.eci.oct.web.captcha.CaptchaService;
-import eu.europa.ec.eci.oct.web.converters.PropertyType2DataType;
-import eu.europa.ec.eci.oct.web.converters.SupportFormBean2JAXELStructure;
 import eu.europa.ec.eci.oct.web.model.SupportFormBean;
 import eu.europa.ec.eci.oct.webcommons.locale.MessageSourceAware;
 import eu.europa.ec.eci.oct.webcommons.validator.BaseValidator;
 
 /**
- * Validator class for validating the support initiative form. It provides all methods needed by the
- * {@link SupportInitiativeController}.
+ * Validator class for validating the support initiative form. It provides all
+ * methods needed by the {@link SupportInitiativeController}.
  * 
  * @author chiridl
  * 
  */
 public class SupportFormValidator extends BaseValidator {
-
-	Logger logger = Logger.getLogger(SupportFormValidator.class);
 
 	public SupportFormValidator(MessageSourceAware messageSource) {
 		super(messageSource);
@@ -39,13 +32,20 @@ public class SupportFormValidator extends BaseValidator {
 	}
 
 	/**
-	 * Used to invoke all validation methods at once. Should be used by the presentation just before finishing the store
-	 * initiative wizard.
+	 * Used to invoke all validation methods at once. Should be used by the
+	 * presentation just before finishing the store initiative wizard.
 	 */
-	public void validate(Object target, Errors errors) {
+	public List<OCSValidationResult> validateAll(Object target, Errors errors) {
+		List<OCSValidationResult> result = new ArrayList<OCSValidationResult>();
+
 		validatePrerequisites(target, errors);
-		validateFields(target, errors);
+		result.addAll(validateFields(target, errors));
 		validateTerms(target, errors);
+
+		return result;
+	}
+
+	public void validate(Object target, Errors errors) {
 	}
 
 	/**
@@ -56,15 +56,19 @@ public class SupportFormValidator extends BaseValidator {
 	 * @param captchaService
 	 * @param captchaId
 	 */
-	public void validateCaptcha(Object target, Errors errors, CaptchaService captchaService, String captchaId) {
+	public boolean validateCaptcha(Object target, Errors errors, CaptchaService captchaService, String captchaId) {
 		SupportFormBean bean = (SupportFormBean) target;
 		if (!captchaService.validateCaptcha(captchaId, bean.getCaptcha(), bean.getCaptchaType())) {
 			errors.rejectValue("captcha", "oct.error.wrongcaptcha", "The security code is wrong! Please try again.");
+			return false;
 		}
+
+		return true;
 	}
 
 	/**
-	 * Validates the terms and conditions (if the user has accepted them or not).
+	 * Validates the terms and conditions (if the user has accepted them or
+	 * not).
 	 * 
 	 * @param target
 	 * @param errors
@@ -80,7 +84,8 @@ public class SupportFormValidator extends BaseValidator {
 	}
 
 	/**
-	 * Validates the prerequisites for the initiative form (first name, last name and country).
+	 * Validates the prerequisites for the initiative form (first name, last
+	 * name and country).
 	 * 
 	 * @param target
 	 * @param errors
@@ -98,15 +103,27 @@ public class SupportFormValidator extends BaseValidator {
 	 * @param target
 	 * @param errors
 	 */
-	public void validateFields(Object target, Errors errors) {
+	public List<OCSValidationResult> validateFields(Object target, Errors errors) {
+		List<OCSValidationResult> result = new ArrayList<OCSValidationResult>();
 		SupportFormBean bean = (SupportFormBean) target;
 
 		if (bean.getProperties() == null || bean.getProperties().size() == 0) {
 			// should never happen
-			errors.reject("oct.error.emptyprops",
-					"The data values you entered are empty. Please contact the administrator!");
-			return;
+			errors.reject("oct.error.emptyprops", "The data values you entered are empty. Please contact the administrator!");
+			return result;
 		}
+
+		OCSValidator validator = new OCSValidator();
+
+		// add referenced properties to validator
+		final String COUNTRY_TO_SIGN_FOR_PROPERTY = "c";
+		for (PropertyValue property : bean.getProperties()) {
+			final String key = property.getProperty().getProperty().getName();
+			final String value = property.getValue();
+			validator.addProperty(key, value);
+		}
+		validator.addProperty(JAXELStructure.PROPERTY_PREFIX + COUNTRY_TO_SIGN_FOR_PROPERTY, bean.getCountryToSignFor().getCode()
+				.toLowerCase());
 
 		// traverse properties and validate each of them
 		int idx = 0;
@@ -116,135 +133,23 @@ public class SupportFormValidator extends BaseValidator {
 			if (propertyValue.getProperty() == null) {
 				errors.rejectValue(errorPath, "oct.error.emptyprops",
 						"The data values you entered are empty. Please contact the administrator!");
-				return;
+				return result;
 			}
 
 			String name = propertyValue.getProperty().getProperty().getName();
-			PropertyType type = propertyValue.getProperty().getProperty().getType();
 			String value = propertyValue.getValue();
 
-			// instantiate validator based on property type
-			AbstractValidator validator = ValidatorFactory.getValidatorFor(PropertyType2DataType.comvert(type));
-			// validate required (if needed)
-			if (propertyValue.getProperty().isRequired() && !validator.validateNotEmpty(value)) {
-				errors.rejectValue(errorPath, "oct.empty.property",
-						new Object[] { getMessageSource().getMessage(name) }, "The {0} cannot be empty!");
-			} else {
-				// validate data type
-				if (!validator.validateDataType(value)) {
-					errors.rejectValue(errorPath, "oct.error.propertytypemismatch", new Object[] { getMessageSource()
-							.getMessage(name) }, "The {0} format is not valid!");
-				} else {
-					@SuppressWarnings("rawtypes")
-					Set<ValidationRule> validationRules = new LinkedHashSet<ValidationRule>();
-
-					// get global rules for the given property
-					validationRules.addAll(propertyValue.getProperty().getProperty().getRules());
-
-					// get local rules for the given country property
-					validationRules.addAll(propertyValue.getProperty().getRules());
-
-					// apply all validation rules
-					for (@SuppressWarnings("rawtypes")
-					ValidationRule validationRule : validationRules) {
-						@SuppressWarnings({ "unchecked", "rawtypes" })
-						Set<RuleParameter> parameters = validationRule.getRuleParameters();
-
-						// for each rule, invoke needed validation method
-						// also get the right parameters for each rule
-						switch (validationRule.getRuleType()) {
-						case RANGE:
-							String minValue = "";
-							String maxValue = "";
-							for (@SuppressWarnings("rawtypes")
-							RuleParameter parameter : parameters) {
-								switch (parameter.getParameterType()) {
-								case MIN:
-									minValue = parameter.getValue();
-									break;
-								case MAX:
-									maxValue = parameter.getValue();
-									break;
-								default:
-									break;
-								}
-							}
-
-							if (!validator.validateRange(value, minValue, maxValue)) {
-								errors.rejectValue(errorPath, "oct.error.invalidrange", new Object[] {
-										getMessageSource().getMessage(name), minValue, maxValue },
-										"The {0} value should be between {1} and {2}!");
-							}
-							break;
-						case SIZE:
-							int minSize = 0;
-							int maxSize = Integer.MAX_VALUE;
-							for (@SuppressWarnings("rawtypes")
-							RuleParameter parameter : parameters) {
-								switch (parameter.getParameterType()) {
-								case MIN:
-									minSize = Integer.parseInt(parameter.getValue());
-									break;
-								case MAX:
-									maxSize = Integer.parseInt(parameter.getValue());
-									break;
-								default:
-									break;
-								}
-							}
-
-							if (!validator.validateSize(value, minSize, maxSize)) {
-								errors.rejectValue(errorPath, "oct.error.invalidsize", new Object[] {
-										getMessageSource().getMessage(name), minSize, maxSize },
-										"The {0} size should be between {1} and {2} characters!");
-							}
-							break;
-						case REGEXP:
-							String regexp = "";
-							for (@SuppressWarnings("rawtypes")
-							RuleParameter parameter : parameters) {
-								switch (parameter.getParameterType()) {
-								case REGEXP:
-									regexp = parameter.getValue();
-									break;
-								default:
-									break;
-								}
-							}
-
-							if (!validator.validateRegularExpression(value, regexp)) {
-								errors.rejectValue(errorPath, "oct.error.propertytypemismatch",
-										new Object[] { getMessageSource().getMessage(name) },
-										"The {0} format is not valid!");
-							}
-							break;
-						case JAVAEXP:
-							String javaExpression = "";
-							for (@SuppressWarnings("rawtypes")
-							RuleParameter parameter : parameters) {
-								switch (parameter.getParameterType()) {
-								case JAVAEXP:
-									javaExpression = parameter.getValue();
-									break;
-								default:
-									break;
-								}
-							}
-
-							if (!validator.validateJavaExpression(javaExpression,
-									SupportFormBean2JAXELStructure.convert(bean))) {
-								errors.rejectValue(errorPath, "oct.error.propertytypemismatch",
-										new Object[] { getMessageSource().getMessage(name) },
-										"The {0} format is not valid!");
-							}
-							break;
-						default:
-							break;
-						}
-					}
+			OCSValidationResult validationResult = validator.validate(propertyValue.getProperty(), value);
+			if (validationResult.isFailed()) {
+				errors.rejectValue(errorPath, validationResult.getReason(), new Object[] { getMessageSource().getMessage(name) },
+						"Validation failed for field {0}.!");
+				if (validationResult.isCanBeSkipped()) {
+					result.add(validationResult);
 				}
 			}
 			idx++;
 		}
+
+		return result;
 	}
 }

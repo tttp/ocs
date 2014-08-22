@@ -1,5 +1,8 @@
 package eu.europa.ec.eci.oct.web.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,14 +29,11 @@ public class CaptchaController {
 	private CaptchaService captchaService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public void doGet(@RequestParam("type") String type, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public void doGet(@RequestParam("type") String type, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if ("i".equalsIgnoreCase(type)) {
 			byte[] image = captchaService.generateImageCaptcha(request);
-
 			if (image != null) {
-				response.setHeader("Cache-control",
-						"private,no-cache,no-store,must-revalidate,proxy-revalidate,max-age=0,s-maxage=0");
+				response.setHeader("Cache-control", "private,no-cache,no-store,must-revalidate,proxy-revalidate,max-age=0,s-maxage=0");
 				response.setHeader("Pragma", "no-cache");
 				response.setDateHeader("Expires", 0);
 				response.setContentLength(image.length);
@@ -46,8 +46,10 @@ public class CaptchaController {
 		} else if ("a".equalsIgnoreCase(type)) {
 			byte[] captchaChallengeSound = captchaService.generateAudioCaptcha(request);
 			if (captchaChallengeSound != null) {
-				response.setHeader("Cache-control",
-						"private,no-cache,no-store,must-revalidate,proxy-revalidate,max-age=0,s-maxage=0");
+				final String fileName = "captcha-" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".wav";
+				response.setHeader("Cache-control", "private,no-cache,no-store,must-revalidate,proxy-revalidate,max-age=0,s-maxage=0");
+				// force download
+				response.setHeader("Content-disposition", "attachment; filename=\"" + fileName + "\"");
 				response.setHeader("expires", "1");
 				response.setDateHeader("Expires", 1);
 				response.setContentLength(captchaChallengeSound.length);

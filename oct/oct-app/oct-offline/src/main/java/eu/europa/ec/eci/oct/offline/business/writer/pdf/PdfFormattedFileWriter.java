@@ -2,6 +2,7 @@ package eu.europa.ec.eci.oct.offline.business.writer.pdf;
 
 import com.lowagie.text.pdf.BaseFont;
 import eu.europa.ec.eci.export.model.SupportForm;
+import eu.europa.ec.eci.oct.offline.business.AnnexRevisionType;
 import eu.europa.ec.eci.oct.offline.business.DecryptConstants;
 import eu.europa.ec.eci.oct.offline.business.FileType;
 import eu.europa.ec.eci.oct.offline.business.writer.AbstractFileWriter;
@@ -35,16 +36,16 @@ public class PdfFormattedFileWriter extends AbstractFileWriter {
     }
 
     @Override
-    protected void fillUpContent(SupportForm supportForm, FileOutputStream out, Locale locale) throws Exception {
+    protected void fillUpContent(SupportForm supportForm, FileOutputStream out, Locale locale, AnnexRevisionType annexRevisionType) throws Exception {
 
         CountrySupportFormConverter converter = CountrySupportFormConverter.getInstance();
-        PdfSupportForm pdfSupportForm = converter.convertSupportForm(supportForm, locale);
+        PdfSupportForm pdfSupportForm = converter.convertSupportForm(supportForm, locale, annexRevisionType);
 
-        ResourceBundle resourceBundle = getResourceBundleByLocale(locale);
-        writePdfContent(pdfSupportForm, resourceBundle, out);
+        ResourceBundle resourceBundle = getResourceBundleByLocale(locale, annexRevisionType);
+        writePdfContent(pdfSupportForm, resourceBundle, out, annexRevisionType);
     }
 
-    private void writePdfContent(PdfSupportForm pdfSupportForm, ResourceBundle resourceBundle, FileOutputStream outputStream) throws JRException {
+    private void writePdfContent(PdfSupportForm pdfSupportForm, ResourceBundle resourceBundle, FileOutputStream outputStream, AnnexRevisionType annexRevisionType) throws JRException {
 
         List<Map<String, PdfSupportForm>> dataBeanList = Collections.singletonList(Collections.singletonMap("backingBean", pdfSupportForm));
         JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataBeanList);
@@ -52,7 +53,15 @@ public class PdfFormattedFileWriter extends AbstractFileWriter {
 
         parameters.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
 
-        JasperReport pdfJasperReport = JasperReportProvider.get(JasperReportProvider.STATEMENT_OF_SUPPORT);
+        
+        
+        String jasperReportPath = null;
+        if(annexRevisionType == AnnexRevisionType.ANNEX_REVISION_0_INITIAL_RELEASE){
+        	jasperReportPath = JasperReportProvider.STATEMENT_OF_SUPPORT;
+        }else if(annexRevisionType == AnnexRevisionType.ANNEX_REVISION_1_ANNEX_III){
+        	jasperReportPath = JasperReportProvider.STATEMENT_OF_SUPPORT_ANNEX_1;
+        }
+        JasperReport pdfJasperReport = JasperReportProvider.get(jasperReportPath);
 
         JasperPrint jasperPrint = null;
         try {
@@ -73,9 +82,12 @@ public class PdfFormattedFileWriter extends AbstractFileWriter {
         exporter.exportReport();
     }
 
-    private ResourceBundle getResourceBundleByLocale(Locale locale) {
+    private ResourceBundle getResourceBundleByLocale(Locale locale, AnnexRevisionType annexRevisionType) {
+    	String resourcesPath = "reports/annexRevision" + annexRevisionType.getRevisionNumber() + "/translations/report-translations";
         try {
-            ResourceBundle resourceBundle = ResourceBundle.getBundle("reports/translations/report-translations", locale, new UTF8Control());
+        	
+        	
+            ResourceBundle resourceBundle = ResourceBundle.getBundle(resourcesPath, locale, new UTF8Control());
             if (resourceBundle.getLocale().getLanguage().equals(locale.getLanguage())) {
                 // a matching resource bundle has been found
                 return resourceBundle;
@@ -84,7 +96,7 @@ public class PdfFormattedFileWriter extends AbstractFileWriter {
             //ignore it for now
         }
         //as a default, load the english locale..
-        return ResourceBundle.getBundle("reports/translations/report-translations", Locale.ENGLISH, new UTF8Control());
+        return ResourceBundle.getBundle(resourcesPath, Locale.ENGLISH, new UTF8Control());
     }
 
     public Object getFontMap() {
@@ -106,7 +118,7 @@ public class PdfFormattedFileWriter extends AbstractFileWriter {
     }
 
     @Override
-    protected List<Locale> getLinguisticVersions(String countryCode) {
-        return PdfTranslationsHelper.getLocaleTranslationsByCountryCode(countryCode);
+    protected List<Locale> getLinguisticVersions(String countryCode, AnnexRevisionType annexRevisionType) {
+        return PdfTranslationsHelper.getLocaleTranslationsByCountryCode(countryCode, annexRevisionType);
     }
 }

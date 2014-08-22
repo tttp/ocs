@@ -35,63 +35,16 @@
 			<artifactId>jasperreports</artifactId>
 			<version>3.7.5</version>
 		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+			<version>4.0.0</version>
+		</dependency>
 
 	</dependencies>
 
 	<build>
 		<plugins>
-			
-			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<configuration>
-					<artifactItems>
-						<artifactItem>
-							<groupId>eu.europa.ec.eci.oct</groupId>
-							<artifactId>oct-web-public</artifactId>
-							<version>1.0.0</version>
-							<type>war</type>
-							<overWrite>true</overWrite>
-							<outputDirectory>${project.build.directory}/messages</outputDirectory>
-							<includes>WEB-INF/classes/messages*.properties,WEB-INF/classes/documentnames*.properties</includes>
-
-						</artifactItem>
-					</artifactItems>
-					<!-- other configurations here -->
-				</configuration>
-				<executions>
-					<execution>
-						<id>unpack</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<!-- here the phase you need -->
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/classes/reports/signatureTranslations</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${project.build.directory}/messages/WEB-INF/classes</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>

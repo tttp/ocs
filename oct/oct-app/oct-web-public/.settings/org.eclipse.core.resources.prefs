@@ -1,4 +1,28 @@
-#Fri Nov 04 14:28:38 CET 2011
+#Wed Aug 29 10:30:08 CEST 2012
 eclipse.preferences.version=1
 encoding//src/main/resources=UTF-8
+encoding//src/main/resources/documentnames.properties=UTF-8
+encoding//src/main/resources/languagenames.properties=UTF-8
+encoding//src/main/resources/messages.properties=UTF-8
+encoding//src/main/resources/messages_bg.properties=UTF-8
+encoding//src/main/resources/messages_cs.properties=UTF-8
+encoding//src/main/resources/messages_da.properties=UTF-8
+encoding//src/main/resources/messages_el.properties=UTF-8
+encoding//src/main/resources/messages_es.properties=UTF-8
+encoding//src/main/resources/messages_et.properties=UTF-8
+encoding//src/main/resources/messages_fi.properties=UTF-8
+encoding//src/main/resources/messages_fr.properties=UTF-8
+encoding//src/main/resources/messages_ga.properties=UTF-8
+encoding//src/main/resources/messages_hu.properties=UTF-8
+encoding//src/main/resources/messages_it.properties=UTF-8
+encoding//src/main/resources/messages_lt.properties=UTF-8
+encoding//src/main/resources/messages_lv.properties=UTF-8
+encoding//src/main/resources/messages_mt.properties=UTF-8
+encoding//src/main/resources/messages_nl.properties=UTF-8
+encoding//src/main/resources/messages_pl.properties=UTF-8
+encoding//src/main/resources/messages_pt.properties=UTF-8
+encoding//src/main/resources/messages_ro.properties=UTF-8
+encoding//src/main/resources/messages_sk.properties=UTF-8
+encoding//src/main/resources/messages_sl.properties=UTF-8
+encoding//src/main/resources/messages_sv.properties=UTF-8
 encoding/<project>=UTF-8

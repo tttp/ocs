@@ -1,0 +1,1 @@
+UPDATE `OCT_LOCAL_RULE_PARAM` SET `value`='[\\p{InGreek}a-z]{1,2}[0-9]{6}' WHERE `id`=53 LIMIT 1;

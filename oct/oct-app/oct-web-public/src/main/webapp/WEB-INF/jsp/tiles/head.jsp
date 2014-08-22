@@ -1,5 +1,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+	
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="./css/default.css" rel="stylesheet" type="text/css" />
 	

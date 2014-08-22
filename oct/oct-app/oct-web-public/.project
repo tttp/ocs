@@ -4,6 +4,8 @@
 	<comment></comment>
 	<projects>
 		<project>oct-web-commons</project>
+		<project>oct-validation</project>
+		<project>oct-validation-core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

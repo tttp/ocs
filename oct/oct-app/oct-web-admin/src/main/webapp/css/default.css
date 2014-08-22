@@ -262,8 +262,7 @@ table.fields td.tab {
 }*/
 #menu li{
 	border-top: 1px solid #4EA1D3;
-	padding: 10px;
-	padding-left: 30px;
+	padding: 10px 10px 10px 34px;
 	color: #1C1C1C;
 	background-position: left center;
 	background-repeat: no-repeat;
@@ -297,6 +296,10 @@ table.fields td.tab {
 
 #menu li.status {
 	background-image: url('../images/icon_status.png');
+}
+
+#menu li.settings {
+	background-image: url('../images/icon_settings.png');
 }
 
 #menu li.manual {
@@ -580,9 +583,18 @@ h2.page-title {
 	background: url("../images/bg_title-status.png") no-repeat left bottom transparent;
 }
 
+.settings-title {
+	height: 80px;
+	background: url("../images/bg_title-settings.png") no-repeat left bottom transparent;
+}
+
 #version {
 	text-align: right;
 	margin-right: 6px;
 	margin-bottom: 4px;
 	font-size: 0.85em;
+}
+
+form input.input-box {
+	width: 400px;
 }

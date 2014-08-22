@@ -3,6 +3,7 @@ package eu.europa.ec.eci.oct.offline.business.writer.pdf.converter;
 import eu.europa.ec.eci.export.model.GroupType;
 import eu.europa.ec.eci.export.model.PropertyType;
 import eu.europa.ec.eci.export.model.SignatureType;
+import eu.europa.ec.eci.oct.offline.business.AnnexRevisionType;
 import eu.europa.ec.eci.oct.offline.business.writer.pdf.model.PdfTableRowData;
 import eu.europa.ec.eci.oct.offline.business.writer.pdf.translations.PdfTranslationsHelper;
 
@@ -35,14 +36,14 @@ class SignatoryTypeToPdfTableRowDataConverter {
         }
     }
 
-    public PdfTableRowData buildPdfTableRowData(Locale locale) {
+    public PdfTableRowData buildPdfTableRowData(Locale locale, AnnexRevisionType annexRevisionType) {
         PdfTableRowData signatureData = new PdfTableRowData();
 
         //set the signatory date
         signatureData.setSignatureDate(getDate(signatureType.getSubmissionDate()));
 
         //set the id related data
-        signatureData.setIdentificationNumber(getPropertyValue(true, locale, SignatureProperty.ID_CARD,
+        signatureData.setIdentificationNumber(getPropertyValue(annexRevisionType, true, locale, SignatureProperty.ID_CARD,
                 SignatureProperty.PERSONAL_ID,
                 SignatureProperty.NATIONAL_ID_NUMBER,
                 SignatureProperty.PERSONAL_ID_OTHER,
@@ -69,28 +70,28 @@ class SignatoryTypeToPdfTableRowDataConverter {
                 SignatureProperty.ISSUING_AUTHORITY));
 
         //set the first name
-        signatureData.setFirstName(getPropertyValue(false, locale, SignatureProperty.FIRST_NAME));
+        signatureData.setFirstName(getPropertyValue(annexRevisionType, false, locale, SignatureProperty.FIRST_NAME));
 
         //set the last name
-        signatureData.setLastName(getPropertyValue(false, locale, SignatureProperty.LAST_NAME,
+        signatureData.setLastName(getPropertyValue(annexRevisionType, false, locale, SignatureProperty.LAST_NAME,
                 SignatureProperty.FATHERS_NAME, SignatureProperty.NAME_AT_BIRTH));
 
         //set the nationality
-        signatureData.setNationality(getPropertyValue(false, locale, SignatureProperty.NATIONALITY));
+        signatureData.setNationality(getPropertyValue(annexRevisionType, false, locale, SignatureProperty.NATIONALITY));
 
         //set the date place of birth
-        signatureData.setDatePlaceOfBirth(getPropertyValue(false, locale, SignatureProperty.DATE_OF_BIRTH,
+        signatureData.setDatePlaceOfBirth(getPropertyValue(annexRevisionType, false, locale, SignatureProperty.DATE_OF_BIRTH,
                 SignatureProperty.DATE_OF_BIRTH_AT, SignatureProperty.PLACE_OF_BIRTH));
 
         //set the residence
-        signatureData.setResidence(getPropertyValue(false, locale, SignatureProperty.ADDRESS, SignatureProperty.STREET,
+        signatureData.setResidence(getPropertyValue(annexRevisionType, false, locale, SignatureProperty.ADDRESS, SignatureProperty.STREET,
                 SignatureProperty.POSTAL_CODE, SignatureProperty.CITY, SignatureProperty.STATE,
                 SignatureProperty.COUNTRY));
 
         return signatureData;
     }
 
-    private String getPropertyValue(boolean includePrefixForProperties, Locale locale, SignatureProperty... properties) {
+    private String getPropertyValue(AnnexRevisionType annexRevisionType, boolean includePrefixForProperties, Locale locale, SignatureProperty... properties) {
         StringBuilder result = new StringBuilder();
 
         for (SignatureProperty property : properties) {
@@ -103,7 +104,7 @@ class SignatoryTypeToPdfTableRowDataConverter {
                     }
                     //include prefixes if needed
                     if(includePrefixForProperties) {
-                        String prefix = PdfTranslationsHelper.getPrefixForProperty(property, locale);
+                        String prefix = PdfTranslationsHelper.getPrefixForProperty(property, locale, annexRevisionType);
                         if (prefix != null) {
                             result.append(prefix).append(": ");
                         }
@@ -111,7 +112,7 @@ class SignatoryTypeToPdfTableRowDataConverter {
                     //do translations if needed
                     switch(property) {
                         case COUNTRY:
-                        	String translatedCountryName = PdfTranslationsHelper.getCountryNameForCountryCodeInLanguage(propertyValue, locale);
+                        	String translatedCountryName = PdfTranslationsHelper.getCountryNameForCountryCodeInLanguage(propertyValue, locale, annexRevisionType);
                         	if (translatedCountryName.startsWith("???")) {
                         		result.append(propertyValue);
                         	} else {
@@ -120,7 +121,7 @@ class SignatoryTypeToPdfTableRowDataConverter {
                             //result.append(PdfTranslationsHelper.getCountryNameForCountryCodeInLanguage(propertyValue, countryCode));
                             break;
                         case NATIONALITY:
-                            result.append(PdfTranslationsHelper.getNationalityNameForCountryCodeInLanguage(propertyValue, locale));
+                            result.append(PdfTranslationsHelper.getNationalityNameForCountryCodeInLanguage(propertyValue, locale, annexRevisionType));
                             break;
                         default:
                             result.append(propertyValue);

@@ -20,6 +20,8 @@ import eu.europa.ec.eci.oct.webcommons.model.SimpleBean;
  */
 public class SupportFormBean extends SimpleBean {
 
+	private static final long serialVersionUID = 2879230165973058428L;
+
 	private boolean accepted1;
 	private boolean accepted2;
 	private String countryCode;
@@ -29,9 +31,9 @@ public class SupportFormBean extends SimpleBean {
 	private Map<Long, Long> multichoiceSelections = new HashMap<Long, Long>();
 	private Map<Long, Map<Long, String>> groupItems = new HashMap<Long, Map<Long, String>>();
 	private Map<String, String> translatedProperties = new HashMap<String, String>();
-
 	private String captcha;
 	private String captchaType = CaptchaService.CAPTCHA_IMAGE_TYPE;
+	private boolean skipErrors;
 
 	public List<PropertyValue> getProperties() {
 		return properties;
@@ -116,5 +118,13 @@ public class SupportFormBean extends SimpleBean {
 
 	public String getCaptchaType() {
 		return captchaType;
+	}
+
+	public boolean isSkipErrors() {
+		return skipErrors;
+	}
+
+	public void setSkipErrors(boolean skipErrors) {
+		this.skipErrors = skipErrors;
 	}
 }

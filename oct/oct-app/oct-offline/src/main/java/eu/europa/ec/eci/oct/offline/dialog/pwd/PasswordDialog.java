@@ -122,6 +122,8 @@ public abstract class PasswordDialog extends JDialog {
     protected abstract List<JButton> getAdditionalButtons();
 
     public void openDialog() {
+    	passwordField.setText(null);
+    	
         this.pack();
         this.setLocationRelativeTo(parent);
         this.setVisible(true);
@@ -140,12 +142,12 @@ public abstract class PasswordDialog extends JDialog {
     public char[] getPassword() {
         return passwordField.getPassword();
     }
-
+    
     public char[] getConfPass() {
         return confirmPasswordField.getPassword();
     }
 
-    public boolean validatePassLength(int length) {
+    public boolean validatePassword(int length) {
         boolean isValid = new SimplePasswordValidator(this).validate(getPassword(), length);
 
         handleBorderWarning(passwordField, isValid);

@@ -9,23 +9,22 @@ import eu.europa.ec.eci.oct.offline.support.log.OfflineCryptoToolLogger;
  * @project OCT
  */
 public class COTLauncher {
-    private static final String VERBOSE_ARG_NAME = "-verbose";
+	private static final String VERBOSE_ARG_NAME = "-verbose";
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
+		OfflineCryptoToolLogger.setup(readBooleanArgValue(VERBOSE_ARG_NAME, args));
 
-        OfflineCryptoToolLogger.setup(readBooleanArgValue(VERBOSE_ARG_NAME, args));
+		CryptoOfflineTool offlineTool = CryptoOfflineTool.initialize();
+		offlineTool.show();
+	}
 
-        CryptoOfflineTool offlineTool = CryptoOfflineTool.initialize();
-        offlineTool.show();
-    }
-
-    private static boolean readBooleanArgValue(String argName, String[] args) {
-        for (String arg : args) {
-            if (arg.startsWith(argName)) {
-                String value = arg.substring(argName.length() + 1);
-                return Boolean.valueOf(value);
-            }
-        }
-        return false;
-    }
+	private static boolean readBooleanArgValue(String argName, String[] args) {
+		for (String arg : args) {
+			if (arg.startsWith(argName)) {
+				String value = arg.substring(argName.length() + 1);
+				return Boolean.valueOf(value);
+			}
+		}
+		return false;
+	}
 }

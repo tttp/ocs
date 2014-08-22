@@ -2,6 +2,7 @@ package eu.europa.ec.eci.oct.offline.business.writer.xml;
 
 import eu.europa.ec.eci.export.JAXBHelper;
 import eu.europa.ec.eci.export.model.SupportForm;
+import eu.europa.ec.eci.oct.offline.business.AnnexRevisionType;
 import eu.europa.ec.eci.oct.offline.business.DecryptConstants;
 import eu.europa.ec.eci.oct.offline.business.FileType;
 import eu.europa.ec.eci.oct.offline.business.writer.AbstractFileWriter;
@@ -23,7 +24,7 @@ public class XmlFormattedFileWriter extends AbstractFileWriter {
     }
 
     @Override
-    protected void fillUpContent(SupportForm supportForm, FileOutputStream out, Locale locale) throws Exception {
+    protected void fillUpContent(SupportForm supportForm, FileOutputStream out, Locale locale, AnnexRevisionType annexRevisionType) throws Exception {
 
         OutputStreamWriter outputStream = new OutputStreamWriter(out, DecryptConstants.CHARACTER_ENCODING);
 
@@ -32,7 +33,7 @@ public class XmlFormattedFileWriter extends AbstractFileWriter {
     }
 
     @Override
-    protected List<Locale> getLinguisticVersions(String countryCode) {
+    protected List<Locale> getLinguisticVersions(String countryCode, AnnexRevisionType annexRevisionType) {
         return null;
     }
 }

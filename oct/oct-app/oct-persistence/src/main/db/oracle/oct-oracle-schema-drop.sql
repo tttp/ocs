@@ -17,6 +17,7 @@
   DROP TABLE "OCT_LOCAL_RULE_PARAM" cascade constraints;
   DROP TABLE "OCT_SIGNATURE" cascade constraints;
   DROP TABLE "OCT_SYSTEM_PREFS" cascade constraints;
+  DROP TABLE "OCT_SETTINGS" cascade constraints;
   DROP SEQUENCE "OCT_ACTSEQ";
   DROP SEQUENCE "OCT_CTSEQ";
   DROP SEQUENCE "OCT_INDSSEQ";

@@ -25,12 +25,15 @@ public class Country implements Serializable {
 	private String name;
 
 	@Column(unique = true, nullable = false, insertable = false)
-	private String code;	
-	
+	private String code;
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "OCT_COUNTRY_LANG", joinColumns = { @JoinColumn(name = "COUNTRY_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "LANGUAGE_ID", referencedColumnName = "ID") })
 	private Set<Language> languages;
-	
+
+	@Column
+	private long threshold;
+
 	private transient String label;
 
 	public String getName() {
@@ -116,4 +119,11 @@ public class Country implements Serializable {
 		this.label = label;
 	}
 
+	public long getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(long threshold) {
+		this.threshold = threshold;
+	}
 }

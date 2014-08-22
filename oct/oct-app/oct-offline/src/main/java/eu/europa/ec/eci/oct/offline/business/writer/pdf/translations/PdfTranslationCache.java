@@ -1,5 +1,6 @@
 package eu.europa.ec.eci.oct.offline.business.writer.pdf.translations;
 
+import eu.europa.ec.eci.oct.offline.business.AnnexRevisionType;
 import eu.europa.ec.eci.oct.offline.support.localization.LocalizationMessageProvider;
 import eu.europa.ec.eci.oct.offline.support.localization.LocalizationProvider;
 import eu.europa.ec.eci.oct.offline.support.log.OfflineCryptoToolLogger;
@@ -15,10 +16,13 @@ class PdfTranslationCache {
 
     private static OfflineCryptoToolLogger log = OfflineCryptoToolLogger.getLogger(PdfTranslationCache.class.getName());
 
-    static Map<String, LocalizationMessageProvider> byLanguageMessageProvider = new HashMap<String, LocalizationMessageProvider>();
     static Map<String, List<String>> languagesByCountry = new HashMap<String, List<String>>();
-    static LocalizationMessageProvider documentNamesProvider = null;
-    static LocalizationMessageProvider defaultMessagesProvider = new LocalizationMessageProvider(Locale.ENGLISH, "reports/signatureTranslations/messages");
+    static Map<Integer, LocalizationMessageProvider> documentNamesProviderMap;
+    static Map<Integer, Map<String, LocalizationMessageProvider>> byLanguageMessageProviderMap;
+    static LocalizationMessageProvider defaultMessagesProvider = new LocalizationMessageProvider(Locale.ENGLISH, "reports/annexRevision1/signatureTranslations/messages");
+
+
+    static Map<Integer, LocalizationMessageProvider> defaultMessagesProviderMap;
 
     static {
         initLanguagesByCountryCode();
@@ -28,10 +32,21 @@ class PdfTranslationCache {
 
     private static void initDocumentNamesProvider() {
         try {
-            documentNamesProvider = new LocalizationMessageProvider(Locale.ENGLISH, "reports/signatureTranslations/documentnames");
+            documentNamesProviderMap = new HashMap<Integer, LocalizationMessageProvider>();
+            documentNamesProviderMap.put(
+            		AnnexRevisionType.ANNEX_REVISION_0_INITIAL_RELEASE.getRevisionNumber(), 
+            		new LocalizationMessageProvider(Locale.ENGLISH, "reports/annexRevision" + AnnexRevisionType.ANNEX_REVISION_0_INITIAL_RELEASE.getRevisionNumber() + "/signatureTranslations/documentnames"));
+            documentNamesProviderMap.put(
+            		AnnexRevisionType.ANNEX_REVISION_1_ANNEX_III.getRevisionNumber(), 
+            		new LocalizationMessageProvider(Locale.ENGLISH, "reports/annexRevision" + AnnexRevisionType.ANNEX_REVISION_1_ANNEX_III.getRevisionNumber() + "/signatureTranslations/documentnames"));
+            
         } catch (Exception e) {
             log.warning("Unable to load the documentNames provider", e);
         }
+    }
+    
+    public static LocalizationMessageProvider getDocumentNameMessageProvider(AnnexRevisionType annexRevisionType){
+    	return documentNamesProviderMap.get(annexRevisionType.getRevisionNumber());
     }
 
     private static void initLanguagesByCountryCode() {
@@ -77,17 +92,36 @@ class PdfTranslationCache {
 
     private static void initAvailableMessageProviders() {
         try {
-            List<Locale> localizationForLanguage = LocalizationProvider.getInstance().getSupportedLocales();
-
+        	
+        	byLanguageMessageProviderMap = new HashMap<Integer, Map<String, LocalizationMessageProvider>>();
+        	
+        	Map<String, LocalizationMessageProvider> byLanguageMessageProvider0 = new HashMap<String, LocalizationMessageProvider>();
+        	List<Locale> localizationForLanguage = LocalizationProvider.getInstance().getSupportedLocales();
             for (Locale locale : localizationForLanguage) {
-
-                LocalizationMessageProvider messageProvider = new LocalizationMessageProvider(locale, "reports/signatureTranslations/messages");
+                LocalizationMessageProvider messageProvider = new LocalizationMessageProvider(locale, "reports/annexRevision"+AnnexRevisionType.ANNEX_REVISION_0_INITIAL_RELEASE.getRevisionNumber()+"/signatureTranslations/messages");
                 if (messageProvider.getCurrentLocale().equals(locale)) {
-                    byLanguageMessageProvider.put(locale.getLanguage().toLowerCase(), messageProvider);
+                    byLanguageMessageProvider0.put(locale.getLanguage().toLowerCase(), messageProvider);
                 }
             }
+            
+        	Map<String, LocalizationMessageProvider> byLanguageMessageProvider1 = new HashMap<String, LocalizationMessageProvider>();
+        	localizationForLanguage = LocalizationProvider.getInstance().getSupportedLocales();
+            for (Locale locale : localizationForLanguage) {
+                LocalizationMessageProvider messageProvider = new LocalizationMessageProvider(locale, "reports/annexRevision"+AnnexRevisionType.ANNEX_REVISION_1_ANNEX_III.getRevisionNumber()+"/signatureTranslations/messages");
+                if (messageProvider.getCurrentLocale().equals(locale)) {
+                    byLanguageMessageProvider1.put(locale.getLanguage().toLowerCase(), messageProvider);
+                }
+            }
+            
+            byLanguageMessageProviderMap.put(AnnexRevisionType.ANNEX_REVISION_0_INITIAL_RELEASE.getRevisionNumber(), byLanguageMessageProvider0);
+            byLanguageMessageProviderMap.put(AnnexRevisionType.ANNEX_REVISION_1_ANNEX_III.getRevisionNumber(), byLanguageMessageProvider1);
+            
         } catch (Exception e) {
             log.warning("Unable to initialize the available message providers", e);
         }
+    }
+    
+    public static Map<String, LocalizationMessageProvider> getLanguageMessageProviderMap(AnnexRevisionType annexRevisionType){
+    	return byLanguageMessageProviderMap.get(annexRevisionType.getRevisionNumber());
     }
 }

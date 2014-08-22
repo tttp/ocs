@@ -16,4 +16,7 @@
 
 	<jee:local-slsb id="exporterService" jndi-name="ejb/ExporterServiceImpl"
 		business-interface="eu.europa.ec.eci.oct.business.api.ExporterService" />
+		
+	<jee:local-slsb id="configurationService" jndi-name="ejb/ConfigurationServiceImpl"
+		business-interface="eu.europa.ec.eci.oct.business.api.ConfigurationService" />
 </beans>

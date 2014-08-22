@@ -26,17 +26,16 @@
 		<class>eu.europa.ec.eci.oct.entities.rules.GlobalValidationRule</class>
 		<class>eu.europa.ec.eci.oct.entities.rules.LocalRuleParameter</class>
 		<class>eu.europa.ec.eci.oct.entities.rules.LocalValidationRule</class>
+		<class>eu.europa.ec.eci.oct.entities.ConfigurationParameter</class>
 
 		<shared-cache-mode>NONE</shared-cache-mode>
 		<validation-mode>NONE</validation-mode>
 		<properties>
-		
-			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.connection.release_mode" value="auto" />
 			<property name="hibernate.current_session_context_class"
 				value="jta" />
-			<property name="hibernate.transaction.flush_before_completion" value="true" 
-				/> 
+			<property name="hibernate.transaction.flush_before_completion"
+				value="true" />
 			<property name="hibernate.transaction.auto_close_session"
 				value="true" />
 			<property name="hibernate.order_updates" value="true" />
@@ -52,11 +51,8 @@
 			<property name="hibernate.cache.use_second_level_cache"
 				value="false" />
 			<property name="hibernate.cache.use_query_cache" value="false" />
+			<property name="hibernate.show_sql" value="false" />
 		</properties>
-
-
-
 	</persistence-unit>
-
 </persistence>
 

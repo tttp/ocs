@@ -13,7 +13,7 @@ $(document).ready(function(){
 	_datepicker.showMonthAfterYear = false;
 	$("input[class=date]").datepicker(_datepicker);
 
-	if ($("#langChange")) {
+	if (document.getElementById('langChange')) {
 		$("#langChange").show();
 		$("#langChange").change(function(evt) {
 			var _lang = $("#langChange option:selected").val();
@@ -109,5 +109,63 @@ $(document).ready(function(){
 		evt.stopPropagation();
 		
 		$("input[name='_finish']").click();
-	}	
+	}
+	
+    if (document.getElementById('map')) {
+    	$('#map').addClass("loading");
+		$.ajax({
+			url: 'mapdata.do',
+            type: 'get',
+            dataType: 'json',
+            cache: false,
+            async: true,
+            success: function(data) {
+            	$("#total").text(data.total);
+            	
+            	var _colors = [];
+            	var _data = [];
+            	for (var idx = 0; idx < data.countries.length; idx++) {
+            		var _c = data.countries[idx];
+            		var _cnt = parseInt(_c.count);
+            		var _threshold = parseInt(_c.threshold);
+            		_colors[_c.code] = _cnt == 0 ? "#FF614E" : (_cnt < _threshold ? '#51A1D1' : '#A1C14C');
+            		_data[_c.code] = _c; 
+            	}
+            	
+				jQuery('#map').vectorMap({ 
+					map: 'europe_en',
+					backgroundColor: '#FFFFFF',
+					borderColor: '#111111',
+					borderOpacity: 1,
+					borderWidth: 1,
+					color: '#CDB49F',
+					enableZoom: true,
+					hoverColor: '#C7E0F3',
+					hoverOpacity: null,
+					showTooltip: true,
+					colors: _colors,
+					onLabelShow: function(event, label, code) {
+						var _c = _data[code];
+						if (_c) {
+							label.removeClass("hidden");
+							label.html('<div class="label-container"><p class="country">' + _c.name + '</p>' + 
+									data.messages.collected + ': ' + _c.count + '<br />' + 
+									data.messages.threshold + ': ' + _c.threshold + "<br />" + 
+									data.messages.percentage + ': ' + _c.percentage + '%</div>');
+						} else {
+							label.addClass("hidden");
+						}
+					},
+					onRegionClick: function(event, label, code) {
+						event.preventDefault();
+					}
+					
+				});
+				
+				$('#map').removeClass("loading");
+			},
+            error: function(jqXHR, textStatus, errorThrown ) {
+			} 
+        });
+	}
 });

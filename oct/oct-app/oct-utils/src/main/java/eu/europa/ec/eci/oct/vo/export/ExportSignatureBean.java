@@ -9,13 +9,15 @@ public class ExportSignatureBean {
 	private long id;
 	private Date date;
 	private String uuid;
+	private int annexRevision;
 
 	private Map<String, Map<String, String>> groups = new HashMap<String, Map<String, String>>();
 
-	public ExportSignatureBean(long id, Date date, String uuid) {
+	public ExportSignatureBean(long id, Date date, String uuid, int annexRevision) {
 		this.id = id;
 		this.date = date;
 		this.uuid = uuid;
+		this.annexRevision = annexRevision;
 	}
 
 	public Date getDate() {
@@ -48,6 +50,14 @@ public class ExportSignatureBean {
 
 	public String getUuid() {
 		return uuid;
+	}
+
+	public int getAnnexRevision() {
+		return annexRevision;
+	}
+
+	public void setAnnexRevision(int annexRevision) {
+		this.annexRevision = annexRevision;
 	}
 
 }

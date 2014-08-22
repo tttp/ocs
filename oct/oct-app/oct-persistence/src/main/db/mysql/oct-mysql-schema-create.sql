@@ -31,40 +31,42 @@ CREATE TABLE IF NOT EXISTS `OCT_COUNTRY` (
   `id` bigint(20) NOT NULL,
   `code` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `threshold` INT(10) NOT NULL,  
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40000 ALTER TABLE `OCT_COUNTRY` DISABLE KEYS */;
-INSERT INTO `OCT_COUNTRY` (`id`, `code`, `name`) VALUES
-	(1, 'pl', 'oct.country.pl'),
-	(2, 'de', 'oct.country.de'),
-	(3, 'uk', 'oct.country.uk'),
-	(4, 'fr', 'oct.country.fr'),
-	(5, 'be', 'oct.country.be'),
-	(6, 'ro', 'oct.country.ro'),
-	(8, 'at', 'oct.country.at'),
-	(9, 'lv', 'oct.country.lv'),
-	(10, 'bg', 'oct.country.bg'),
-	(11, 'cy', 'oct.country.cy'),
-	(12, 'lt', 'oct.country.lt'),
-	(13, 'lu', 'oct.country.lu'),
-	(14, 'mt', 'oct.country.mt'),
-	(15, 'nl', 'oct.country.nl'),
-	(16, 'pt', 'oct.country.pt'),
-	(17, 'sk', 'oct.country.sk'),
-	(18, 'si', 'oct.country.si'),
-	(19, 'cz', 'oct.country.cz'),
-	(20, 'dk', 'oct.country.dk'),
-	(21, 'ee', 'oct.country.ee'),
-	(22, 'fi', 'oct.country.fi'),
-	(23, 'el', 'oct.country.el'),
-	(24, 'es', 'oct.country.es'),
-	(25, 'hu', 'oct.country.hu'),
-	(26, 'ie', 'oct.country.ie'),
-	(27, 'se', 'oct.country.se'),
-	(28, 'it', 'oct.country.it');
+INSERT INTO `OCT_COUNTRY` (`id`, `code`, `name`, `threshold`) VALUES
+	(1, 'pl', 'oct.country.pl', 38250),
+	(2, 'de', 'oct.country.de', 74250),
+	(3, 'uk', 'oct.country.uk', 54750),
+	(4, 'fr', 'oct.country.fr', 55500),
+	(5, 'be', 'oct.country.be', 16500),
+	(6, 'ro', 'oct.country.ro', 24750),
+	(8, 'at', 'oct.country.at', 14250),
+	(9, 'lv', 'oct.country.lv', 6750),
+	(10, 'bg', 'oct.country.bg', 13500),
+	(11, 'cy', 'oct.country.cy', 4500),
+	(12, 'lt', 'oct.country.lt', 9000),
+	(13, 'lu', 'oct.country.lu', 4500),
+	(14, 'mt', 'oct.country.mt', 4500),
+	(15, 'nl', 'oct.country.nl', 19500),
+	(16, 'pt', 'oct.country.pt', 16500),
+	(17, 'sk', 'oct.country.sk', 9750),
+	(18, 'si', 'oct.country.si', 6000),
+	(19, 'cz', 'oct.country.cz', 16500),
+	(20, 'dk', 'oct.country.dk', 9750),
+	(21, 'ee', 'oct.country.ee', 4500),
+	(22, 'fi', 'oct.country.fi', 9750),
+	(23, 'el', 'oct.country.el', 16500),
+	(24, 'es', 'oct.country.es', 40500),
+	(25, 'hu', 'oct.country.hu', 16500),
+	(26, 'ie', 'oct.country.ie', 9000),
+	(27, 'se', 'oct.country.se', 15000),
+	(28, 'it', 'oct.country.it', 54750),
+	(29, 'hr', 'oct.country.hr', 9000);
 /*!40000 ALTER TABLE `OCT_COUNTRY` ENABLE KEYS */;
 
 
@@ -148,14 +150,12 @@ INSERT INTO `OCT_COUNTRY_PROPERTY` (`id`, `required`, `country_id`, `property_id
 	(63, 1, 4, 9),
 	(64, 1, 4, 12),
 	(65, 1, 4, 13),
-	(66, 1, 4, 14),
 	(67, 1, 2, 3),
 	(69, 1, 2, 5),
 	(70, 1, 2, 6),
 	(71, 1, 2, 7),
 	(72, 1, 2, 9),
 	(73, 1, 2, 10),
-	(74, 1, 4, 18),
 	(76, 1, 23, 1),
 	(77, 1, 23, 2),
 	(78, 1, 23, 9),
@@ -184,7 +184,6 @@ INSERT INTO `OCT_COUNTRY_PROPERTY` (`id`, `required`, `country_id`, `property_id
 	(105, 1, 9, 16),
 	(106, 1, 12, 15),
 	(107, 1, 13, 10),
-	(108, 1, 13, 19),
 	(109, 1, 14, 9),
 	(110, 1, 14, 13),
 	(111, 1, 15, 1),
@@ -207,35 +206,16 @@ INSERT INTO `OCT_COUNTRY_PROPERTY` (`id`, `required`, `country_id`, `property_id
 	(130, 1, 17, 10),
 	(131, 1, 18, 9),
 	(132, 1, 18, 10),
-	(133, 1, 18, 12),
-	(134, 1, 18, 13),
-	(135, 1, 24, 3),
-	(137, 1, 24, 5),
-	(138, 1, 24, 6),
-	(139, 1, 24, 7),
 	(140, 1, 24, 12),
 	(141, 1, 24, 13),
 	(142, 1, 27, 9),
 	(143, 1, 27, 10),
-	(144, 1, 27, 23),
-	(145, 1, 27, 24),
 	(146, 1, 3, 3),
 	(148, 1, 3, 5),
 	(149, 1, 3, 6),
 	(150, 1, 3, 7),
 	(151, 1, 3, 9),
 	(153, 1, 26, 9),
-	(154, 1, 26, 10),
-	(155, 1, 4, 26),
-	(156, 1, 4, 27),
-	(157, 1, 4, 28),
-	(158, 1, 4, 29),
-	(159, 1, 4, 30),
-	(160, 1, 4, 31),
-	(161, 1, 4, 32),
-	(162, 1, 4, 33),
-	(163, 1, 4, 34),
-	(164, 1, 4, 35),
 	(165, 1, 1, 37),
 	(166, 1, 2, 37),
 	(167, 1, 3, 37),
@@ -316,7 +296,26 @@ INSERT INTO `OCT_COUNTRY_PROPERTY` (`id`, `required`, `country_id`, `property_id
 	(245, 1, 25, 39),
 	(246, 1, 26, 39),
 	(247, 1, 27, 39),
-	(248, 1, 28, 39);
+	(248, 1, 28, 39),
+	(249, 1, 29, 37),
+	(250, 1, 29, 38),
+	(251, 1, 29, 3),
+	(252, 1, 29, 5),
+	(253, 1, 29, 6),
+	(254, 1, 29, 7),
+	(255, 1, 29, 39),
+	(256, 1, 29, 16),
+	(257, 1, 13, 3),
+	(258, 1, 13, 5),
+	(259, 1, 13, 6),
+	(260, 1, 13, 7),
+	(261, 1, 13, 9),
+	(262, 1, 24, 9),
+	(263, 1, 24, 16),
+	(264, 1, 4, 10),
+	(265, 1, 18, 15),
+	(266, 1, 27, 15);
+	
 /*!40000 ALTER TABLE `OCT_COUNTRY_PROPERTY` ENABLE KEYS */;
 
 
@@ -372,8 +371,14 @@ INSERT INTO `OCT_LANG` (`id`, `code`, `name`, `display_order`) VALUES
 	(20, 'sl', 'oct.lang.Slovenian',21),
 	(21, 'fi', 'oct.lang.Finnish',22),
 	(22, 'sv', 'oct.lang.Swedish',23),
-	(23, 'bg', 'oct.lang.Bulgarian',1);
+	(23, 'bg', 'oct.lang.Bulgarian',1),
+	(24, 'hr', 'oct.lang.Croatian', 24);
 /*!40000 ALTER TABLE `OCT_LANG` ENABLE KEYS */;
+
+UPDATE OCT_LANG SET display_order = display_order + 100
+WHERE display_order > 10;
+
+UPDATE OCT_LANG SET display_order = 11 WHERE id = 24;
 
 CREATE TABLE IF NOT EXISTS `OCT_PROPERTY` (
   `id` bigint(20) NOT NULL,
@@ -463,15 +468,17 @@ CREATE TABLE IF NOT EXISTS `OCT_GLOBAL_RULE` (
   `id` bigint(20) NOT NULL,
   `ruleType` varchar(255) DEFAULT NULL,
   `property_id` bigint(20) DEFAULT NULL,
+  `errorMessage` VARCHAR(255) NULL DEFAULT NULL,
+  `canBeSkipped` TINYINT UNSIGNED NOT NULL DEFAULT '0',  
   PRIMARY KEY (`id`),
   KEY `FK7B76B6DB86EFF898` (`property_id`),
   CONSTRAINT `FK7B76B6DB86EFF898` FOREIGN KEY (`property_id`) REFERENCES `OCT_PROPERTY` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40000 ALTER TABLE `OCT_GLOBAL_RULE` DISABLE KEYS */;
-INSERT INTO `OCT_GLOBAL_RULE` (`id`, `ruleType`, `property_id`) VALUES
-	(1, 'RANGE', 9),
-	(2, 'JAVAEXP', 5);
+INSERT INTO `OCT_GLOBAL_RULE` (`id`, `ruleType`, `property_id`, `errorMessage`, `canBeSkipped`) VALUES
+	(1, 'RANGE', 9, 'oct.error.invalidage', 0),
+	(2, 'JAVAEXP', 5, NULL, 1);
 /*!40000 ALTER TABLE `OCT_GLOBAL_RULE` ENABLE KEYS */;
 
 
@@ -517,82 +524,69 @@ INSERT INTO `OCT_GLOBAL_RULE_PARAM` (`id`, `parameterType`, `value`, `rule_id`) 
 (bean.gp("country").equals("hu") && bean.gp("postal.code").replaceAll(pattern, "").toLowerCase().matches("[0-9]{4}")) ||
 (bean.gp("country").equals("lt") && bean.gp("postal.code").replaceAll(pattern, "").toLowerCase().matches("[0-9]{5}")) ||
 (bean.gp("country").equals("lu") && bean.gp("postal.code").replaceAll(pattern, "").toLowerCase().matches("[0-9]{4}")) ||
-(!bean.gp("country").matches("at|be|bg|cy|cz|de|dk|ee|el|es|fi|fr|hu|ie|it|lt|lu|lv|mt|nl|pl|pt|ro|se|si|sk|uk") && bean.gp("postal.code").replaceAll(pattern, "").toLowerCase().matches("[0-9a-z]*"))', 2);
+(bean.gp("country").equals("hr") && bean.gp("postal.code").replaceAll(pattern, "").toLowerCase().matches("[0-9]{5}")) ||
+(!bean.gp("country").matches("at|be|bg|cy|cz|de|dk|ee|el|es|fi|fr|hu|ie|it|lt|lu|lv|mt|nl|pl|pt|ro|se|si|sk|uk|hr") && bean.gp("postal.code").replaceAll(pattern, "").toLowerCase().matches("[0-9a-z]*"))', 2);
 /*!40000 ALTER TABLE `OCT_GLOBAL_RULE_PARAM` ENABLE KEYS */;
 
 
 CREATE TABLE IF NOT EXISTS `OCT_LOCAL_RULE` (
-	`id` BIGINT(20) NOT NULL,
-	`ruleType` VARCHAR(255) NULL DEFAULT NULL,
-	`countryProperty_id` BIGINT(20) NULL DEFAULT NULL,
-	PRIMARY KEY (`id`),
-	INDEX `FK7B7AA6DB8C2F898` (`countryProperty_id`),
-	CONSTRAINT `FK7B7AA6DB8C2F898` FOREIGN KEY (`countryProperty_id`) REFERENCES `OCT_COUNTRY_PROPERTY` (`id`)
+  `id` bigint(20) NOT NULL,
+  `ruleType` varchar(255) DEFAULT NULL,
+  `countryProperty_id` bigint(20) DEFAULT NULL,
+  `errorMessage` varchar(255) DEFAULT NULL,
+  `canBeSkipped` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `FK7B7AA6DB8C2F898` (`countryProperty_id`),
+  CONSTRAINT `FK7B7AA6DB8C2F898` FOREIGN KEY (`countryProperty_id`) REFERENCES `oct_country_property` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40000 ALTER TABLE `OCT_LOCAL_RULE` DISABLE KEYS */;
-INSERT INTO `OCT_LOCAL_RULE` (`id`, `ruleType`, `countryProperty_id`) VALUES
-	(2, 'REGEXP', 26),
-	(3, 'REGEXP', 27),
-	(5, 'REGEXP', 83),
-	(6, 'REGEXP', 82),
-	(7, 'REGEXP', 84),
-	(8, 'REGEXP', 106),
-	(9, 'REGEXP', 108),
-	(12, 'REGEXP', 6),
-	(14, 'REGEXP', 15),
-	(15, 'REGEXP', 16),
-	(16, 'REGEXP', 17),
-	(17, 'REGEXP', 14),
-	(21, 'REGEXP', 64),
-	(22, 'REGEXP', 65),
-	(23, 'REGEXP', 66),
-	(24, 'REGEXP', 74),
-	(25, 'REGEXP', 155),
-	(26, 'REGEXP', 156),
-	(27, 'REGEXP', 157),
-	(28, 'REGEXP', 158),
-	(29, 'REGEXP', 159),
-	(30, 'REGEXP', 160),
-	(31, 'REGEXP', 161),
-	(32, 'REGEXP', 162),
-	(33, 'REGEXP', 164),
-	
-	(34, 'JAVAEXP', 150),
-	(35, 'JAVAEXP', 89),
-	(36, 'JAVAEXP', 116),
-	
-	(37, 'JAVAEXP', 241),
-	(38, 'JAVAEXP', 242),
-	(39, 'JAVAEXP', 237),
-	(40, 'JAVAEXP', 225),
-	(41, 'JAVAEXP', 240),
-	(42, 'JAVAEXP', 222),
-	
-	(43, 'REGEXP', 38),
-	(44, 'REGEXP', 101),
-	(45, 'REGEXP', 100),
-	(46, 'REGEXP', 105),
-	(47, 'REGEXP', 120),
-	(48, 'REGEXP', 122),
-	(49, 'REGEXP', 121),
-	(50, 'REGEXP', 144),
-	(51, 'REGEXP', 134),
-	(52, 'REGEXP', 133),
-	
-	(53, 'REGEXP', 80),
-	(54, 'REGEXP', 79),
-	(55, 'REGEXP', 81),
-	(56, 'REGEXP', 36),
-	(57, 'REGEXP', 37),
-	(58, 'REGEXP', 39),
-	(59, 'REGEXP', 40),
-	(60, 'REGEXP', 141),
-	(61, 'REGEXP', 145),
-	(62, 'REGEXP', 163),
-	(63, 'REGEXP', 110),
-	(64, 'REGEXP', 13),
-	(65, 'REGEXP', 140);
+INSERT INTO `OCT_LOCAL_RULE` (`id`, `ruleType`, `countryProperty_id`, `errorMessage`, `canBeSkipped`) VALUES
+	(2, 'REGEXP', 26, NULL, 1),
+	(3, 'REGEXP', 27, NULL, 1),
+	(5, 'REGEXP', 83, NULL, 1),
+	(6, 'REGEXP', 82, NULL, 1),
+	(7, 'REGEXP', 84, NULL, 1),
+	(8, 'REGEXP', 106, NULL, 1),
+	(12, 'REGEXP', 6, NULL, 1),
+	(14, 'REGEXP', 15, NULL, 1),
+	(15, 'REGEXP', 16, NULL, 1),
+	(16, 'REGEXP', 17, NULL, 1),
+	(17, 'REGEXP', 14, NULL, 1),
+	(21, 'REGEXP', 64, NULL, 1),
+	(22, 'REGEXP', 65, NULL, 1),
+	(34, 'JAVAEXP', 150, NULL, 0),
+	(35, 'JAVAEXP', 89, NULL, 0),
+	(36, 'JAVAEXP', 116, 'oct.property.form.error.nationality', 0),
+	(37, 'JAVAEXP', 241, 'oct.property.form.error.nationality', 0),
+	(38, 'JAVAEXP', 242, 'oct.property.form.error.nationality', 0),
+	(39, 'JAVAEXP', 237, 'oct.property.form.error.nationality', 0),
+	(40, 'JAVAEXP', 225, 'oct.property.form.error.nationality', 0),
+	(41, 'JAVAEXP', 240, 'oct.property.form.error.nationality', 0),
+	(42, 'JAVAEXP', 222, 'oct.property.form.error.nationality', 0),
+	(43, 'REGEXP', 38, NULL, 1),
+	(44, 'REGEXP', 101, NULL, 1),
+	(45, 'REGEXP', 100, NULL, 1),
+	(46, 'REGEXP', 105, NULL, 1),
+	(47, 'REGEXP', 120, NULL, 1),
+	(48, 'REGEXP', 122, NULL, 1),
+	(49, 'REGEXP', 121, NULL, 1),
+	(53, 'REGEXP', 80, NULL, 1),
+	(54, 'REGEXP', 79, NULL, 1),
+	(55, 'REGEXP', 81, NULL, 1),
+	(56, 'REGEXP', 36, NULL, 1),
+	(57, 'REGEXP', 37, NULL, 1),
+	(58, 'REGEXP', 39, NULL, 1),
+	(59, 'REGEXP', 40, NULL, 1),
+	(60, 'REGEXP', 141, NULL, 1),
+	(63, 'REGEXP', 110, NULL, 1),
+	(64, 'REGEXP', 13, NULL, 1),
+	(65, 'REGEXP', 140, NULL, 1),
+	(66, 'REGEXP', 256, NULL, 1),
+	(67, 'JAVAEXP', 233, 'oct.property.form.error.nationality', 0),
+	(68, 'REGEXP', 263, NULL, 1),
+	(69, 'REGEXP', 265, NULL, 1),
+	(70, 'REGEXP', 266, 'oct.property.form.error.id.number.se', 1);
 /*!40000 ALTER TABLE `OCT_LOCAL_RULE` ENABLE KEYS */;
 
 
@@ -608,35 +602,23 @@ CREATE TABLE IF NOT EXISTS `OCT_LOCAL_RULE_PARAM` (
 
 /*!40000 ALTER TABLE `OCT_LOCAL_RULE_PARAM` DISABLE KEYS */;
 INSERT INTO `OCT_LOCAL_RULE_PARAM` (`id`, `parameterType`, `value`, `rule_id`) VALUES
-	(2, 'REGEXP', '[a-z][0-9]{7}', 2),
+	(2, 'REGEXP', '[a-z][0-9]{7,8}', 2),
 	(3, 'REGEXP', '[0-9]{7}|[0-9]{8}', 3),
 	(5, 'REGEXP', '([0-9]{6}[a-z]{2})|([a-z]{2}[a-z][0-9]{6})|([a-z]{2}[a-z]{2}[0-9]{6})|([a-z]{2}[a-z]{3}[0-9]{6})|([a-z]{2}[0-9]{6})', 5),
 	(6, 'REGEXP', '([a-z]{2}[0-9]{6})|([a-z]{2}[0-9]{7})', 6),
 	(7, 'REGEXP', '[0-9][0-9]{6}[0-9]{4}', 7),
 	(8, 'REGEXP', '[0-9]{11}', 8),
-	(9, 'REGEXP', '[0-9]{11}|[0-9]{13}', 9),
 	(12, 'REGEXP', '[0-9]{11}', 12),
 	(14, 'REGEXP', '[0-9]{13}', 14),
 	(15, 'REGEXP', '[0-9]{13}', 15),
 	(16, 'REGEXP', '[0-9]{13}', 16),
 	(17, 'REGEXP', '[a-z]{2}[0-9]{6}', 17),
-	(21, 'REGEXP', '([0-9]){2}([a-z] ){2}([0-9]){4}[0-9]', 21),
-	(22, 'REGEXP', '[0-9]{7}|[0-9]{12}', 22),
-	(23, 'REGEXP', '[0-9]{10}', 23),
-	(24, 'REGEXP', '([a-z]){2}([0-9]){4}[0-9]', 24),
-	(25, 'REGEXP', '([0-9]{4})|([0-9]{3}\\(((?=.)(?i)M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX]))\\))', 25),
-	(26, 'REGEXP', '[0-9]{2}[0-9]{2}', 26),
-	(27, 'REGEXP', '([0-9]{5})|([0-9]{7})', 27),
-	(28, 'REGEXP', '[0-9]{9}', 28),
-	(29, 'REGEXP', '[0-9]{6}', 29),
-	(30, 'REGEXP', '[a-z0-9]*', 30),
-	(31, 'REGEXP', '[a-z0-9]*', 31),
-	(32, 'REGEXP', '[0-9]{6}', 32),
-	(33, 'REGEXP', '([a-z0-9]{10,17})|[0-9]{10}', 33),
+	(21, 'REGEXP', '([0-9]){2}([a-z]){2}([0-9]){4}[0-9]', 21),
+	(22, 'REGEXP', '[a-z0-9]{7}|[0-9a-z]{12}', 22),
 	
 	(34, 'JAVAEXP', 'bean.gp("c").equals("uk") && bean.gp("country").equals("uk")', 34),
 	(35, 'JAVAEXP', 'bean.gp("c").equals("ie") && bean.gp("country").equals("ie")', 35),
-	(36, 'JAVAEXP', 'bean.gp("c").equals("nl") && bean.gp("country").equals("nl")', 36),
+	(36, 'JAVAEXP', 'bean.gp("c").equals("nl") && (bean.gp("country").equals("nl") || bean.gp("nationality").equals("nl"))', 36),
 	
 	(37, 'JAVAEXP', 'bean.gp("c").equals("ee") && (bean.gp("country").equals("ee") || bean.gp("nationality").equals("ee"))', 37),
 	(38, 'JAVAEXP', 'bean.gp("c").equals("fi") && (bean.gp("country").equals("fi") || bean.gp("nationality").equals("fi"))', 38),
@@ -646,17 +628,14 @@ INSERT INTO `OCT_LOCAL_RULE_PARAM` (`id`, `parameterType`, `value`, `rule_id`) V
 	(42, 'JAVAEXP', 'bean.gp("c").equals("de") && (bean.gp("country").equals("de") || bean.gp("nationality").equals("de"))', 42),
 	
 	(43, 'REGEXP', '[0-9]{1,10}', 43),
-	(44, 'REGEXP', '([a-z]{2}[0-9]{7})|([0-9]{7}[a-z]{2})', 44),
-	(45, 'REGEXP', '[a-z]{1,2}[0-9]{1,7}', 45),
+	(44, 'REGEXP', '([a-z]{2}[0-9]{6,8})|([0-9]{7}[a-z]{2})', 44),
+	(45, 'REGEXP', '([a-z]{2}[0-9]{7})|([a-z][0-9]{6})|([0-9]{6}[a-z])', 45),
 	(46, 'REGEXP', '[0-9]{6}[0-9]{5}', 46),
 	(47, 'REGEXP', '[a-z]{1}[0-9]{6}', 47),
-	(48, 'REGEXP', '[0-9]{8}[a-z]{2}[0-9]{1}', 48),
-	(49, 'REGEXP', '[0-9]{8}', 49),
-	(50, 'REGEXP', '[0-9]{12}', 50),
-	(51, 'REGEXP', '[0-9]{9}', 51),
-	(52, 'REGEXP', '([a-z][0-9]{8})|([a-z]{2}[0-9]{7})', 52),
+	(48, 'REGEXP', '[0-9]{9}[a-z]{2}[0-9]', 48),
+	(49, 'REGEXP', '[0-9]{1,8}', 49),
 	
-	(53, 'REGEXP', '[\p{InGreek}a-z]{1,2}[0-9]{6}', 53),
+	(53, 'REGEXP', '[\\p{InGreek}a-z]{1,2}[0-9]{6}', 53),
 	(54, 'REGEXP', '[a-z]{2}[0-9]{7}', 54),
 	(55, 'REGEXP', '[0-9]{1,6}', 55),
 	(56, 'REGEXP', '[0-9]{10}', 56),
@@ -664,11 +643,15 @@ INSERT INTO `OCT_LOCAL_RULE_PARAM` (`id`, `parameterType`, `value`, `rule_id`) V
 	(58, 'REGEXP', '[0-9]{7,8}', 58),
 	(59, 'REGEXP', '([0-9]{9})|([0-9]{6}[a-z]{2}[0-9]{2})|([0-9]{6}[a-z]{2})|([a-z]{2}[0-9]{6})', 59),
 	(60, 'REGEXP', '[0-9]{8}[a-z]', 60),
-	(61, 'REGEXP', '[0-9]{12}', 61),
-	(62, 'REGEXP', '[a-z0-9]*', 62),
 	(63, 'REGEXP', '[a-z0-9]*', 63),
 	(64, 'REGEXP', '[a-z0-9]*', 64),
-	(65, 'REGEXP', '[a-z0-9]*', 65);
+	(65, 'REGEXP', '[a-z0-9]*', 65),
+	(66, 'REGEXP', '[0-9]{11}', 66),
+	(67, 'JAVAEXP', 'bean.gp("c").equals("lu") && (bean.gp("country").equals("lu") || bean.gp("nationality").equals("lu"));', 67),
+	
+	(68, 'REGEXP', '[xyz][0-9]{7}[a-z]', 68),
+	(69, 'REGEXP', '[0-9]{13}', 69),
+	(70, 'REGEXP', '[0-9]{12}', 70);
 /*!40000 ALTER TABLE `OCT_LOCAL_RULE_PARAM` ENABLE KEYS */;
 
 
@@ -682,6 +665,7 @@ CREATE TABLE IF NOT EXISTS `OCT_SIGNATURE` (
   `uuid` varchar(255) NOT NULL,
   `countryToSignFor_id` bigint(20) NOT NULL,
   `description_id` bigint(20) NOT NULL,
+  `annexRevision` INT(2) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `fingerprint` (`fingerprint`),  
   KEY `FK64E94196933581F` (`countryToSignFor_id`),
@@ -727,6 +711,12 @@ INSERT INTO `OCT_SYSTEM_PREFS` (`id`, `CERT_CONTENT_TYPE`, `CERT_FILE_NAME`, `co
 	(1, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 'DEPLOYED', NULL, 6);
 /*!40000 ALTER TABLE `OCT_SYSTEM_PREFS` ENABLE KEYS */;
 
+
+CREATE TABLE `OCT_SETTINGS` (
+	`param` VARCHAR(128) NOT NULL,
+	`value` TEXT NULL,
+	PRIMARY KEY (`param`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

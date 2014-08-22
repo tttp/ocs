@@ -1,0 +1,1 @@
+UPDATE `OCT_LOCAL_RULE_PARAM` SET `value`='[a-z][0-9]{7,8}' WHERE `id`=2 LIMIT 1;

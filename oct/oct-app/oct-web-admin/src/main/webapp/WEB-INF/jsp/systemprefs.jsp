@@ -104,12 +104,16 @@
 								<td class="v">
 									<c:if test="${!editing}">
 										<c:if test="${form.language!=null}">
-											<a href="<c:url value="${oct_preview_url}#initdetails" />"><spring:message code="${form.language.name}" /></a>
+											<c:if test="${draftUploaded}">
+												<a href="<c:url value="${oct_preview_url}?preview=true&langId=${form.language.id}&draft=true#initdetails" />"><spring:message code="${form.language.name}" /></a>
+											</c:if>
+											<c:if test="${!draftUploaded}">
+												<a href="<c:url value="${oct_preview_url}#initdetails" />"><spring:message code="${form.language.name}" /></a>
+											</c:if>
 										</c:if>
 										<c:if test="${form.language==null}">
 											&nbsp;
 										</c:if>
-										
 									</c:if> 
 									<c:if test="${editing}">
 										<form:select path="language" items="${form.languages}" itemValue="code" itemLabel="label"/>

@@ -40,20 +40,32 @@ img {
 	border: 0;
 }
 
-form #buttons {
+form #buttons, form div.buttons {
 	background-color: #4EA1D3;
 	margin: 6px 0 0 0;
 	padding: 6px;
 	text-align: left;
 }
 
-form #buttons input {
+form #buttons input, form div.buttons input {
 	margin-left: 6px;
+}
+
+form div.support {
+	text-align: center;
+}
+
+form div.support input {
+	font-weight: bold;
 }
 
 fieldset p {
 	background-color: #F8F8F8;
 	padding: 4px;
+}
+
+#content-login {
+	margin-top: 64px;
 }
 
 #content-login table.fields textarea {
@@ -82,7 +94,7 @@ input[type=button], input[type=submit] {
 	padding-right: 5px;
 }
 
-#page {
+#page, #errorpage {
 	margin: 4px auto;
 	width: 800px;
 	background-color: #fff;
@@ -109,45 +121,67 @@ input[type=button], input[type=submit] {
 	border-bottom: 1px solid #4ea1d3;
 	padding-top: 6px;
 	padding-bottom: 6px;
+	margin-bottom: 14px;	
+
+	float:left;
+	width:100%;
+}
+
+#menu a {
+	float: left;
+	text-decoration: none;
+	padding-left: 20px;
+	padding-right: 12px;
+	margin: 0 6px 0 6px;
+	background-position: left 1px;
+	background-repeat: no-repeat;
+	width: 150px;
+	
 }
 
 #menu li {
-	display: inline;
-	padding: 4px 0 0 20px;
-	background-position: left center;
-	background-repeat: no-repeat;
-	padding-bottom: 6px;
-	margin: 0 8px 0 8px;
 }
 
-#menu li.first {
+#menu a.first {
 	margin-left: 4px;
 }
 
-#menu li.last {
+#menu a.last {
 	margin-right: 0;
 }
 
 
-#menu li.home {
+#menu a.home {
 	background-image: url('../images/icon_home.png');
 }
 
-#menu li.conformity {
+#menu a.conformity {
 	background-image: url('../images/icon_certificate.png');
 }
 
-#menu li.privacy {
+#menu a.privacy {
 	background-image: url('../images/icon_privacy.png');
+}
+
+#menu a.map {
+	background-image: url('../images/icon_map.png');
+}
+
+#menu li.privacy p {
+	float: left;
 }
 
 #logo {
 	float: left;
 	width: 33em;
-	background-image: url('../images/eu.png');
 	background-repeat: no-repeat;
 	background-position: left center;
-	padding: 14px 0 12px 80px;
+	padding: 4px;
+}
+
+#logoimg {
+	float: left;
+	padding-right: 12px;
 }
 
 #lang {
@@ -180,6 +214,7 @@ input[type=button], input[type=submit] {
 #h1 {
 	font-size: 1.25em;
 	font-weight: bold;
+	margin-top: 12px;	
 }
 
 #content h1 {
@@ -223,7 +258,8 @@ input[type=button], input[type=submit] {
 	background-repeat: no-repeat;
 	background-position: 6px center;
 	background-image: url('../images/error.png');
-	font-weight: normal; 
+	font-weight: normal;
+	width: 420px; 
 }
 
 #review {
@@ -279,5 +315,136 @@ span.required {
 	margin-right: 6px;
 	margin-bottom: 4px;
 	font-size: 0.85em;
-	
+}
+
+#errorpage {
+	padding: 12px;
+}
+
+#errorpage h1 {
+	margin: 0;
+	padding: 0 0 0 24px;
+	background-repeat: no-repeat;
+	background-position: 0 center;
+	background-image: url('../images/error.png');
+}
+
+#errorpage #content {
+	margin: 0;
+}
+
+.duplicate #content p {
+	margin: 4px 0 4px 4px;
+} 
+
+#social {
+    text-align: right;
+    margin-bottom: 8px;
+}
+    
+div .plusone, .twitter, .fb-like {
+    font-size: 1px;
+    display: inline-block;
+}
+
+div .fb_reset {
+    display: inline;
+}
+
+p.back {
+	float: left;
+}
+
+#map {
+	width: 748px; 
+	height: 572px; 
+	margin: 0 auto;
+} 
+
+#legend {
+	margin: 22px 10px 20px 400px;
+	text-align: right;
+}
+
+#legend span {
+	padding: 0 20px 0 20px;
+	margin-left: 10px;
+	border: 1px solid #555;
+}
+
+#legend span.green {
+	background-color: #A1C14C;
+}
+
+#legend span.blue {
+	background-color: #51A1D1;
+}
+
+#legend span.grey {
+	background-color: #FF614E;
+}
+
+#legend span.rest {
+	background-color: #CDB49F;
+}
+
+#definition {
+	margin: 22px 10px 0;
+	float: left;
+	width: 350px;
+}
+
+div.loading {
+	background-image: url('../images/loading.gif');
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+p.total {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+p.no-refresh {
+	background-image: url('../images/warning.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 22px;
+	margin-left: 4px;
+	line-height: 22px;
+}
+
+@media only screen and (max-width: 801px)
+{
+    #page
+    {
+        width:auto;
+    }
+    #menu li
+    {
+        display:block;
+    }
+    #lang
+    {
+        clear:left;
+        padding-bottom:8px;
+    }
+    input[type="text"], select, textarea
+    {
+        max-width:18.75em;
+        min-width:0;
+        width:100%;
+    }
+    textarea
+    {
+        max-width:350px;
+        min-width:0;
+        width:100%;
+    }
+    .improvedDropDown
+    {
+        max-width:700px;
+        min-width:0;
+        width:100%;
+    }
 }

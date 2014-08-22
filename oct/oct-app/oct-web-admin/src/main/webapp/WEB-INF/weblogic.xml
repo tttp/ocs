@@ -2,5 +2,6 @@
 	<session-descriptor>
 		<cookie-secure>true</cookie-secure>
 		<cookie-http-only>true</cookie-http-only>
+		<cookie-path>/oct-web-admin</cookie-path>
 	</session-descriptor>
 </weblogic-web-app>

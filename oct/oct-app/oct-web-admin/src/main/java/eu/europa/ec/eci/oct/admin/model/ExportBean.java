@@ -9,6 +9,8 @@ import eu.europa.ec.eci.oct.webcommons.model.SimpleBean;
 
 public class ExportBean extends SimpleBean {
 
+	private static final long serialVersionUID = -192085001269512739L;
+
 	private List<Country> countries = new ArrayList<Country>();
 
 	private Country country;
@@ -20,10 +22,9 @@ public class ExportBean extends SimpleBean {
 	private List<SignatureId> signatureIds = new ArrayList<SignatureId>();
 
 	private Date registrationDate;
-	
-	public ExportBean(){
+
+	public ExportBean() {
 	}
-	
 
 	public Country getCountry() {
 		return country;
@@ -56,7 +57,7 @@ public class ExportBean extends SimpleBean {
 	public void setCountries(List<Country> countries) {
 		this.countries = countries;
 	}
-	
+
 	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
@@ -72,6 +73,5 @@ public class ExportBean extends SimpleBean {
 	public void setSignatureIds(List<SignatureId> signatureIds) {
 		this.signatureIds = signatureIds;
 	}
-
 
 }

@@ -25,7 +25,7 @@ public class SignatureDAOTest extends DBTestSuite {
 		try {
 			signatures = daof.getSignatureDAO().getAllSignatures();
 			Assert.assertNotNull("Signatures list is empty", signatures);
-			Assert.assertEquals("Signatures items amount doesn't match expected 3 values", 3, signatures.size());
+			Assert.assertEquals("Signatures items amount doesn't match expected 3 values", 4, signatures.size());
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			Assert.fail("persistence exception");

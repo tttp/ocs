@@ -66,8 +66,7 @@ public class SignatureServiceImpl implements SignatureService {
 		try {
 			List<CountryProperty> result = daof.getPropertyDAO().getProperties(c, group);
 			if (logger.isDebugEnabled()) {
-				logger.debug("Properties for " + group.toString() + " contain "
-						+ (result == null ? "0" : result.size()) + " elements.");
+				logger.debug("Properties for " + group.toString() + " contain " + (result == null ? "0" : result.size()) + " elements.");
 			}
 
 			return result;
@@ -82,15 +81,13 @@ public class SignatureServiceImpl implements SignatureService {
 		try {
 			CountryProperty result = daof.getPropertyDAO().getCountryPropertyById(id);
 			if (logger.isDebugEnabled()) {
-				logger.debug("Country property matching id " + id + ": "
-						+ (result == null ? "Nothing found!" : result.toString()));
+				logger.debug("Country property matching id " + id + ": " + (result == null ? "Nothing found!" : result.toString()));
 			}
 
 			return result;
 		} catch (PersistenceException e) {
-			logger.error(
-					"There was a roblem while retrieving the country property for id " + id + ". Message: "
-							+ e.getLocalizedMessage(), e);
+			logger.error("There was a roblem while retrieving the country property for id " + id + ". Message: " + e.getLocalizedMessage(),
+					e);
 			throw new OCTException("Getting country property for id " + id + " failed.", e);
 		}
 	}
@@ -102,25 +99,25 @@ public class SignatureServiceImpl implements SignatureService {
 		}
 
 		try {
-			SystemPreferences preferences = daof.getSystemPreferencesDAO().getPreferences();
-			CryptographyService crypto = CryptographyService.getService(preferences.getPublicKey().toCharArray());
+			final SystemPreferences preferences = daof.getSystemPreferencesDAO().getPreferences();
+			final CryptographyService crypto = CryptographyService.getService(preferences.getPublicKey().toCharArray());
 
-			byte[] signatureHash = crypto.fingerprint(serialize(signature));
+			final byte[] signatureHash = crypto.fingerprint(serialize(signature));
 			signature.setFingerprint(new String(Hex.encodeHex(signatureHash)));
 
-			signature.setUuid(UUID.randomUUID().toString());
-			encryptSignatureData(signature, crypto);
-			daof.getSignatureDAO().insertSignature(signature);
-
-			return signature;
-		} catch (PersistenceException e) {
-			try {
-				checkForDuplicate(signature);
-			} catch (DuplicateSignatureException de) {
-				logger.error("Duplicate signature detected", e);
-				throw de;
+			if (!isSignatureAlreadyInDb(signature)) {
+				logger.debug("Signature does not exist in DB. It will be persisted....");
+				
+				signature.setUuid(UUID.randomUUID().toString());
+				encryptSignatureData(signature, crypto);
+				daof.getSignatureDAO().insertSignature(signature);
+				
+				return signature;
+			} else {
+				logger.warn("Duplicate signature detected.");
+				throw new DuplicateSignatureException("Duplicate signature detected.");
 			}
-
+		} catch (PersistenceException e) {
 			logger.error("There was a problem persisting signature. The message was: " + e.getLocalizedMessage(), e);
 			throw new OCTException("There was a problem persisting signature", e);
 		}
@@ -135,20 +132,18 @@ public class SignatureServiceImpl implements SignatureService {
 		}
 	}
 
-	private void checkForDuplicate(Signature signature) throws DuplicateSignatureException, OCTCryptoException,
-			OCTException {
+	private boolean isSignatureAlreadyInDb(Signature signature) throws PersistenceException {
 		logger.debug("Checking whether signature exists...");
 
 		try {
 			daof.getSignatureDAO().findByFingerprint(signature);
 			// if NoResultPersistenceException caught then duplicate found
-			throw new DuplicateSignatureException("Duplicate of signature with fingerprint "
-					+ signature.getFingerprint() + " exists");
+			return true;
 		} catch (NoResultPersistenceException e) {
 			// expected!
-			return;
+			return false;
 		} catch (PersistenceException e) {
-			throw new OCTException("problem while querying duplicate", e);
+			throw new PersistenceException("problem while querying duplicate", e);
 		}
 	}
 
@@ -170,9 +165,7 @@ public class SignatureServiceImpl implements SignatureService {
 		try {
 			return daof.getSignatureDAO().countSignatures(parameters);
 		} catch (PersistenceException e) {
-			logger.error(
-					"There was a problem retrieving signature counts for cpuntries. The message was: "
-							+ e.getLocalizedMessage(), e);
+			logger.error("There was a problem retrieving signature counts for cpuntries. The message was: " + e.getLocalizedMessage(), e);
 			throw new OCTException("There was a problem retrieving signature counts for cpuntries.", e);
 		}
 	}
@@ -204,15 +197,12 @@ public class SignatureServiceImpl implements SignatureService {
 		try {
 			List<CountryProperty> result = daof.getPropertyDAO().getAllCountryProperties();
 			if (logger.isDebugEnabled()) {
-				logger.debug("Country properties table contains " + (result == null ? "0" : result.size())
-						+ " elements.");
+				logger.debug("Country properties table contains " + (result == null ? "0" : result.size()) + " elements.");
 			}
 
 			return result;
 		} catch (PersistenceException e) {
-			logger.error(
-					"There was a problem while obtaining all country properties. Message: " + e.getLocalizedMessage(),
-					e);
+			logger.error("There was a problem while obtaining all country properties. Message: " + e.getLocalizedMessage(), e);
 			throw new OCTException("Getting all properties failed.", e);
 		}
 	}
@@ -234,8 +224,7 @@ public class SignatureServiceImpl implements SignatureService {
 
 			return result;
 		} catch (PersistenceException e) {
-			logger.error("There was a problem while obtaining the signature list. Message: " + e.getLocalizedMessage(),
-					e);
+			logger.error("There was a problem while obtaining the signature list. Message: " + e.getLocalizedMessage(), e);
 			throw new OCTException("Getting signatures failed.", e);
 		}
 	}
@@ -254,8 +243,7 @@ public class SignatureServiceImpl implements SignatureService {
 			return result;
 		} catch (PersistenceException e) {
 			logger.error(
-					"There was a problem while obtaining the property list for the signature ids. Message: "
-							+ e.getLocalizedMessage(), e);
+					"There was a problem while obtaining the property list for the signature ids. Message: " + e.getLocalizedMessage(), e);
 			throw new OCTException("Getting signatures failed.", e);
 		}
 	}
@@ -268,8 +256,7 @@ public class SignatureServiceImpl implements SignatureService {
 		try {
 			daof.getSignatureDAO().deleteAllSignatures();
 		} catch (PersistenceException e) {
-			logger.error(
-					"There was a problem while deleting all signatures. The message was: " + e.getLocalizedMessage(), e);
+			logger.error("There was a problem while deleting all signatures. The message was: " + e.getLocalizedMessage(), e);
 			throw new OCTException("There was a problem while deleting all signatures.", e);
 		}
 	}

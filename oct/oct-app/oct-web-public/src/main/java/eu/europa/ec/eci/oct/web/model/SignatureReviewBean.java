@@ -1,8 +1,10 @@
 package eu.europa.ec.eci.oct.web.model;
 
+import java.io.Serializable;
 
-public class SignatureReviewBean {
+public class SignatureReviewBean implements Serializable {
 
+	private static final long serialVersionUID = 2628622531089527603L;
 	private String uuid;
 	private String date;
 

@@ -32,12 +32,8 @@ public class LocaleChangeInterceptor extends HandlerInterceptorAdapter {
 		String language = "en";
 		try {
 			language = request.getParameter(PARAM_NAME);
-
 			// if gui language has changed, also update the initiative description
 			boolean changeInitiativeLang = language != null && !"".equals(language);
-			if (changeInitiativeLang) {
-				request.getSession().setAttribute(CommonControllerConstants.SESSION_ATTR_INITIATIVE_LANGUAGE, language);
-			}
 
 			if (language == null || "".equals(language)) {
 				language = (String) request.getSession().getAttribute(SESSION_ATTRIBUTE);
@@ -55,6 +51,10 @@ public class LocaleChangeInterceptor extends HandlerInterceptorAdapter {
 
 			language = language.toLowerCase();
 			request.getSession().setAttribute(SESSION_ATTRIBUTE, language);
+			
+			if (changeInitiativeLang) {
+				request.getSession().setAttribute(CommonControllerConstants.SESSION_ATTR_INITIATIVE_LANGUAGE, language);
+			}
 		} catch (OCTException e) {
 			logger.error("Could not process locales! About to set the default locale to ENGLISH...", e);
 			language = "en";

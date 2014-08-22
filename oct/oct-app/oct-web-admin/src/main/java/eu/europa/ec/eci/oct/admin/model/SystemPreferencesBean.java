@@ -10,31 +10,33 @@ import eu.europa.ec.eci.oct.webcommons.model.SimpleBean;
 
 public class SystemPreferencesBean extends SimpleBean {
 
+	private static final long serialVersionUID = 786872941280515721L;
+
 	private String title;
 	private String subjectMatter;
 	private String objectives;
-	
+
 	private String registerUrl;
 	private Date registrationDate;
 	private String registrationNumber;
 	private Language language;
 	private List<Language> languages = new ArrayList<Language>();
-	
+
 	private String organizers;
 	private String contactPerson;
 	private String contactEmail;
 	private String website;
-	
+
 	private byte[] xmlFile;
-	
+
 	private Date uploadDate;
-	
+
 	private String lvTitle;
 	private String lvSubjectMatter;
 	private String lvObjectives;
 	private String lvWebsite;
 	private Language lvLanguage;
-	
+
 	private List<InitiativeDescription> languageVersions;
 
 	public String getRegisterUrl() {
@@ -59,7 +61,7 @@ public class SystemPreferencesBean extends SimpleBean {
 
 	public Date getRegistrationDate() {
 		return registrationDate;
-	}	
+	}
 
 	public String getOrganizers() {
 		return organizers;

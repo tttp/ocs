@@ -21,7 +21,7 @@
 
 	<filter>
 		<filter-name>errorHanglingFilter</filter-name>
-		<filter-class>eu.europa.ec.eci.oct.webcommons.errorhandling.ErrrorHandlingFilter</filter-class>
+		<filter-class>eu.europa.ec.eci.oct.webcommons.errorhandling.ErrorHandlingFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>errorHanglingFilter</filter-name>
@@ -111,5 +111,12 @@
 		<ejb-ref-type>Session</ejb-ref-type>
 		<local>eu.europa.ec.eci.oct.business.api.ExporterService</local>
 		<ejb-link>oct-business.jar#ExporterServiceImpl</ejb-link>
+	</ejb-local-ref>
+	
+	<ejb-local-ref>
+		<ejb-ref-name>ejb/ConfigurationServiceImpl</ejb-ref-name>
+		<ejb-ref-type>Session</ejb-ref-type>
+		<local>eu.europa.ec.eci.oct.business.api.ConfigurationService</local>
+		<ejb-link>oct-business.jar#ConfigurationServiceImpl</ejb-link>
 	</ejb-local-ref>
 </web-app>

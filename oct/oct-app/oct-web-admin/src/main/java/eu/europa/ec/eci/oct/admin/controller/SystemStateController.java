@@ -204,13 +204,11 @@ public class SystemStateController extends HttpGetAndPostController<SystemStateB
 
 			} catch (IllegalStateException e) {
 				logger.error("illegal state error while uploading certificate", e);
-				result.reject("oct.s7.error.certificate.upload", new Object[] { ErrorHandlingUtils.getStackTrace(e) },
-						"Error uploading certificate");
+				result.reject("oct.s7.error.certificate.upload", "Error uploading certificate");
 				return doGet(model, request, response);
 			} catch (IOException e) {
 				logger.error("input/output error while uploading certificate", e);
-				result.reject("oct.s7.error.certificate.upload", new Object[] { ErrorHandlingUtils.getStackTrace(e) },
-						e.getMessage());
+				result.reject("oct.s7.error.certificate.upload", e.getMessage());
 				return doGet(model, request, response);
 			}
 

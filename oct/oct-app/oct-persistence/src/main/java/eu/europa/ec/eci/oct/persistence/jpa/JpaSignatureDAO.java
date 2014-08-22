@@ -91,21 +91,21 @@ public class JpaSignatureDAO extends AbstractJpaDAO implements SignatureDAO {
 		}
 	}
 
-	public Signature findByFingerprint(Signature pattern) throws PersistenceException {
+	public Signature findByFingerprint(Signature signature) throws PersistenceException {
 		try {
 			if (logger.isDebugEnabled()) {
-				logger.debug("looking up signature by fingerprint [" + pattern.getFingerprint() + "]");
+				logger.debug("looking up signature by fingerprint [" + signature.getFingerprint() + "]");
 			}
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Signature> query = cb.createQuery(Signature.class);
 			Root<Signature> sRoot = query.from(Signature.class);
-			query.where(cb.equal(sRoot.get("fingerprint"), pattern.getFingerprint()));
+			query.where(cb.equal(sRoot.get("fingerprint"), signature.getFingerprint()));
 			Signature s = null;
 			try {
 				s = em.createQuery(query).getSingleResult();
 			} catch (NoResultException e) {
-				throw new NoResultPersistenceException("No signature with fingerprint " + pattern.getFingerprint(), e);
+				throw new NoResultPersistenceException("No signature with fingerprint " + signature.getFingerprint(), e);
 			}
 
 			if (logger.isDebugEnabled()) {
@@ -116,7 +116,7 @@ public class JpaSignatureDAO extends AbstractJpaDAO implements SignatureDAO {
 		} catch (NoResultPersistenceException e) {
 			throw e;
 		} catch (Exception e) {
-			throw wrapException("findByFingerprint " + pattern, e);
+			throw wrapException("findByFingerprint " + signature, e);
 		}
 	}
 
@@ -230,7 +230,7 @@ public class JpaSignatureDAO extends AbstractJpaDAO implements SignatureDAO {
 		try {
 			String whereClause = computeWhereClause(parameters);
 
-			String query = "SELECT new eu.europa.ec.eci.oct.vo.export.ExportSignatureBean(s.id, s.dateOfSignature, s.uuid) "
+			String query = "SELECT new eu.europa.ec.eci.oct.vo.export.ExportSignatureBean(s.id, s.dateOfSignature, s.uuid, s.annexRevision) "
 					+ "FROM Signature s " + whereClause + " ORDER BY s.dateOfSignature";
 
 			Query q = em.createQuery(query);

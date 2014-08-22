@@ -143,30 +143,36 @@
         <column>ID</column>
         <column>CODE</column>
         <column>NAME</column>
+        <column>THRESHOLD</column>
         <row>
             <value>1</value>
             <value>PL</value>
             <value>Poland</value>
+            <value>10000</value>
         </row>
         <row>
             <value>2</value>
             <value>DE</value>
             <value>Germany</value>
+            <value>12000</value>
         </row>
         <row>
             <value>3</value>
             <value>GB</value>
             <value>Great Britain</value>
+            <value>20000</value>
         </row>
         <row>
             <value>4</value>
             <value>FR</value>
             <value>France</value>
+            <value>10000</value>
         </row>
         <row>
             <value>5</value>
             <value>BE</value>
             <value>Belgium</value>
+            <value>10000</value>
         </row>
     </table>
     
@@ -204,53 +210,62 @@
         <column>PROPERTY_ID</column>
         <column>COUNTRY_ID</column>
         <column>REQUIRED</column>
+        <column>MARKEDASDELETED</column>
         <row>
             <value>1</value>
             <value>1</value>
             <value>1</value>
             <value>1</value>
+            <value>0</value>
         </row>
         <row>
             <value>2</value>
             <value>2</value>
             <value>1</value>
             <value>1</value>
+            <value>0</value>
         </row>
         <row>
             <value>3</value>
             <value>3</value>
             <value>1</value>
             <value>1</value>
+            <value>0</value>
         </row>
         <row>
             <value>4</value>
             <value>4</value>
             <value>1</value>
             <value>1</value>
+            <value>0</value>
         </row>
         <row>
             <value>5</value>
             <value>1</value>
             <value>2</value>
             <value>1</value>
+            <value>0</value>
         </row>
         <row>
             <value>6</value>
             <value>2</value>
             <value>2</value>
             <value>1</value>
+            <value>0</value>
         </row>
         <row>
             <value>7</value>
             <value>3</value>
             <value>2</value>
             <value>1</value>
+            <value>0</value>
         </row>
         <row>
             <value>8</value>
             <value>4</value>
             <value>2</value>
             <value>1</value>
+            <value>0</value>
         </row>
     </table>
     <table name="OCT_SIGNATURE">

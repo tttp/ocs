@@ -2,6 +2,7 @@ package eu.europa.ec.eci.oct.offline.business.writer;
 
 import eu.europa.ec.eci.export.DataException;
 import eu.europa.ec.eci.export.model.SupportForm;
+import eu.europa.ec.eci.oct.offline.business.AnnexRevisionType;
 import eu.europa.ec.eci.oct.offline.business.FileType;
 
 import java.io.File;
@@ -17,6 +18,7 @@ import java.util.*;
 public abstract class AbstractFileWriter implements FormattedFileWriter {
 
     private static final String DECRYPT_FILE_SUFFIX = "_dec";
+    private static final String ANNEX_REVISION_FILE_SUFFIX = "_annexRevision";
 
     private final FileType fileType;
     private Set<String> existingFolders = Collections.synchronizedSet(new HashSet<String>());
@@ -25,9 +27,9 @@ public abstract class AbstractFileWriter implements FormattedFileWriter {
         this.fileType = fileType;
     }
 
-    protected File buildOutputFile(File outputFolder, File fileInSelection, File selectedInput, Locale locale) throws DataException {
+    protected File buildOutputFile(File outputFolder, File fileInSelection, File selectedInput, Locale locale, AnnexRevisionType annexRevisionType) throws DataException {
 
-        String outputPath = buildOutputFilePath(outputFolder.getAbsolutePath(), fileInSelection, selectedInput, locale);
+        String outputPath = buildOutputFilePath(outputFolder.getAbsolutePath(), fileInSelection, selectedInput, locale, annexRevisionType);
         try {
 
             File outputFile = new File(outputPath);
@@ -131,7 +133,7 @@ public abstract class AbstractFileWriter implements FormattedFileWriter {
     }
 
     private String buildOutputFilePath(String outputFileAbsolutePath, File fileInSelection,
-                                       File selectedInput, Locale locale) {
+                                       File selectedInput, Locale locale, AnnexRevisionType annexRevisionType) {
         StringBuilder outputFilePath = new StringBuilder();
         outputFilePath.append(outputFileAbsolutePath);
 
@@ -157,6 +159,10 @@ public abstract class AbstractFileWriter implements FormattedFileWriter {
         outputFilePath.append(File.separator);
         outputFilePath.append(getFileNameWithoutExtension(fileInSelection));
 
+        //add the annex revision suffix if is a PDF
+        if(FileType.PDF == fileType){
+        	outputFilePath.append(ANNEX_REVISION_FILE_SUFFIX + annexRevisionType.getRevisionNumber());
+        }
         //add the suffix
         outputFilePath.append(DECRYPT_FILE_SUFFIX);
         if(locale != null && locale.getLanguage() != null) {
@@ -182,26 +188,27 @@ public abstract class AbstractFileWriter implements FormattedFileWriter {
 
     @Override
     public void writeToOutputRelativeToInputPath(SupportForm supportForm, File outputFolder,
-                                                 File fileInSelection, File selectedInput) throws DataException {
-        List<Locale> linguisticVersions = getLinguisticVersions(supportForm.getForCountry());
+                                                 File fileInSelection, File selectedInput, AnnexRevisionType annexRevisionType) throws DataException {
+        List<Locale> linguisticVersions = getLinguisticVersions(supportForm.getForCountry(), annexRevisionType);
 
         if(linguisticVersions != null && !linguisticVersions.isEmpty()) {
             for (Locale linguisticVersion : linguisticVersions) {
-                writeLinguisticVersion(supportForm, outputFolder, fileInSelection, selectedInput, linguisticVersion);
+                writeLinguisticVersion(supportForm, outputFolder, fileInSelection, selectedInput, linguisticVersion, annexRevisionType);
             }
         } else {
-            writeLinguisticVersion(supportForm, outputFolder, fileInSelection, selectedInput, null);
+            writeLinguisticVersion(supportForm, outputFolder, fileInSelection, selectedInput, null, annexRevisionType);
         }
     }
 
-    private void writeLinguisticVersion(SupportForm supportForm, File outputFolder, File fileInSelection, File selectedInput, Locale linguisticVersion) throws DataException {
-        File outputFile = buildOutputFile(outputFolder, fileInSelection, selectedInput, linguisticVersion);
+    private void writeLinguisticVersion(SupportForm supportForm, File outputFolder, File fileInSelection, File selectedInput, Locale linguisticVersion, AnnexRevisionType annexRevisionType) throws DataException {
+        
+        File outputFile = buildOutputFile(outputFolder, fileInSelection, selectedInput, linguisticVersion, annexRevisionType);
 
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream(outputFile);
 
-            fillUpContent(supportForm, fileOutputStream, linguisticVersion);
+            fillUpContent(supportForm, fileOutputStream, linguisticVersion, annexRevisionType);
 
             fileOutputStream.flush();
             fileOutputStream.close();
@@ -218,7 +225,7 @@ public abstract class AbstractFileWriter implements FormattedFileWriter {
         }
     }
 
-    protected abstract void fillUpContent(SupportForm supportForm, FileOutputStream out, Locale locale) throws Exception;
+    protected abstract void fillUpContent(SupportForm supportForm, FileOutputStream out, Locale locale, AnnexRevisionType annexRevisionType) throws Exception;
 
-    protected abstract List<Locale> getLinguisticVersions(String countryCode);
+    protected abstract List<Locale> getLinguisticVersions(String countryCode, AnnexRevisionType annexRevisionType);
 }

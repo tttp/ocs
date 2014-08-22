@@ -102,10 +102,6 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 					// mark selected linguistic version
 					model.addAttribute("oct_preview_lang_id", langId);
 
-					// mark if we are reviewing draft
-					if (ServletRequestUtils.getStringParameter(request, "draft", "false").equals("true")) {
-						model.addAttribute("draftUploaded", true);
-					}
 					// set values regarding linguistic version
 					bean.setLvTitle(id.getTitle());
 					bean.setLvSubjectMatter(id.getSubjectMatter());
@@ -114,6 +110,10 @@ public class SystemPreferencesController extends HttpGetAndPostController<System
 					bean.setLvLanguage(id.getLanguage());
 					break;
 				}
+			}
+			// mark if we are reviewing draft
+			if (ServletRequestUtils.getStringParameter(request, "draft", "false").equals("true")) {
+				model.addAttribute("draftUploaded", true);
 			}
 		}
 

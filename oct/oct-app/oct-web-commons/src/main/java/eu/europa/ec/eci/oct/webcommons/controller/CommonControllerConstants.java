@@ -1,3 +1,12 @@
+/** ====================================================================
+ * Licensed under the European Union Public Licence (EUPL v1.2) 
+ * https://joinup.ec.europa.eu/community/eupl/topic/public-consultation-draft-eupl-v12
+ * ====================================================================
+ *
+ * @author Daniel CHIRITA
+ * @created: 23/05/2013
+ *
+ */
 package eu.europa.ec.eci.oct.webcommons.controller;
 
 public interface CommonControllerConstants {
@@ -10,6 +19,7 @@ public interface CommonControllerConstants {
 	public static final String MODEL_ATTRIBUTE_SYSTEM_STATE = "oct_system_state";
 	public static final String MODEL_ATTRIBUTE_COLLECTOR_STATE = "oct_collector_state";
 	public static final String MODEL_ATTRIBUTE_INITIATIVE_DESC = "oct_initiative_description";
+	public static final String MODEL_ATTRIBUTE_SHOW_MAP = "showMap";
 
 	public static final String MODEL_ATTRIBUTE_SUCCESS_MSG = "oct_success_message";
 
@@ -33,5 +43,7 @@ public interface CommonControllerConstants {
 	 */
 	public static final String REQUEST_PARAM_REQUEST_TOKEN = "oct_request_token";
 	public static final String MODEL_ATTRIBUTE_PATH = "oct_path";
+	
+	public static final String MODEL_ATTRIBUTE_UID = "uid";
 	
 }

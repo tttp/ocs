@@ -1,3 +1,12 @@
+/** ====================================================================
+ * Licensed under the European Union Public Licence (EUPL v1.2) 
+ * https://joinup.ec.europa.eu/community/eupl/topic/public-consultation-draft-eupl-v12
+ * ====================================================================
+ *
+ * @author Daniel CHIRITA
+ * @created: 23/05/2013
+ *
+ */
 package eu.europa.ec.eci.oct.webcommons.controller;
 
 import java.net.MalformedURLException;
@@ -21,6 +30,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import eu.europa.ec.eci.oct.business.api.ConfigurationService;
+import eu.europa.ec.eci.oct.business.api.ConfigurationService.Parameter;
 import eu.europa.ec.eci.oct.business.api.InitiativeService;
 import eu.europa.ec.eci.oct.business.api.OCTException;
 import eu.europa.ec.eci.oct.business.api.OCTMissingCertificateException;
@@ -41,6 +52,9 @@ public abstract class HttpGetController {
 
 	@EJB
 	protected InitiativeService initiativeService;
+
+	@EJB
+	private ConfigurationService configurationService;
 
 	@Autowired
 	private MessageSource messageSource;
@@ -89,25 +103,21 @@ public abstract class HttpGetController {
 		}
 
 		if (!getSessionCache(request).containsKey(CommonControllerConstants.MODEL_ATTRIBUTE_LANGUAGES)) {
-			getSessionCache(request).put(CommonControllerConstants.MODEL_ATTRIBUTE_LANGUAGES,
-					systemManager.getAllLanguages());
+			getSessionCache(request).put(CommonControllerConstants.MODEL_ATTRIBUTE_LANGUAGES, systemManager.getAllLanguages());
 		}
 
 		@SuppressWarnings("unchecked")
-		List<Language> ll = (List<Language>) getSessionCache(request).get(
-				CommonControllerConstants.MODEL_ATTRIBUTE_LANGUAGES);
+		List<Language> ll = (List<Language>) getSessionCache(request).get(CommonControllerConstants.MODEL_ATTRIBUTE_LANGUAGES);
 		processLanguageList(request, ll);
 
 		if (!getSessionCache(request).containsKey(CommonControllerConstants.MODEL_ATTRIBUTE_COUNTRIES)) {
-			getSessionCache(request).put(CommonControllerConstants.MODEL_ATTRIBUTE_COUNTRIES,
-					systemManager.getAllCountries());
+			getSessionCache(request).put(CommonControllerConstants.MODEL_ATTRIBUTE_COUNTRIES, systemManager.getAllCountries());
 		}
 
 		SystemPreferences prefs = systemManager.getSystemPreferences();
 
 		InitiativeDescription description = null;
-		String langCode = (String) request.getSession().getAttribute(
-				CommonControllerConstants.SESSION_ATTR_INITIATIVE_LANGUAGE);
+		String langCode = (String) request.getSession().getAttribute(CommonControllerConstants.SESSION_ATTR_INITIATIVE_LANGUAGE);
 		try {
 			if (langCode == null) {
 				langCode = LocaleUtils.getCurrentLanguage(request);
@@ -117,12 +127,14 @@ public abstract class HttpGetController {
 			logger.debug("fetching description for language " + lang);
 			description = initiativeService.getDescriptionByLang(lang);
 			if (description == null) {
+				logger.debug("trying to fetch default description...");
 				description = prefs.getDefaultDescription();
 
 				if (description == null) {
 					logger.warn("initiative description for language " + lang.getCode() + " not found");
 					throw new OCTException("initiative description for language " + lang.getCode() + " not found");
 				} else {
+					logger.debug("default description found! id: " + description.getId());
 					request.getSession().setAttribute(CommonControllerConstants.SESSION_ATTR_INITIATIVE_LANGUAGE,
 							description.getLanguage().getCode());
 				}
@@ -138,7 +150,7 @@ public abstract class HttpGetController {
 			}
 		}
 		model.addAttribute("initiativeLang", langCode);
-		
+
 		if (!model.containsAttribute("oct_cert")) {
 			try {
 				Certificate cert = systemManager.getCertificate();
@@ -147,7 +159,7 @@ public abstract class HttpGetController {
 				// ignore
 			}
 		}
-		
+
 		// sanitize urls
 		try {
 			if (prefs != null) {
@@ -157,7 +169,8 @@ public abstract class HttpGetController {
 			prefs.setCommissionRegisterUrl("");
 		}
 
-		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_PATH, request.getAttribute(org.springframework.web.servlet.HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE));
+		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_PATH,
+				request.getAttribute(org.springframework.web.servlet.HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE));
 		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_LANGUAGES, ll);
 		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_COUNTRIES,
 				getSessionCache(request).get(CommonControllerConstants.MODEL_ATTRIBUTE_COUNTRIES));
@@ -166,13 +179,14 @@ public abstract class HttpGetController {
 		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_INITIATIVE_DESC, description);
 		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_SYSTEM_STATE, prefs.getState());
 		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_COLLECTOR_STATE, prefs.isCollecting());
-
+		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_UID, System.currentTimeMillis());
+		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_SHOW_MAP,
+				Boolean.valueOf(configurationService.getConfigurationParameter(Parameter.SHOW_DISTRIBUTION_MAP).getValue()));
 	}
 
 	protected void addSuccessMessage(HttpServletRequest request, Model model, String messageCode, String[] args) {
-
-		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_SUCCESS_MSG, getCurrentMessageBundle(request)
-				.getMessage(messageCode, args));
+		model.addAttribute(CommonControllerConstants.MODEL_ATTRIBUTE_SUCCESS_MSG,
+				getCurrentMessageBundle(request).getMessage(messageCode, args));
 	}
 
 	/**
@@ -187,8 +201,7 @@ public abstract class HttpGetController {
 	 * @return the name of the view to be rendered
 	 * @throws OCTException
 	 */
-	protected abstract String _doGet(Model model, HttpServletRequest request, HttpServletResponse response)
-			throws OCTException;
+	protected abstract String _doGet(Model model, HttpServletRequest request, HttpServletResponse response) throws OCTException;
 
 	protected MessageSource getMessageSource() {
 		return messageSource;
@@ -245,7 +258,8 @@ public abstract class HttpGetController {
 		// Collections.sort(ll, new Comparator<Language>() {
 		// @Override
 		// public int compare(Language l1, Language l2) {
-		// return l1.getLabel().toLowerCase().compareTo(l2.getLabel().toLowerCase());
+		// return
+		// l1.getLabel().toLowerCase().compareTo(l2.getLabel().toLowerCase());
 		// }
 		// });
 	}

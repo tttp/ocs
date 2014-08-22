@@ -4,12 +4,14 @@ import eu.europa.ec.eci.oct.webcommons.model.SimpleBean;
 
 public class SystemStateBean extends SimpleBean {
 
+	private static final long serialVersionUID = -6175508872450991500L;
+
 	private String systemState;
-	
+
 	private boolean collectorState;
-	
+
 	private byte[] certFile;
-	
+
 	private boolean goIntoProduction;
 
 	public String getSystemState() {
@@ -43,5 +45,5 @@ public class SystemStateBean extends SimpleBean {
 	public void setGoIntoProduction(boolean goIntoProduction) {
 		this.goIntoProduction = goIntoProduction;
 	}
-	
+
 }

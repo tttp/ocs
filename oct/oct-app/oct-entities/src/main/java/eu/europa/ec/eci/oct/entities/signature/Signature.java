@@ -37,7 +37,7 @@ public class Signature extends AuditableEntity {
 	@Column(nullable = false)
 	private Date dateOfSignature;
 
-	@Column(length = 256, nullable = false, unique=true)
+	@Column(length = 256, nullable = false, unique = true)
 	private String fingerprint;
 
 	@ManyToOne(optional = false)
@@ -46,7 +46,10 @@ public class Signature extends AuditableEntity {
 	@OneToMany(mappedBy = "signature", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<PropertyValue> propertyValues;
 
-	public Date getDateOfSignature() {		
+	@Column
+	private Integer annexRevision;
+
+	public Date getDateOfSignature() {
 		return dateOfSignature;
 	}
 
@@ -100,6 +103,14 @@ public class Signature extends AuditableEntity {
 
 	public InitiativeDescription getDescription() {
 		return description;
+	}
+
+	public Integer getAnnexRevision() {
+		return annexRevision;
+	}
+
+	public void setAnnexRevision(Integer annexRevision) {
+		this.annexRevision = annexRevision;
 	}
 
 }

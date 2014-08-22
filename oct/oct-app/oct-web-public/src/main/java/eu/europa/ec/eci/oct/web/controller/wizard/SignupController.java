@@ -1,6 +1,7 @@
 package eu.europa.ec.eci.oct.web.controller.wizard;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.util.WebUtils;
 
+import eu.europa.ec.eci.oct.business.api.ConfigurationService;
+import eu.europa.ec.eci.oct.business.api.ConfigurationService.Parameter;
 import eu.europa.ec.eci.oct.business.api.DuplicateSignatureException;
 import eu.europa.ec.eci.oct.business.api.OCTException;
 import eu.europa.ec.eci.oct.business.api.SignatureService;
@@ -34,6 +37,8 @@ import eu.europa.ec.eci.oct.entities.admin.SystemState;
 import eu.europa.ec.eci.oct.entities.member.Language;
 import eu.europa.ec.eci.oct.entities.signature.PropertyValue;
 import eu.europa.ec.eci.oct.entities.signature.Signature;
+import eu.europa.ec.eci.oct.validation.OCSValidationResult;
+import eu.europa.ec.eci.oct.web.GlobalConstants;
 import eu.europa.ec.eci.oct.web.captcha.CaptchaService;
 import eu.europa.ec.eci.oct.web.controller.ControllerConstants;
 import eu.europa.ec.eci.oct.web.model.SignatureReviewBean;
@@ -53,6 +58,9 @@ public class SignupController extends HttpGetController {
 	@EJB
 	private SignatureService signatureService;
 
+	@EJB
+	private ConfigurationService configurationService;
+
 	@Autowired
 	private CaptchaService captchaService;
 
@@ -67,12 +75,12 @@ public class SignupController extends HttpGetController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPost(Model model, @ModelAttribute(value = "form") SupportFormBean formBean, BindingResult result,
-			@RequestParam("_page") String page, SessionStatus status, HttpServletRequest request,
-			HttpServletResponse response) throws OCTException {
+			@RequestParam("_page") String page, SessionStatus status, HttpServletRequest request, HttpServletResponse response)
+			throws OCTException {
 		// assert that the expected token is found on the request
 		if (!requestTokenHelper.checkAndConsume(request)) {
 			try {
-				response.sendError(HttpServletResponse.SC_FORBIDDEN);
+				response.sendRedirect("./error.do?token=forbidden");
 			} catch (IOException e) {
 				throw new OCTException("Unable to send the FORBIDDEN code", e);
 			}
@@ -103,15 +111,16 @@ public class SignupController extends HttpGetController {
 		if (request.getParameter("_cancel") != null) {
 			status.setComplete();
 			return "redirect:index.do";
-		} else if ((request.getParameter("_changeCaptchaToImage.x") != null && request
-				.getParameter("_changeCaptchaToImage.y") != null)
-				|| (request.getParameter("_changeCaptchaToAudio.x") != null && request
-						.getParameter("_changeCaptchaToAudio.y") != null)) {
+		} else if ((request.getParameter("_changeCaptchaToImage.x") != null && request.getParameter("_changeCaptchaToImage.y") != null)
+				|| (request.getParameter("_changeCaptchaToAudio.x") != null && request.getParameter("_changeCaptchaToAudio.y") != null)) {
 			if (request.getParameter("_changeCaptchaToImage.x") != null) {
 				formBean.setCaptchaType(CaptchaService.CAPTCHA_IMAGE_TYPE);
 			} else {
 				formBean.setCaptchaType(CaptchaService.CAPTCHA_AUDIO_TYPE);
 			}
+			setCurrentPage(request.getSession(), WIZARD_STEP_1);
+			return super.doGet(model, request, response);
+		} else if (request.getParameter("_refreshCaptcha.x") != null && request.getParameter("_refreshCaptcha.y") != null) {
 			setCurrentPage(request.getSession(), WIZARD_STEP_1);
 			return super.doGet(model, request, response);
 		} else if (request.getParameter("_finish") != null) {
@@ -124,8 +133,7 @@ public class SignupController extends HttpGetController {
 
 			// populate multichoice values
 			for (PropertyValue property : formBean.getProperties()) {
-				if (property != null && property.getProperty() != null
-						&& property.getProperty().getProperty().getGroup().isMultichoice()) {
+				if (property != null && property.getProperty() != null && property.getProperty().getProperty().getGroup().isMultichoice()) {
 					CountryProperty selectedProperty = null;
 					Long selectedPropertyId = formBean.getMultichoiceSelections().get(
 							property.getProperty().getProperty().getGroup().getId());
@@ -138,10 +146,15 @@ public class SignupController extends HttpGetController {
 				}
 			}
 
+			final boolean optionalValidation = Boolean.valueOf(configurationService
+					.getConfigurationParameter(Parameter.OPTIONAL_VALIDATION).getValue());
 			// validate all
-			validator.validate(formBean, result);
+			List<OCSValidationResult> validationErrors = validator.validateAll(formBean, result);
+			if (validationErrors.size() > 0 && optionalValidation) {
+				model.addAttribute("displayWarning", true);
+			}
 
-			if (result.hasErrors()) {
+			if (result.hasErrors() && !(validationErrors.size() > 0 && optionalValidation && formBean.isSkipErrors())) {
 				// reload page
 				formBean.setCaptcha(null);
 
@@ -149,9 +162,7 @@ public class SignupController extends HttpGetController {
 				return super.doGet(model, request, response);
 			} else {
 				// validate captcha
-				validator.validateCaptcha(formBean, result, captchaService, request.getSession().getId());
-
-				if (result.hasErrors()) {
+				if (!validator.validateCaptcha(formBean, result, captchaService, request.getSession().getId())) {
 					// reload page
 					formBean.setCaptcha(null);
 
@@ -162,15 +173,18 @@ public class SignupController extends HttpGetController {
 					Signature signature = new Signature();
 					signature.setCountryToSignFor(formBean.getCountryToSignFor());
 					signature.setDateOfSignature(new Date());
+					signature.setAnnexRevision(GlobalConstants.CURRENT_ANNEX_REVISION_NUMBER);
 
 					// set related initiative description
-					String langCode = (String) request.getSession().getAttribute(
-							ControllerConstants.SESSION_ATTR_INITIATIVE_LANGUAGE);
+					String langCode = (String) request.getSession().getAttribute(ControllerConstants.SESSION_ATTR_INITIATIVE_LANGUAGE);
 					if (langCode == null) {
 						langCode = LocaleUtils.getCurrentLanguage(request);
 					}
 					Language lang = systemManager.getLanguageByCode(langCode);
 					InitiativeDescription description = initiativeService.getDescriptionByLang(lang);
+					if (description == null || description.getId() == null) {
+						description = initiativeService.getDefaultDescription();
+					}
 					signature.setDescription(description);
 
 					// attach all properties to the new signature
@@ -184,14 +198,12 @@ public class SignupController extends HttpGetController {
 
 					// call BL
 					try {
-						Signature insertedSignature = signatureService.insertSignature(signature);
-						if (insertedSignature != null) {
-							SignatureReviewBean reviewBean = new SignatureReviewBean();
-							reviewBean.setUuid(insertedSignature.getUuid());
-							reviewBean.setDate(DateUtils.formatDate(insertedSignature.getDateOfSignature()));
-							request.getSession().setAttribute(ControllerConstants.SESSION_ATTR_RESULTING_TOKEN,
-									reviewBean);
-						}
+						final Signature insertedSignature = signatureService.insertSignature(signature);
+
+						final SignatureReviewBean reviewBean = new SignatureReviewBean();
+						reviewBean.setUuid(insertedSignature.getUuid());
+						reviewBean.setDate(DateUtils.formatDate(insertedSignature.getDateOfSignature()));
+						request.getSession().setAttribute(ControllerConstants.SESSION_ATTR_RESULTING_TOKEN, reviewBean);
 					} catch (DuplicateSignatureException e) {
 						// duplicate signature!
 						return "redirect:duplicate.do";
@@ -250,9 +262,12 @@ public class SignupController extends HttpGetController {
 		// generate and expose request token
 		model.addAttribute(requestTokenHelper.getToken(request));
 
+		if (!"true".equalsIgnoreCase((String) request.getSession().getAttribute(ControllerConstants.SESSION_ATTR_FIRST_PAGE_ACCESSED))) {
+			return "redirect:index.do";
+		}
+
 		if ((SystemState) model.asMap().get(ControllerConstants.MODEL_ATTRIBUTE_SYSTEM_STATE) == SystemState.DEPLOYED
-				|| !((SystemPreferences) model.asMap().get(ControllerConstants.MODEL_ATTRIBUTE_PREFERENCES))
-						.isCollecting()) {
+				|| !((SystemPreferences) model.asMap().get(ControllerConstants.MODEL_ATTRIBUTE_PREFERENCES)).isCollecting()) {
 			return "wizard/signup0";
 		}
 
@@ -268,8 +283,7 @@ public class SignupController extends HttpGetController {
 		return view;
 	}
 
-	private void generateFormModel(SupportFormBean formBean, BindingResult result, MessageSourceAware resourceBundle)
-			throws OCTException {
+	private void generateFormModel(SupportFormBean formBean, BindingResult result, MessageSourceAware resourceBundle) throws OCTException {
 		formBean.reinitialize();
 
 		try {
@@ -285,7 +299,13 @@ public class SignupController extends HttpGetController {
 		}
 
 		for (PropertyGroup group : signatureService.getPropertyGroups()) {
-			List<CountryProperty> properties = signatureService.getProperties(formBean.getCountryToSignFor(), group);
+			List<CountryProperty> allProperties = signatureService.getProperties(formBean.getCountryToSignFor(), group);
+			List<CountryProperty> properties = new ArrayList<CountryProperty>(); 
+			for (CountryProperty countryProperty : allProperties) {
+				if (countryProperty.getMarkedAsDeleted() == 0) {
+					properties.add(countryProperty);
+				}
+			}
 			if (properties != null && properties.size() > 0) {
 				formBean.getGroups().add(group);
 				if (group.isMultichoice()) {
@@ -293,8 +313,7 @@ public class SignupController extends HttpGetController {
 					for (CountryProperty property : properties) {
 						items.put(property.getId(), property.getProperty().getName());
 
-						String key = property.getProperty().getName() + "."
-								+ formBean.getCountryToSignFor().getCode().toLowerCase();
+						String key = property.getProperty().getName() + "." + formBean.getCountryToSignFor().getCode().toLowerCase();
 						String value = resourceBundle.getMessage(key);
 						formBean.getTranslatedProperties().put(property.getProperty().getName(), value);
 					}
@@ -331,6 +350,7 @@ public class SignupController extends HttpGetController {
 
 	private void resetPageNumber(HttpSession session, SessionStatus status) {
 		session.removeAttribute(SESSION_ATTR_CURRENT_PAGE);
+		session.removeAttribute(ControllerConstants.SESSION_ATTR_FIRST_PAGE_ACCESSED);
 		status.setComplete();
 	}
 }

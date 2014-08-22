@@ -13,4 +13,7 @@
 	
 	<jee:local-slsb id="initiativeService" jndi-name="ejb/InitiativeServiceBean"
 		business-interface="eu.europa.ec.eci.oct.business.api.InitiativeService" />
+		
+	<jee:local-slsb id="configurationService" jndi-name="ejb/ConfigurationServiceImpl"
+		business-interface="eu.europa.ec.eci.oct.business.api.ConfigurationService" />
 </beans>

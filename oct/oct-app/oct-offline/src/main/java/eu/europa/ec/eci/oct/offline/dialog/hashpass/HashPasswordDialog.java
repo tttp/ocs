@@ -4,6 +4,7 @@ import eu.europa.ec.eci.oct.crypto.CryptoException;
 import eu.europa.ec.eci.oct.crypto.Cryptography;
 import eu.europa.ec.eci.oct.offline.dialog.menu.CopyPasteContextualMenu;
 import eu.europa.ec.eci.oct.offline.dialog.pwd.SimplePasswordValidator;
+import eu.europa.ec.eci.oct.offline.startup.SecurityConstants;
 import eu.europa.ec.eci.oct.offline.support.Utils;
 import eu.europa.ec.eci.oct.offline.support.log.OfflineCryptoToolLogger;
 import eu.europa.ec.eci.oct.offline.support.swing.localization.LocalizedJButton;
@@ -99,7 +100,7 @@ public class HashPasswordDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 char[] passChars = passwordField.getPassword();
-                if (passwordValidator.validate(passChars, 3)) {
+                if (passwordValidator.validate(passChars, SecurityConstants.MINIMUM_PASSWORD_LENGTH)) {
                     String pass = new String(passChars);
                     try {
                         hashedPasswordResult.setText(new String(Hex.encodeHex(Cryptography.fingerprint(pass.getBytes()))));

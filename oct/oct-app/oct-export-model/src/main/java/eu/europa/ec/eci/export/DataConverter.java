@@ -40,6 +40,7 @@ public class DataConverter {
 			SignatureType signature = new SignatureType();
 			signature.setSubmissionDate(CalendarHelper.getInstance().convertDate(signatureBean.getDate()));
 			signature.setSignatureIdentifier(signatureBean.getUuid());
+			signature.setAnnexRevision(signatureBean.getAnnexRevision());
 
 			SignatoryType signatory = new SignatoryType();
 

@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="oct" uri="oct"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<c:out value="${currentLanguage}"/>">
 <head>
 	<title><spring:message code="oct.menu.home" /> - <spring:message code="oct.title" /></title>
@@ -28,6 +28,18 @@
 			</h1>
 			
 			<form:form method="post" modelAttribute="form" id="signupForm">
+				<div class="buttons support">
+					<c:if test="${!oct_system_preferences.collecting}">
+						<spring:message code="oct.collection.off.error" />
+					</c:if>
+				
+					<c:if test="${oct_system_preferences.collecting}">
+						<spring:message code="oct.s1.supportbutton.description" />
+						<br />
+						<input type="submit" value="<spring:message code="oct.s1.supportbutton" />" name="_support" accesskey="s"/>
+					</c:if>
+				</div>
+			
 				<fieldset class="home">
 					<oct:requestToken/>
 				
@@ -69,15 +81,9 @@
                     <p>
 						<label><spring:message code="oct.s1.url" /></label>
 						<br />
-						<a href="<c:out value="${oct_system_preferences.commissionRegisterUrl}/${oct_initiative_description.language.code}" />"><c:out value="${oct_system_preferences.commissionRegisterUrl}/${oct_initiative_description.language.code}" /></a>
+						<a href="<c:out value="${oct_system_preferences.commissionRegisterUrl}/${oct_initiative_description.language.code}" />" target="_blank"><c:out value="${oct_system_preferences.commissionRegisterUrl}/${oct_initiative_description.language.code}" /></a>
 					</p>						
 					
-					<p>
-						<label><spring:message code="oct.s1.organizers" /></label>
-						<br />
-						<strong lang="<c:out value="${initiativeLang}" />"><c:out value="${contact.organizers}" /></strong>
-					</p>
-
                     <p>
 						<label><spring:message code="oct.s1.contactpersons" /></label>
 						<br />
@@ -89,27 +95,35 @@
 						<br />
 						<strong><c:out value="${contact.email}" /></strong>
 					</p>
+
+					<p>
+						<label><spring:message code="oct.s1.organizers" /></label>
+						<br />
+						<strong lang="<c:out value="${initiativeLang}" />"><c:out value="${organizers}" /></strong>
+					</p>
 					
 					<p>
 						<label><spring:message code="oct.organiser.website.${currentLanguage}" /></label>
 						<br />
-						<a href="<c:out value="${oct_initiative_description.url}" />"><c:out value="${oct_initiative_description.url}" /></a>
+						<a href="<c:out value="${oct_initiative_description.url}" />" target="_blank"><c:out value="${oct_initiative_description.url}" /></a>
 					</p>
 				</fieldset>
 
 				<p id="lower-info">
 					<spring:message code="oct.s1.support.info1" />
 					<br />
-					<spring:message code="oct.s1.support.info2" /> <a href="http://ec.europa.eu/citizens-initiative">http://ec.europa.eu/citizens-initiative</a>
+					<spring:message code="oct.s1.support.info2" /> <a href="http://ec.europa.eu/citizens-initiative" target="_blank">http://ec.europa.eu/citizens-initiative</a>
 				</p>
 				
-				<div id="buttons">
+				<div class="buttons support">
 					<c:if test="${!oct_system_preferences.collecting}">
 						<spring:message code="oct.collection.off.error" />
 					</c:if>
 				
 					<c:if test="${oct_system_preferences.collecting}">
-						<input type="submit" value="<spring:message code="oct.s1.supportbutton" /> &raquo;" name="_support" accesskey="s"/>
+						<spring:message code="oct.s1.supportbutton.description" />
+						<br />
+						<input type="submit" value="<spring:message code="oct.s1.supportbutton" />" name="_support" accesskey="s"/>
 					</c:if>
 				</div>
 			</form:form>

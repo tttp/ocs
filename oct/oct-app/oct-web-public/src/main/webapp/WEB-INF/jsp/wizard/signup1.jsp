@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="oct" uri="oct"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<c:out value="${currentLanguage}"/>">
 <head>
 	<title><spring:message code="oct.s2.subtitle" /> - <spring:message code="oct.title" /></title>
@@ -21,6 +21,8 @@
 				<br />
 				<span lang="<c:out value="${initiativeLang}" />"><c:out value="${oct_initiative_description.title}" /></span>
 			</h1>
+			
+			<p class="no-refresh"><spring:message code="oct.sos.home.alert" /></p>
 			
 			<h2><spring:message code="oct.s2.subtitle" /></h2>
 			
@@ -40,13 +42,13 @@
 					<p>
 						<spring:message code="oct.s2.info.conditions" />
 						<br />
-						<a href="http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf">http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf</a>
+						<a href="http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf" target="_blank">http://ec.europa.eu/citizens-initiative/files/requirements-${currentLanguage}.pdf</a>
 					</p>
 					
 					<p>
 						<spring:message code="oct.s2.info.3" />
 						<br />
-						<a href="http://ec.europa.eu/citizens-initiative/public/how-to-signup">http://ec.europa.eu/citizens-initiative/public/how-to-signup</a>
+						<a href="http://ec.europa.eu/citizens-initiative/public/how-to-signup" target="_blank">http://ec.europa.eu/citizens-initiative/public/how-to-signup</a>
 					</p>
 				</fieldset>
 
@@ -64,7 +66,13 @@
 						<c:set var="countryInfoKey" value="oct.property.form.header.${form.countryToSignFor.code}"/>
 						<p id="regulation-info">
 							<spring:message code="oct.property.regulation.link" var="regulationText" htmlEscape="true"/>
-							<c:set var="regulationUrl" value="<a href='http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2011:065:0001:0022:${currentLanguage}:PDF'>${regulationText}</a>"/>
+							
+							<c:if test="${currentLanguage != 'ga'}">
+								<c:set var="regulationUrl" value="<a href='http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2013:247:0011:0019:${currentLanguage}:PDF' target='_blank'>${regulationText}</a>"/>
+							</c:if>
+							<c:if test="${currentLanguage == 'ga'}">
+								<c:set var="regulationUrl" value="<a href='http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2013:247:0011:0019:en:PDF' target='_blank'>${regulationText}</a>"/>
+							</c:if>
 							<spring:message code="${countryInfoKey}" arguments="${regulationUrl}" htmlEscape="false"/>								
 						</p>
 
@@ -155,7 +163,15 @@
 										</c:choose>
 										
 										<p>
-											<label for="<c:out value="${id}"/>"><spring:message code="${propertyValue.property.property.name}" />
+											<label for="<c:out value="${id}"/>">
+												<c:choose>
+													<c:when test="${propertyValue.property.property.type == 'COUNTRY' and form.countryToSignFor.id == 22}">
+														<spring:message code="oct.property.country.of.permanent.residence" />
+													</c:when>
+													<c:otherwise>
+														<spring:message code="${propertyValue.property.property.name}" />
+													</c:otherwise>
+												</c:choose>
 												<c:if test="${propertyValue.property.property.type == 'DATE'}">
 													<spring:message code="oct.error.invaliddateformat" />
 												</c:if>
@@ -167,6 +183,7 @@
 											<c:choose>
 												<c:when test="${propertyValue.property.property.type == 'NATIONALITY' or propertyValue.property.property.type == 'COUNTRY'}">
 													<c:set var="somethingSelected" value="" />
+													
 													<select id="<c:out value="${id}"/>" name="<c:out value="${status.expression}"/>" class="<c:out value="${cls}"/>">
 													<!-- add option select/select country -->
 														<c:choose>
@@ -174,28 +191,43 @@
 																<option value=""><spring:message code="oct.s2.selectcountrybutton"/></option>
 															</c:when>
 															<c:otherwise>
-															<option value=""><spring:message code="oct.s2.selectcountry"/></option>
+																<c:if test="${form.countryToSignFor.code != 'ie' && form.countryToSignFor.code != 'uk'}">
+																	<option value=""><spring:message code="oct.s2.selectcountry"/></option>
+																</c:if>
 															</c:otherwise>
 														</c:choose>
+														
 														<oct:items>
-														<c:forEach items="${countries}" var="country">
-															<c:choose>
-																<c:when test="${country.code == status.value}">
-																	<c:set var="isSelected" value="selected" />
-																	<c:set var="somethingSelected" value="selected=\"selected\"" />
-																</c:when>
-																<c:otherwise>
-																	<c:set var="isSelected" value="" />
-																</c:otherwise>
-															</c:choose>
+
+														<c:if test="${propertyValue.property.property.type == 'COUNTRY' && (form.countryToSignFor.code == 'ie' ||form.countryToSignFor.code == 'uk')}">
 															<oct:item>
-																<option value="<c:out value="${country.code}" />" ${isSelected}>
-																	<oct:property><spring:message code="${country.name}${sufix}"/></oct:property>
+																<option value="<c:out value="${form.countryToSignFor.code}" />" selected="selected">
+																	<oct:property><spring:message code="${form.countryToSignFor.name}${sufix}"/></oct:property>
 																</option>
 															</oct:item>
-														</c:forEach>
+														</c:if>
+														
+														<c:if test="${!(propertyValue.property.property.type == 'COUNTRY' && (form.countryToSignFor.code == 'ie' ||form.countryToSignFor.code == 'uk'))}">
+															<c:forEach items="${countries}" var="country">
+																<c:choose>
+																	<c:when test="${country.code == status.value}">
+																		<c:set var="isSelected" value="selected" />
+																		<c:set var="somethingSelected" value="selected=\"selected\"" />
+																	</c:when>
+																	<c:otherwise>
+																		<c:set var="isSelected" value="" />
+																	</c:otherwise>
+																</c:choose>
+																<oct:item>
+																	<option value="<c:out value="${country.code}" />" ${isSelected}>
+																		<oct:property><spring:message code="${country.name}${sufix}"/></oct:property>
+																	</option>
+																</oct:item>
+															</c:forEach>
+														</c:if>
+														
 														</oct:items>
-														<c:if test="${propertyValue.property.property.type == 'COUNTRY'}">
+														<c:if test="${propertyValue.property.property.type == 'COUNTRY' && form.countryToSignFor.code != 'ie' && form.countryToSignFor.code != 'uk'}">
 															<c:choose>
 																<c:when test="${status.value != null && status.value != '' && somethingSelected == ''}">
 																	<c:set var="defaultSelected" value="selected=\"selected\"" />
@@ -238,9 +270,16 @@
 					<br />
 					<spring:message code="oct.s2.confirmation.3" var="privacyUrl"/>
 					<c:url value="./privacy.do" var="pUrl" />
-					<form:checkbox path="accepted2" /> <label for="accepted21"><spring:message code="oct.s2.confirmation.2" arguments="<a href='${pUrl}'>${privacyUrl}</a>"/></label>
+					<form:checkbox path="accepted2" /> <label for="accepted21"><spring:message code="oct.s2.confirmation.2" arguments="<a href='${pUrl}' target='_blank'>${privacyUrl}</a>"/></label>
 					<form:errors path="accepted2" cssClass="error" element="div" />
 				</fieldset>
+
+				<c:if test="${displayWarning}">
+				<fieldset>
+					<legend></legend>
+					<form:checkbox path="skipErrors" id="skipErrors" /> <form:label path="skipErrors"><spring:message code="oct.s2.skiperrors" /></form:label>
+				</fieldset>
+				</c:if>
 				
 				<fieldset>
 					<legend></legend>
@@ -266,7 +305,7 @@
 									<c:param name="uuid" value="${form.uniqueToken}" />
 									<c:param name="type" value="a" />
 								</c:url>
-								<a href="<c:out value="${cUrl}" />" title="<spring:message code="oct.s2.entercaptcha.audio" />"><img height="60px" width="200px" src="./images/speaker.png" alt="<spring:message code="oct.s2.entercaptcha.audio" />" /></a>
+								<a href="<c:out value="${cUrl}" />" title="<spring:message code="oct.s2.entercaptcha.audio" />" target="_blank"><img height="60px" width="200px" src="./images/speaker.png" alt="<spring:message code="oct.s2.entercaptcha.audio" />" /></a>
 								<input type="image" src="./images/smallcharacters.png" title="<spring:message code="oct.s2.entercaptcha.back.image" />" name="_changeCaptchaToImage" />							
 							</c:when>
 							<c:otherwise>
@@ -276,6 +315,7 @@
 								</c:url>
 								<img src="<c:out value="${cUrl}" />" class="captcha" alt="<spring:message code="oct.s2.entercaptcha" />"/>
 								<input type="image" src="./images/smallspeaker.png" title="<spring:message code="oct.s2.entercaptcha.back.audio" />" name="_changeCaptchaToAudio" />
+								<input type="image" src="./images/refresh3.png" title="<spring:message code="oct.s2.entercaptcha.refresh" />" name="_refreshCaptcha" />
 							</c:otherwise>
 						</c:choose>
 						

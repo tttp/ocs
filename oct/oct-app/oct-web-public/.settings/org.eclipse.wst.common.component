@@ -8,6 +8,12 @@
         <dependent-module archiveName="oct-web-commons-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/oct-web-commons/oct-web-commons">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="oct-validation.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/oct-validation/oct-validation">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="oct-validation-core.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/oct-validation-core/oct-validation-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="oct-web-public"/>
         <property name="java-output-path" value="/oct-web-public/target/classes"/>
     </wb-module>

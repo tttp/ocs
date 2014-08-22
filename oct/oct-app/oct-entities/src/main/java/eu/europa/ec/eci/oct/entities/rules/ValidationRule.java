@@ -27,6 +27,12 @@ public abstract class ValidationRule<P extends RuleParameter> implements Seriali
 	@OneToMany(mappedBy = "rule", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<P> ruleParameters;
 
+	@Column
+	private String errorMessage;
+
+	@Column
+	private boolean canBeSkipped;
+
 	public Long getId() {
 		return id;
 	}
@@ -51,4 +57,19 @@ public abstract class ValidationRule<P extends RuleParameter> implements Seriali
 		return ruleParameters;
 	}
 
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public boolean isCanBeSkipped() {
+		return canBeSkipped;
+	}
+
+	public void setCanBeSkipped(boolean canBeSkipped) {
+		this.canBeSkipped = canBeSkipped;
+	}
 }

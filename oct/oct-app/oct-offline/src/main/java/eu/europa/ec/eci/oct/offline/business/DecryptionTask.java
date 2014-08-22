@@ -1,5 +1,6 @@
 package eu.europa.ec.eci.oct.offline.business;
 
+import eu.europa.ec.eci.export.DataException;
 import eu.europa.ec.eci.export.model.*;
 import eu.europa.ec.eci.oct.crypto.CipherOperation;
 import eu.europa.ec.eci.oct.crypto.CryptoException;
@@ -13,9 +14,12 @@ import org.apache.commons.codec.binary.Hex;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
 
 import static eu.europa.ec.eci.oct.offline.business.reader.FormattedFileReaderProvider.getFormattedFileReaderProvider;
 import static eu.europa.ec.eci.oct.offline.business.writer.FormattedFileWriterProvider.getFormattedFileWriter;
@@ -52,6 +56,7 @@ class DecryptionTask implements Callable<DecryptTaskStatus> {
     @Override
     public DecryptTaskStatus call() throws Exception {
 
+    	
         boolean success = true;
         long startTime = System.currentTimeMillis();
         String additionalMessage = null;
@@ -59,15 +64,30 @@ class DecryptionTask implements Callable<DecryptTaskStatus> {
 
             FormattedFileReader fileReader = getFormattedFileReaderProvider(FileType.XML);
             SupportForm supportForm = fileReader.readFromFile(fileInSelection);
-
+            
             decryptSupportForm(supportForm);
 
-            if (!isInterrupted) {
-                FormattedFileWriter fileWriter = getFormattedFileWriter(outputFileType);
-                fileWriter.writeToOutputRelativeToInputPath(supportForm, outputFolder, fileInSelection, selectedInput);
-            } else {
+            if(outputFileType == FileType.PDF){
+                AnnexRevisionHelper annexRevisionHelper = new AnnexRevisionHelper();
+                Map<AnnexRevisionType,SupportForm> supportFormRevisionMap = annexRevisionHelper.annexRevisionSplitter(supportForm);
+                
+                if(supportFormRevisionMap.size() == 1){
+                	success = write(supportForm);
+                }else{
+            		cycle:for(SupportForm sp : supportFormRevisionMap.values()){
+                		success = write(sp);
+                		if(success == false){
+                			break cycle;
+                		}
+            		}
+                }            	
+            }else{
+            	success = write(supportForm);
+            }
+            
+            //the Decryption process has been interrupted
+            if(success == false){
                 additionalMessage = "Decryption interrupted!";
-                success = false;
             }
 
         } catch (Throwable e) {
@@ -82,6 +102,18 @@ class DecryptionTask implements Callable<DecryptTaskStatus> {
 
         return new DecryptTaskStatus(fileInSelection.getAbsolutePath(), execTime, success, additionalMessage);
     }
+    
+    private boolean write(SupportForm supportForm) throws DataException{
+    	boolean b = false;
+        if (!isInterrupted) {
+            FormattedFileWriter fileWriter = getFormattedFileWriter(outputFileType);
+            fileWriter.writeToOutputRelativeToInputPath(supportForm, outputFolder, fileInSelection, selectedInput, AnnexRevisionHelper.getAnnexRevisionNumber(supportForm));
+            b = true;
+        } else {
+        	b = false;
+        }
+        return b;
+    }
 
     private void initCryptography() throws CryptoException {
         if (cryptography == null) {
@@ -89,7 +121,10 @@ class DecryptionTask implements Callable<DecryptTaskStatus> {
         }
     }
 
-    private void decryptSupportForm(SupportForm supportForm) throws CryptoException, DecoderException {
+    private void decryptSupportForm(SupportForm supportForm) throws CryptoException {
+
+        //Collection needed to store any dirty Signature entry
+        List<SignatureType> signatureTypesToRemove = new ArrayList<SignatureType>();
 
         initCryptography();
 
@@ -105,10 +140,30 @@ class DecryptionTask implements Callable<DecryptTaskStatus> {
                 List<PropertyType> propertyTypeList = groupType.getProperties().getProperty();
                 for (Iterator<PropertyType> iterator2 = propertyTypeList.iterator(); iterator2.hasNext() && !verifyInterrupted();) {
                     PropertyType propertyType = iterator2.next();
-                    propertyType.setValue(decrypt("group.property.key -> " + propertyType.getKey(), propertyType.getValue()));
+                    if (propertyType.getValue() != null && propertyType.getValue().length() == 512) {
+                    	try {
+                    		propertyType.setValue(decrypt("group.property.key -> " + propertyType.getKey(), propertyType.getValue()));
+                    	} catch (DecoderException e1) {
+                    		log.log(Level.SEVERE,"Unable to decrypt field: " + propertyType.getKey() + " for signature ID : " + signatureType.getSignatureIdentifier() , e1);
+                    	} catch (CryptoException e2) {
+                    		log.log(Level.SEVERE,"Unable to decrypt field: " + propertyType.getKey() + " for signature ID : " + signatureType.getSignatureIdentifier() , e2);                    		
+                    	}
+                    } else {
+                    	//don't do anything; maybe it is in clear text?
+                    	log.log(Level.SEVERE,"Unable to decrypt field the length is not 512, signature will be skipped (bad data): " + propertyType.getKey() + " signature ID : " + signatureType.getSignatureIdentifier());
+                    	//marking signature as bad and will not be reported in the decripted file
+                    	signatureTypesToRemove.add(signatureType);
+                    	continue;
+                   	}
                 }
             }
         }
+        
+        //removing dirty signatures if any
+        for(SignatureType signatureType : signatureTypesToRemove){
+        	signatureTypes.remove(signatureType);
+        }
+        
     }
 
     private boolean verifyInterrupted() {

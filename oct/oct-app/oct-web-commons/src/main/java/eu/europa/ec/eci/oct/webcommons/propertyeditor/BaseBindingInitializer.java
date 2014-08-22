@@ -13,7 +13,7 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import eu.europa.ec.eci.oct.business.api.SystemManager;
 import eu.europa.ec.eci.oct.entities.member.Country;
-import eu.europa.ec.eci.oct.utils.validator.DateValidator;
+import eu.europa.ec.eci.oct.webcommons.utils.DateUtils;
 
 public class BaseBindingInitializer implements WebBindingInitializer {
 
@@ -24,9 +24,9 @@ public class BaseBindingInitializer implements WebBindingInitializer {
 	public void initBinder(WebDataBinder binder, WebRequest request) {
 		binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
 		binder.registerCustomEditor(Country.class, new CountryTypePropertyEditor(sysManager));
-		final SimpleDateFormat dateFormat = new SimpleDateFormat(DateValidator.DEFAULT_DATE_FORMAT);
+		final SimpleDateFormat dateFormat = new SimpleDateFormat(DateUtils.DEFAULT_DATE_FORMAT);
 		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true, DateValidator.DEFAULT_DATE_FORMAT.length())); 
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true, DateUtils.DEFAULT_DATE_FORMAT.length()));
 	}
 
 }
